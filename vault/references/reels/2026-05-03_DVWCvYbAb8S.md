@@ -1,0 +1,34 @@
+# Instagram Reel — DVWCvYbAb8S (unparsed)
+
+**Source:** https://www.instagram.com/reel/DVWCvYbAb8S/?igsh=MWQ2YW1kamd5a3ZlNg==
+**Captured:** 2026-05-03
+**Creator:** *unknown — fill in after viewing*
+**Format:** reel
+**Status:** unprocessed — content not yet reviewed
+
+---
+
+## What it is
+*Pending. Content was not directly accessible; needs manual viewing.*
+
+## What I'd steal
+*TBD after viewing.*
+
+## Where it fits in polymath
+*TBD.*
+
+## Open questions
+- What workflow or tactic is being demoed?
+- Same creator as the other two captured reels (`DXUaHFNDdq_`, `DXDvnd7jIuM`)? If so, escalate to `creators/`.
+- Does it conflict with or reinforce anything in the current Operation Signal stack?
+
+## Verdict
+- [ ] Apply now
+- [ ] Test in next pillar piece
+- [x] Park — revisit after viewing
+- [ ] Reject
+
+---
+
+## Notes for next pass
+On viewing, capture: the hook, the specific tools/prompts shown, and whether the creator demonstrates the workflow end-to-end or just claims results.

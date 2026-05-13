@@ -1,0 +1,14 @@
+{
+  "name": "polymath",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Polymath passive income system — vault, dashboard, agents",
+  "scripts": {
+    "dev": "pnpm --filter dashboard dev",
+    "build": "pnpm --filter dashboard build",
+    "lint": "pnpm --filter dashboard lint"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

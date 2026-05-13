@@ -1,0 +1,38 @@
+# Obsidian local state (noisy, machine-specific)
+vault/.obsidian/workspace.json
+vault/.obsidian/workspace-mobile.json
+vault/.obsidian/graph.json
+vault/.obsidian/backlink.json
+vault/.obsidian/cache/
+vault/.claude/
+
+# Keep tracked: vault/.obsidian/app.json, plugins/, snippets/ (shared config)
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+desktop.ini
+Thumbs.db
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build artifacts
+*.tsbuildinfo
+
+# SQLite databases (local dev data)
+*.db
+*.sqlite
+*.sqlite3
