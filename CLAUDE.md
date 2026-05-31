@@ -6,44 +6,52 @@ Monorepo for Robin Dutta's AI-driven passive income system. Three layers: vault 
 
 ```
 polymath/
-├── vault/              ← Obsidian vault — business governance, ecosystem specs, policies
+├── vault/              → Obsidian vault — business governance, ecosystem specs, policies
 ├── apps/
-│   └── dashboard/      ← Vite + React dashboard (localhost:5173)
+│   └── dashboard/      → Vite + React dashboard (localhost:5173)
 ├── packages/
-│   ├── types/          ← Shared TypeScript types (ecosystems, transactions, tools)
-│   └── agents/         ← Agent implementations (future)
-├── scripts/            ← CLI automation, deployment configs
-└── CLAUDE.md           ← this file
+│   ├── types/          → Shared TypeScript types (ecosystems, transactions, tools)
+│   └── agents/         → Agent implementations (future)
+├── scripts/            → CLI automation, deployment configs
+└── CLAUDE.md           → this file
 ```
 
 ## Governance
 
-This repo is governed by **Canon** (`D:\dev\_canon\CLAUDE.md`). Canon workflow:
-- Git worktrees for feature isolation (code changes)
-- Conventional commits, branch naming per Canon conventions
-- Canon skills (`/start`, `/pr`, `/make`) when applicable
+**Inherits from:** `D:\dev\.claude\CLAUDE.md` (global rules — supervisor identity, git conventions, subagent model routing, knowledge capture, token efficiency).
 
-**Supervisor:** Boss / Maestro — Robin Dutta.
+Polymath **independent domain** from Canon. Canon-specific rules (Jira integration, branch naming with ENG tickets, `/start`/`/pr`/`/make` skills, AYON addon workflows) do NOT apply here.
+
+**Supervisor:** Boss — Robin Dutta.
+
+### What applies from global
+- Git worktrees for feature isolation (code changes)
+- Commit message format (imperative mood, bullets)
+- Subagent model routing (opus/sonnet/haiku)
+- `git -C` over `cd &&`
+- No co-authorship lines
+- Knowledge capture + changelog discipline
+- Caveman compression for AI-facing docs
 
 ## Layer Rules
 
 | Layer | Contains | Git tracked | Governed by |
 |-------|---------|-------------|-------------|
 | `vault/` | Ecosystem specs, agent designs, policies, safeguards, playbooks | Yes (content files) | `vault/CLAUDE.md` (Polymath rules) |
-| `apps/dashboard/` | React web dashboard | Yes | `apps/dashboard/CLAUDE.md` + Canon |
-| `packages/` | Shared TypeScript types, agent code | Yes | Canon |
-| `scripts/` | CLI tools, automation | Yes | Canon |
+| `apps/dashboard/` | React web dashboard | Yes | `apps/dashboard/CLAUDE.md` + global |
+| `packages/` | Shared TypeScript types, agent code | Yes | Global |
+| `scripts/` | CLI tools, automation | Yes | Global |
 
 ### Vault-specific rules
-- Vault content is Obsidian markdown — no code execution
+- Vault content = Obsidian markdown — no code execution
 - `.obsidian/` local state excluded from git (workspace, graph, cache)
-- Vault is the SOURCE OF TRUTH for business structure
-- When vault changes (new ecosystem, new tool, new policy) → dashboard may need corresponding code update
+- Vault = SOURCE OF TRUTH for business structure
+- Vault changes (new ecosystem, tool, policy) → dashboard may need corresponding code update
 
 ### Code-specific rules
-- All code follows Canon conventions (TypeScript, conventional commits, worktrees)
+- All code follows global conventions (conventional commits, worktrees)
 - Dashboard changes go through PR workflow
-- Agent code uses Canon's subagent strategy (opus for planning, sonnet for implementation)
+- Agent code uses global subagent strategy (opus planning, sonnet implementation)
 
 ## Routing
 
@@ -52,7 +60,7 @@ This repo is governed by **Canon** (`D:\dev\_canon\CLAUDE.md`). Canon workflow:
 | "Update the dashboard" | `apps/dashboard/` — Canon workflow |
 | Anything about ecosystem structure, agents, policies | `vault/` — Polymath rules |
 | "Add a new vertical" | `vault/ecosystems/viral/verticals/` — then update dashboard data |
-| "Track revenue" or "show earnings" | `apps/dashboard/` — code the feature |
+| "Track revenue" or "show earnings" | `apps/dashboard/` — code feature |
 | "Build agent X" | `packages/agents/` — Canon workflow |
 | "Research [topic]" | `vault/references/` or run Research Analyst prompt |
 

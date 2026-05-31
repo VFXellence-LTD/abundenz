@@ -17,6 +17,8 @@ const cardAccent = {
   emerald: "border-l-emerald-500",
   blue: "border-l-blue-500",
   purple: "border-l-purple-500",
+  orange: "border-l-orange-500",
+  pink: "border-l-pink-500",
 };
 
 export function EcosystemCard({ ecosystem, revenueThisMonth = 0, className }: EcosystemCardProps) {
@@ -29,7 +31,12 @@ export function EcosystemCard({ ecosystem, revenueThisMonth = 0, className }: Ec
       )}
     >
       <div className="flex items-start justify-between mb-3">
-        <h3 className="font-semibold text-zinc-100">{ecosystem.name}</h3>
+        <div>
+          <h3 className="font-semibold text-zinc-100">{ecosystem.name}</h3>
+          {ecosystem.codename !== ecosystem.name && (
+            <span className="text-xs text-zinc-500">{ecosystem.codename}</span>
+          )}
+        </div>
         <span
           className={cn(
             "text-xs font-medium px-2 py-0.5 rounded-full border",

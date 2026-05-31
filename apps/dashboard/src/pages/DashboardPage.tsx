@@ -15,7 +15,7 @@ export function DashboardPage() {
       </div>
 
       {/* Ecosystem cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {ECOSYSTEMS.map((eco) => (
           <EcosystemCard key={eco.id} ecosystem={eco} revenueThisMonth={0} />
         ))}

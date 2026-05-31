@@ -6,17 +6,21 @@ import {
   Receipt,
   Calculator,
   Wrench,
+  Rocket,
+  Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ECOSYSTEMS } from "@/data/ecosystems";
 
 const NAV_ITEMS = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, end: true },
+  { to: "/launch/viral/tech", label: "Launch", icon: Rocket, end: false },
   { to: "/setup/content", label: "Setup", icon: ListChecks, end: false },
   { to: "/earnings", label: "Earnings", icon: DollarSign, end: false },
   { to: "/transactions", label: "Transactions", icon: Receipt, end: false },
   { to: "/tax", label: "Tax Center", icon: Calculator, end: false },
   { to: "/tools", label: "Tools", icon: Wrench, end: false },
+  { to: "/entity", label: "Entity", icon: Building2, end: false },
 ];
 
 export function Sidebar() {

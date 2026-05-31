@@ -5,6 +5,17 @@ import { SETUP_STEPS } from "@/data/setup-steps";
 import { cn } from "@/lib/utils";
 import type { EcosystemId } from "@/types";
 
+const VIRAL_PLACEHOLDER = [
+  { id: "v1", title: "Select First Vertical", description: "Pick niche (Tech/AI Tools recommended)" },
+  { id: "v2", title: "Create Anonymous Brand", description: "Name, email, no personal identity" },
+  { id: "v3", title: "Create TikTok Account", description: "Anonymous brand account" },
+  { id: "v4", title: "Create YouTube Channel", description: "Shorts-focused, anonymous" },
+  { id: "v5", title: "Sign Up Affiliate Programs", description: "TikTok Shop, Amazon Associates, SaaS programs" },
+  { id: "v6", title: "Set Up Link Tree", description: "Bio links to affiliate products" },
+  { id: "v7", title: "Produce First 10 Shorts", description: "Manual production, test formats" },
+  { id: "v8", title: "Post Daily for 30 Days", description: "30-day manual rule before automating" },
+];
+
 // Placeholder locked steps for Products + Affiliate
 const PRODUCTS_PLACEHOLDER = [
   { id: "p1", title: "Set Up Storefront", description: "Gumroad or Lemon Squeezy" },
@@ -33,9 +44,10 @@ export function SetupPage() {
   );
 
   const tabs: { id: EcosystemId; label: string }[] = [
-    { id: "content", label: "Content" },
-    { id: "products", label: "Products" },
-    { id: "affiliate", label: "Affiliate" },
+    { id: "content", label: "Content (Signal)" },
+    { id: "viral", label: "Viral (Surge)" },
+    { id: "products", label: "Products (Atelier)" },
+    { id: "affiliate", label: "Affiliate (Conduit)" },
   ];
 
   return (
@@ -89,6 +101,30 @@ export function SetupPage() {
             steps={contentSteps}
             isComplete={isComplete}
             onToggleStep={toggleStep}
+            locked={false}
+          />
+        </div>
+      )}
+
+      {/* Viral ecosystem (active) */}
+      {ecosystem === "viral" && (
+        <div className="space-y-4">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-zinc-400">Foundation Progress</span>
+              <span className="text-sm font-medium text-orange-400">Active — Vertical Selection</span>
+            </div>
+            <div className="w-full bg-zinc-800 rounded-full h-1.5" />
+          </div>
+          <SetupStepper
+            steps={VIRAL_PLACEHOLDER.map((s, i) => ({
+              ...s,
+              ecosystemId: "viral" as EcosystemId,
+              order: i + 1,
+              instructions: "",
+            }))}
+            isComplete={() => false}
+            onToggleStep={() => {}}
             locked={false}
           />
         </div>

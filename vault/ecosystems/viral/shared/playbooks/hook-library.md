@@ -8,6 +8,36 @@ The hook is the first 1-3 seconds. If it doesn't stop the scroll, nothing else m
 
 ## Hook Categories
 
+### Universal (work in any niche)
+
+| Hook | Why it works |
+|------|-------------|
+| "Nobody mentions this." | Insider knowledge, exclusivity |
+| "I wish I knew this earlier." | Regret = urgency, viewer avoids same mistake |
+| "Pause for a second." | Pattern interrupt, commands attention |
+| "Ever notice this pattern?" | Curiosity + makes viewer feel observant |
+| "Here's the real truth." | Implies everything else was wrong |
+| "Let me save you hours." | Direct value promise, second person |
+| "This may surprise you." | Curiosity gap, low-threat challenge |
+| "You need this now." | Urgency + second person + direct command |
+| "You may not agree with this." | Controversy, implies bold take |
+| "I just figured this out." | Discovery framing, freshness |
+
+### Tech / AI Tools (Zrodinger-specific)
+
+| Hook | Best for |
+|------|---------|
+| "Stop paying for [X]." | Free alternative videos |
+| "This free tool just killed [expensive app]." | Comparison format |
+| "Delete [app] right now." | Urgency + controversial command |
+| "Why is nobody talking about this?" | Hidden gem discovery |
+| "This AI tool feels illegal to use." | Curiosity + forbidden knowledge |
+| "$0. That's what this costs." | Price shock |
+| "Your [tool] subscription is a waste." | Confrontational, second person |
+| "I tested every [category] — here's the winner." | Authority + list format |
+| "This replaced my entire workflow." | Transformation proof |
+| "You're doing [task] wrong." | Challenge + second person |
+
 ### Impossibility
 
 | Hook | Best for |

@@ -18,7 +18,7 @@ export function TransactionForm({ onSubmit, onClose, initial }: TransactionFormP
     date: initial?.date ?? today,
     amount: initial?.amount ?? 0,
     ecosystemId: initial?.ecosystemId ?? "content",
-    stream: initial?.stream ?? "youtube",
+    stream: initial?.stream ?? "com",
     description: initial?.description ?? "",
     type: initial?.type ?? "income",
   });
@@ -30,7 +30,7 @@ export function TransactionForm({ onSubmit, onClose, initial }: TransactionFormP
       const next = { ...prev, [key]: value };
       // Reset stream when switching type to avoid invalid stream
       if (key === "type") {
-        const defaultStream = value === "income" ? "youtube" : "subscriptions";
+        const defaultStream = value === "income" ? "com" : "subscriptions";
         next.stream = defaultStream as StreamId;
       }
       return next;

@@ -36,6 +36,18 @@ Dynamically select model effort level based on what Boss is asking. Don't burn m
 | Safeguard review, brand isolation audit, kill-switch evaluation | **Max** | Errors here cause real harm. No shortcuts. |
 | Multiple ecosystems in one request, cross-cutting changes | **Max** | Coordination complexity requires full reasoning. |
 
+### Parallelization mandate
+
+=== MAXIMIZE SUBAGENT PARALLELIZATION FOR SPEED ===
+
+When a task has independent subtasks, spawn parallel agents — do not execute sequentially. Examples:
+- Researching 5 tools → 5 parallel agents, not 5 sequential searches
+- Updating 4 vault files → 4 parallel writes if independent
+- Cross-ecosystem analysis → one agent per ecosystem in parallel
+- Multi-vertical research → one agent per vertical in parallel
+
+Only serialize when outputs are dependent (agent B needs agent A's result).
+
 ### Subagent model routing (when spawning agents)
 
 | Task type | Model | Rationale |
@@ -46,6 +58,7 @@ Dynamically select model effort level based on what Boss is asking. Don't burn m
 | Plan architecture, design systems, evaluate tradeoffs | **opus** | Needs deep reasoning |
 | Creative strategy, niche evaluation, retention analysis | **opus** | Judgment-heavy, no formula |
 | Batch mechanical edits (rename, add rows, update counts) | **haiku** | Pattern application, no creativity |
+| Web research across multiple topics | **sonnet** | Parallelize per topic, synthesize in orchestrator |
 
 ### Auto-escalation triggers
 
