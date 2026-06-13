@@ -1,6 +1,7 @@
 import Database from "better-sqlite3";
 import fs from "node:fs";
 import path from "node:path";
+import { createScopedViews } from "./scoping.js";
 
 export interface Db {
   raw: Database.Database;
@@ -198,6 +199,8 @@ class MissionControlDb implements Db {
         /* column already exists — safe to ignore */
       }
     }
+
+    createScopedViews(this.raw);
   }
 
   close(): void {
