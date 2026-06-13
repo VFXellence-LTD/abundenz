@@ -4,7 +4,7 @@ Web dashboard for the Polymath passive income system. Visualizes ecosystem healt
 
 ## Governance
 
-This repo is governed by **Canon** (`D:\dev\_canon\CLAUDE.md`). Follow Canon workflow:
+This repo is governed by **Canon** (`D:\VFXellence-LTD\_canon\CLAUDE.md`). Follow Canon workflow:
 - Git worktrees for feature isolation
 - Conventional commits
 - Branch naming per Canon conventions
@@ -17,7 +17,7 @@ This repo is governed by **Canon** (`D:\dev\_canon\CLAUDE.md`). Follow Canon wor
 | | This repo (`polymath-dashboard`) | Polymath vault (`_passive_income`) |
 |---|---|---|
 | Type | Code (git repo) | Business governance (Obsidian vault, no git) |
-| Location | `D:\dev\polymath-dashboard` | `D:\dev\_passive_income` |
+| Location | `D:\VFXellence-LTD\polymath\apps\dashboard` | `D:\VFXellence-LTD\_passive_income` |
 | What it does | Visualizes ecosystem data | Defines ecosystem structure, agents, policies |
 | Data model | `src/types/index.ts` + `src/data/` | `controller/dashboard.md` + ecosystem READMEs |
 | Updates when | Vault structure changes | Business decisions, new ecosystems, policy changes |
