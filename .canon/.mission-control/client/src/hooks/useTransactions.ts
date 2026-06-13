@@ -1,24 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import type { Transaction, TransactionType, EcosystemId, StreamId } from "@/types";
-
-const STORAGE_KEY = "polymath_transactions";
-
-function loadFromStorage(): Transaction[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveToStorage(transactions: Transaction[]): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
-}
-
-function generateId(): string {
-  return `txn_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
-}
+import { api } from "@/lib/api";
 
 export interface NewTransaction {
   date: string;
@@ -30,46 +12,34 @@ export interface NewTransaction {
 }
 
 export function useTransactions() {
-  const [transactions, setTransactions] = useState<Transaction[]>(loadFromStorage);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  const addTransaction = useCallback((data: NewTransaction) => {
-    const newTxn: Transaction = { ...data, id: generateId() };
-    setTransactions((prev) => {
-      const updated = [newTxn, ...prev];
-      saveToStorage(updated);
-      return updated;
-    });
+  useEffect(() => {
+    api.get<Transaction[]>("/transactions").then(setTransactions).catch(console.error);
   }, []);
 
-  const updateTransaction = useCallback(
-    (id: string, data: Partial<NewTransaction>) => {
-      setTransactions((prev) => {
-        const updated = prev.map((t) => (t.id === id ? { ...t, ...data } : t));
-        saveToStorage(updated);
-        return updated;
-      });
-    },
-    []
-  );
+  const addTransaction = useCallback((data: NewTransaction) => {
+    api
+      .post<Transaction>("/transactions", data)
+      .then((created) => setTransactions((prev) => [created, ...prev]))
+      .catch(console.error);
+  }, []);
+
+  const updateTransaction = useCallback((id: string, data: Partial<NewTransaction>) => {
+    setTransactions((prev) => prev.map((t) => (t.id === id ? { ...t, ...data } : t)));
+    api.put<Transaction>(`/transactions/${id}`, data).catch(console.error);
+  }, []);
 
   const deleteTransaction = useCallback((id: string) => {
-    setTransactions((prev) => {
-      const updated = prev.filter((t) => t.id !== id);
-      saveToStorage(updated);
-      return updated;
-    });
+    setTransactions((prev) => prev.filter((t) => t.id !== id));
+    api.del(`/transactions/${id}`).catch(console.error);
   }, []);
 
   const importTransactions = useCallback((incoming: NewTransaction[]) => {
-    const newTxns: Transaction[] = incoming.map((t) => ({
-      ...t,
-      id: generateId(),
-    }));
-    setTransactions((prev) => {
-      const updated = [...newTxns, ...prev];
-      saveToStorage(updated);
-      return updated;
-    });
+    api
+      .post<Transaction[]>("/transactions/import", incoming)
+      .then((created) => setTransactions((prev) => [...created, ...prev]))
+      .catch(console.error);
   }, []);
 
   const exportCSV = useCallback(() => {
@@ -92,14 +62,8 @@ export function useTransactions() {
     URL.revokeObjectURL(url);
   }, [transactions]);
 
-  const totalIncome = transactions
-    .filter((t) => t.type === "income")
-    .reduce((sum, t) => sum + t.amount, 0);
-
-  const totalExpenses = transactions
-    .filter((t) => t.type === "expense")
-    .reduce((sum, t) => sum + t.amount, 0);
-
+  const totalIncome = transactions.filter((t) => t.type === "income").reduce((s, t) => s + t.amount, 0);
+  const totalExpenses = transactions.filter((t) => t.type === "expense").reduce((s, t) => s + t.amount, 0);
   const netProfit = totalIncome - totalExpenses;
 
   return {

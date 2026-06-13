@@ -1,40 +1,24 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import type { SetupProgress, EcosystemId } from "@/types";
-
-const STORAGE_KEY = "polymath_setup_progress";
-
-function loadFromStorage(): SetupProgress {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : {};
-  } catch {
-    return {};
-  }
-}
-
-function saveToStorage(progress: SetupProgress): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-}
+import { api } from "@/lib/api";
 
 export function useSetupProgress() {
-  const [progress, setProgress] = useState<SetupProgress>(loadFromStorage);
+  const [progress, setProgress] = useState<SetupProgress>({});
 
-  const toggleStep = useCallback((stepId: string) => {
-    setProgress((prev) => {
-      const updated = { ...prev, [stepId]: !prev[stepId] };
-      saveToStorage(updated);
-      return updated;
-    });
+  useEffect(() => {
+    api.get<SetupProgress>("/setup").then(setProgress).catch(console.error);
   }, []);
 
-  const isComplete = useCallback(
-    (stepId: string) => !!progress[stepId],
-    [progress]
-  );
+  const toggleStep = useCallback((stepId: string) => {
+    setProgress((prev) => ({ ...prev, [stepId]: !prev[stepId] })); // optimistic
+    api.post<SetupProgress>("/setup/toggle", { stepId }).then(setProgress).catch(console.error);
+  }, []);
+
+  const isComplete = useCallback((stepId: string) => !!progress[stepId], [progress]);
 
   const completedCount = useCallback(
     (stepIds: string[]) => stepIds.filter((id) => progress[id]).length,
-    [progress]
+    [progress],
   );
 
   const getEcosystemProgress = useCallback(
@@ -43,14 +27,8 @@ export function useSetupProgress() {
       const completed = stepIds.filter((id) => progress[id]).length;
       return { total, completed, percent: total > 0 ? (completed / total) * 100 : 0 };
     },
-    [progress]
+    [progress],
   );
 
-  return {
-    progress,
-    toggleStep,
-    isComplete,
-    completedCount,
-    getEcosystemProgress,
-  };
+  return { progress, toggleStep, isComplete, completedCount, getEcosystemProgress };
 }

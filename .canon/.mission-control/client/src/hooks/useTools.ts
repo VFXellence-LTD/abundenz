@@ -1,47 +1,26 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import type { Tool, ToolStatus, EcosystemId } from "@/types";
-import { INITIAL_TOOLS } from "@/data/tools";
-
-const STORAGE_KEY = "polymath_tools";
-
-function loadFromStorage(): Tool[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : INITIAL_TOOLS;
-  } catch {
-    return INITIAL_TOOLS;
-  }
-}
-
-function saveToStorage(tools: Tool[]): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(tools));
-}
+import { api } from "@/lib/api";
 
 export function useTools() {
-  const [tools, setTools] = useState<Tool[]>(loadFromStorage);
+  const [tools, setTools] = useState<Tool[]>([]);
+
+  useEffect(() => {
+    api.get<Tool[]>("/tools").then(setTools).catch(console.error);
+  }, []);
 
   const updateToolStatus = useCallback((id: string, status: ToolStatus) => {
-    setTools((prev) => {
-      const updated = prev.map((t) => (t.id === id ? { ...t, status } : t));
-      saveToStorage(updated);
-      return updated;
-    });
+    setTools((prev) => prev.map((t) => (t.id === id ? { ...t, status } : t)));
+    api.put<Tool>(`/tools/${id}/status`, { status }).catch(console.error);
   }, []);
 
   const activeTools = tools.filter((t) => t.status === "active");
   const monthlyBurn = activeTools.reduce((sum, t) => sum + t.costPerMonth, 0);
 
   const toolsByEcosystem = useCallback(
-    (ecosystemId: EcosystemId) =>
-      tools.filter((t) => t.ecosystems.includes(ecosystemId)),
-    [tools]
+    (ecosystemId: EcosystemId) => tools.filter((t) => t.ecosystems.includes(ecosystemId)),
+    [tools],
   );
 
-  return {
-    tools,
-    activeTools,
-    monthlyBurn,
-    updateToolStatus,
-    toolsByEcosystem,
-  };
+  return { tools, activeTools, monthlyBurn, updateToolStatus, toolsByEcosystem };
 }
