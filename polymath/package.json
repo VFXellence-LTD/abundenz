@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "description": "Polymath passive income system — vault, dashboard, agents",
   "scripts": {
-    "dev": "pnpm --filter polymath-dashboard dev",
-    "build": "pnpm --filter polymath-dashboard build",
-    "lint": "pnpm --filter polymath-dashboard lint"
+    "dev": "echo Dashboard moved to .canon/.mission-control/client — run: pnpm -C ../.canon/.mission-control/client dev",
+    "build": "echo Dashboard moved to .canon/.mission-control/client — run: pnpm -C ../.canon/.mission-control/client build",
+    "lint": "echo Dashboard moved to .canon/.mission-control/client — run: pnpm -C ../.canon/.mission-control/client lint"
   },
   "engines": {
     "node": ">=20"

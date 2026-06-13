@@ -5,7 +5,7 @@ for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":5174" ^| findstr "LISTENING
 )
 
 :: Launch dashboard
-cd /d "D:\VFXellence-LTD\polymath\apps\dashboard"
+cd /d "D:\VFXellence-LTD\.canon\.mission-control\client"
 start "Polymath Dashboard" cmd /c "pnpm dev"
 
 :: Wait for server then open browser

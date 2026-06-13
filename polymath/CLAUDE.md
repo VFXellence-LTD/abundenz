@@ -1,19 +1,26 @@
 # Polymath — Monorepo Operating Guide
 
-Monorepo for Robin Dutta's AI-driven passive income system. Three layers: vault (business governance), apps (web tools), packages (shared code).
+Monorepo for Robin Dutta's AI-driven passive income system. Three layers: governance vault (in .canon), apps (dev streams), packages (shared engine code).
+
+> **Governance + control plane live in `D:\VFXellence-LTD\.canon` (see `1_controller/profiles/polymath/`).**
 
 ## Structure
 
 ```
 polymath/
-├── vault/              → Obsidian vault — business governance, ecosystem specs, policies
-├── apps/
-│   └── dashboard/      → Vite + React dashboard (localhost:5173)
+├── apps/               → Dev stream workspaces (currently empty — dashboard relocated)
 ├── packages/
 │   ├── types/          → Shared TypeScript types (ecosystems, transactions, tools)
-│   └── agents/         → Agent implementations (future)
+│   └── agents/         → Agent engine implementations
 ├── scripts/            → CLI automation, deployment configs
 └── CLAUDE.md           → this file
+
+D:\VFXellence-LTD\.canon\
+├── .mission-control/
+│   └── client/         → Vite + React dashboard (localhost:5174) — PRIMARY CLIENT APP
+└── 1_controller/
+    └── profiles/
+        └── polymath/   → Business governance vault (ecosystem specs, policies, playbooks)
 ```
 
 ## Governance
@@ -37,12 +44,13 @@ Polymath **independent domain** from Canon. Canon-specific rules (Jira integrati
 
 | Layer | Contains | Git tracked | Governed by |
 |-------|---------|-------------|-------------|
-| `vault/` | Ecosystem specs, agent designs, policies, safeguards, playbooks | Yes (content files) | `vault/CLAUDE.md` (Polymath rules) |
-| `apps/dashboard/` | React web dashboard | Yes | `apps/dashboard/CLAUDE.md` + global |
-| `packages/` | Shared TypeScript types, agent code | Yes | Global |
+| `D:\VFXellence-LTD\.canon\1_controller\profiles\polymath\` | Ecosystem specs, agent designs, policies, safeguards, playbooks | Yes (content files) | `.canon/CLAUDE.md` |
+| `D:\VFXellence-LTD\.canon\.mission-control\client\` | Vite + React dashboard (localhost:5174) | Yes | `.canon/.mission-control/client/CLAUDE.md` + global |
+| `packages/` | Shared TypeScript types, agent engine code | Yes | Global |
+| `apps/` | Dev stream workspaces (empty — future vertical dev) | Yes | Global |
 | `scripts/` | CLI tools, automation | Yes | Global |
 
-### Vault-specific rules
+### Governance vault rules
 - Vault content = Obsidian markdown — no code execution
 - `.obsidian/` local state excluded from git (workspace, graph, cache)
 - Vault = SOURCE OF TRUTH for business structure
@@ -57,12 +65,12 @@ Polymath **independent domain** from Canon. Canon-specific rules (Jira integrati
 
 | Boss says... | Work in... |
 |-------------|-----------|
-| "Update the dashboard" | `apps/dashboard/` — Canon workflow |
-| Anything about ecosystem structure, agents, policies | `vault/` — Polymath rules |
-| "Add a new vertical" | `vault/ecosystems/viral/verticals/` — then update dashboard data |
-| "Track revenue" or "show earnings" | `apps/dashboard/` — code feature |
-| "Build agent X" | `packages/agents/` — Canon workflow |
-| "Research [topic]" | `vault/references/` or run Research Analyst prompt |
+| "Update the dashboard" | `.canon/.mission-control/client/` — control plane client |
+| Anything about ecosystem structure, agents, policies | `.canon/1_controller/profiles/polymath/` — governance vault |
+| "Add a new vertical" | `.canon/1_controller/profiles/polymath/ecosystems/viral/verticals/` — then update dashboard data |
+| "Track revenue" or "show earnings" | `.canon/.mission-control/client/` — code feature |
+| "Build agent X" | `packages/agents/` — engine layer |
+| "Research [topic]" | `.canon/1_controller/profiles/polymath/references/` or run Research Analyst prompt |
 
 ## Ecosystems (5)
 
@@ -77,11 +85,15 @@ Polymath **independent domain** from Canon. Canon-specific rules (Jira integrati
 ## Dev Commands
 
 ```bash
-pnpm install                    # Install all workspace dependencies
-pnpm dev                        # Start dashboard at localhost:5173
-pnpm build                      # Build dashboard
-pnpm --filter dashboard dev     # Explicit: dashboard only
-pnpm --filter @polymath/types build  # Build shared types (future)
+# Dashboard (now at .canon/.mission-control/client)
+pnpm -C "D:\VFXellence-LTD\.canon\.mission-control\client" install   # Install deps
+pnpm -C "D:\VFXellence-LTD\.canon\.mission-control\client" dev       # Start at localhost:5174
+pnpm -C "D:\VFXellence-LTD\.canon\.mission-control\client" build     # Build
+
+# Polymath packages (future)
+pnpm install                              # Install workspace packages
+pnpm --filter @polymath/types build       # Build shared types
+pnpm --filter @polymath/agents build      # Build agent engine
 ```
 
 ## GitHub
