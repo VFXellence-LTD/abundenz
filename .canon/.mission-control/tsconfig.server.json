@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "server/dist",
+    "rootDir": "server",
+    "types": ["node"]
+  },
+  "include": ["server/**/*"],
+  "exclude": ["server/dist", "server/.data", "server/test/**"]
+}
