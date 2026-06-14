@@ -7,3 +7,4 @@ export * from "./apiClient.js";
 export * from "./driver.js";
 export * from "./renderClip.js";
 export * from "./renderTypes.js";
+export * from "./videoApiClient.js";
