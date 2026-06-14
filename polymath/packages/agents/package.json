@@ -8,7 +8,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "surge:run": "node --import tsx bin/surge-run.ts"
+    "surge:run": "node --import tsx bin/surge-run.ts",
+    "surge:render": "node --import tsx bin/surge-render.ts"
   },
   "engines": { "node": ">=22" },
   "devDependencies": {

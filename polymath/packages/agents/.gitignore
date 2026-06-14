@@ -2,3 +2,6 @@ dist/
 drafts/
 node_modules/
 *.tsbuildinfo
+artifacts/
+*.mp4
+*.mp3
