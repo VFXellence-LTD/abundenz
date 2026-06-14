@@ -117,6 +117,9 @@ importers:
 
   server:
     dependencies:
+      '@polymath/publish':
+        specifier: file:../../../polymath/packages/publish
+        version: file:../../polymath/packages/publish
       better-sqlite3:
         specifier: ^12.9.0
         version: 12.10.1
@@ -529,6 +532,10 @@ packages:
 
   '@paralleldrive/cuid2@2.3.1':
     resolution: {integrity: sha512-XO7cAxhnTZl0Yggq6jOgjiOHhbgcO4NqFqwSmQpjK3b6TEE6Uj/jfSk6wzYyemh3+I0sHirKSetjQwn5cZktFw==}
+
+  '@polymath/publish@file:../../polymath/packages/publish':
+    resolution: {directory: ../../polymath/packages/publish, type: directory}
+    engines: {node: '>=22'}
 
   '@reduxjs/toolkit@2.12.0':
     resolution: {integrity: sha512-KiT+RzZbp6mQET+Mg+h2c97+9j1sNflUxQkIHI7Yuzf6Peu+OYpmkn6nbHWmLLWj+1ZODUJFwGZ7gx3L9R9EOw==}
@@ -2805,6 +2812,8 @@ snapshots:
   '@paralleldrive/cuid2@2.3.1':
     dependencies:
       '@noble/hashes': 1.8.0
+
+  '@polymath/publish@file:../../polymath/packages/publish': {}
 
   '@reduxjs/toolkit@2.12.0(react-redux@9.3.0(@types/react@19.2.17)(react@19.2.7)(redux@5.0.1))(react@19.2.7)':
     dependencies:
