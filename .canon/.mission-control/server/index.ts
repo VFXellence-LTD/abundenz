@@ -13,6 +13,7 @@ import { createApprovalsRouter } from "./routes/approvals.js";
 import { createArtifactsRouter } from "./routes/artifacts.js";
 import { createAgentRunsRouter } from "./routes/agentRuns.js";
 import { createVaultRouter } from "./routes/vault.js";
+import { createPublishRouter } from "./routes/publish.js";
 import { VaultService } from "./services/vault.service.js";
 import { PtyService } from "./services/pty.service.js";
 import { SessionService } from "./services/session.service.js";
@@ -48,6 +49,7 @@ export function createApp(deps: AppDeps): Express {
   app.use("/api/agent-runs", createAgentRunsRouter(deps.db));
   app.use("/api/vault", createVaultRouter(new VaultService(deps.vaultLaunchesDir)));
   app.use("/api/sessions", createSessionsRouter({ db: deps.db, sessions: deps.sessions }));
+  app.use("/api/publish", createPublishRouter(deps.db));
 
   return app;
 }

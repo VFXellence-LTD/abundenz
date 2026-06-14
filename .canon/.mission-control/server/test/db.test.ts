@@ -13,7 +13,7 @@ describe("db schema + migration", () => {
     expect(["wal", "memory"]).toContain(jm);
   });
 
-  it("creates all 11 core tables", () => {
+  it("creates all 12 core tables", () => {
     db = createDb(":memory:");
     const names = db.raw
       .prepare("SELECT name FROM sqlite_master WHERE type='table'")
@@ -23,6 +23,7 @@ describe("db schema + migration", () => {
       "tasks", "campaigns", "approval_queue", "agent_runs",
       "transactions", "tools", "setup_progress",
       "launch_state", "launch_data", "brands", "platform_accounts",
+      "publish_log",
     ]) {
       expect(names).toContain(t);
     }

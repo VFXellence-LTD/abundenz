@@ -1,7 +1,7 @@
 import type { Db } from "../db.js";
 
-export type TaskStatus = "backlog" | "todo" | "in-progress" | "blocked" | "in-review" | "done";
-export const TASK_STATUSES: TaskStatus[] = ["backlog", "todo", "in-progress", "blocked", "in-review", "done"];
+export type TaskStatus = "backlog" | "todo" | "in-progress" | "blocked" | "in-review" | "done" | "published";
+export const TASK_STATUSES: TaskStatus[] = ["backlog", "todo", "in-progress", "blocked", "in-review", "done", "published"];
 
 export interface Task {
   id: string;

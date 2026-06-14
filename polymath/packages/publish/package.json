@@ -4,6 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "description": "Polymath publish layer — human-gated social distribution adapters (dry-run by default)",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": { "test": "vitest run", "test:watch": "vitest", "typecheck": "tsc --noEmit" },
   "engines": { "node": ">=22" },
   "dependencies": {},

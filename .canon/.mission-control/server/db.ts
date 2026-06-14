@@ -178,6 +178,18 @@ class MissionControlDb implements Db {
         FOREIGN KEY (brand_id) REFERENCES brands(id)
       );
 
+      CREATE TABLE IF NOT EXISTS publish_log (
+        id TEXT PRIMARY KEY,
+        approval_id TEXT NOT NULL,
+        ecosystem_id TEXT NOT NULL,
+        platform TEXT NOT NULL,
+        url TEXT,
+        status TEXT NOT NULL,
+        dry_run INTEGER NOT NULL DEFAULT 1,
+        published_by TEXT NOT NULL,
+        published_at TEXT NOT NULL
+      );
+
       -- ===== Indexes =====
       CREATE INDEX IF NOT EXISTS idx_tasks_status      ON tasks(status);
       CREATE INDEX IF NOT EXISTS idx_tasks_ecosystem   ON tasks(ecosystem_id);
@@ -185,6 +197,7 @@ class MissionControlDb implements Db {
       CREATE INDEX IF NOT EXISTS idx_approval_status   ON approval_queue(status);
       CREATE INDEX IF NOT EXISTS idx_txn_ecosystem     ON transactions(ecosystem_id);
       CREATE INDEX IF NOT EXISTS idx_agentruns_status  ON agent_runs(status);
+      CREATE INDEX IF NOT EXISTS idx_publish_log_approval ON publish_log(approval_id);
     `);
 
     // Additive migrations for already-existing DBs (no IF NOT EXISTS on ADD COLUMN).
