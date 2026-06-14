@@ -13,6 +13,7 @@ import { IntakePage } from "@/pages/IntakePage";
 import { ApprovalsPage } from "@/pages/ApprovalsPage";
 import { CampaignsPage } from "@/pages/CampaignsPage";
 import { AgentsPage } from "@/pages/AgentsPage";
+import SessionsPage from "@/pages/SessionsPage";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/approvals" element={<ApprovalsPage />} />
           <Route path="/campaigns" element={<CampaignsPage />} />
           <Route path="/agents" element={<AgentsPage />} />
+          <Route path="/sessions" element={<SessionsPage />} />
           <Route path="/setup" element={<Navigate to="/setup/content" replace />} />
           <Route path="/setup/:ecosystem" element={<SetupPage />} />
           <Route path="/launch" element={<Navigate to="/launch/viral/tech" replace />} />
