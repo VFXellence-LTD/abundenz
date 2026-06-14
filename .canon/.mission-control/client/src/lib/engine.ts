@@ -19,6 +19,10 @@ export type ApprovalStatus = "pending" | "approved" | "rejected" | "changes-requ
 export interface ApprovalContent {
   script?: string; hook?: string; shotlist?: string[] | string; caption?: string;
   hashtags?: string[] | string; safeguardReport?: string | Record<string, unknown>;
+  videoPath?: string;
+  thumbnailPath?: string;
+  durationSec?: number;
+  renderReport?: { dryRun: boolean; missing: string[]; steps?: unknown[]; renderedAt: string } | string;
 }
 export interface Approval {
   id: string; taskId?: string; campaignId?: string; ecosystemId: string;

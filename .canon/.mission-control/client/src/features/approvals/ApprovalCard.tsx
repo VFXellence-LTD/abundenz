@@ -42,7 +42,7 @@ export function ApprovalCard({
         <p className="mb-3 break-all font-mono text-xs text-zinc-500">{approval.artifactPath}</p>
       )}
 
-      <ContentPreview content={approval.contentJson} />
+      <ContentPreview content={approval.contentJson} approvalId={approval.id} contentType={approval.contentType} />
 
       <textarea
         value={notes}

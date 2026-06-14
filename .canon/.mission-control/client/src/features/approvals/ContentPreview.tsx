@@ -14,8 +14,36 @@ function asList(v: string[] | string | undefined): string[] {
   return Array.isArray(v) ? v : v.split("\n").map((s) => s.trim()).filter(Boolean);
 }
 
-export function ContentPreview({ content }: { content?: ApprovalContent }) {
+export function ContentPreview({ content, approvalId, contentType }: { content?: ApprovalContent; approvalId?: string; contentType?: string }) {
   if (!content) return <p className="text-sm italic text-zinc-600">No content payload.</p>;
+
+  // VIDEO BRANCH
+  if (contentType === 'video') {
+    const rr = content.renderReport;
+    const report = typeof rr === 'string' ? null : rr;
+    return (
+      <div className="space-y-3">
+        <video
+          controls
+          src={`/api/artifacts/${approvalId}`}
+          className="w-full rounded border border-zinc-700"
+        />
+        {report && (
+          <Section label="Render Report">
+            <div className="space-y-1">
+              {report.dryRun && (
+                <span className="inline-block rounded bg-amber-800 px-2 py-0.5 text-xs font-semibold uppercase text-amber-200">DRY-RUN</span>
+              )}
+              {report.missing && report.missing.length > 0 && (
+                <p className="text-xs text-zinc-400">Missing: {report.missing.join(", ")}</p>
+              )}
+            </div>
+          </Section>
+        )}
+      </div>
+    );
+  }
+
   const shots = asList(content.shotlist);
   const tags = asList(content.hashtags);
   const safeguard =

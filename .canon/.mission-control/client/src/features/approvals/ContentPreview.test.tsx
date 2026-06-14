@@ -31,4 +31,18 @@ describe("ContentPreview", () => {
     render(<ContentPreview />);
     expect(screen.getByText("No content payload.")).toBeInTheDocument();
   });
+
+  it("renders a <video> for content_type='video'", () => {
+    render(<ContentPreview approvalId="aq1" contentType="video" content={{ videoPath: "a/clip.mp4", renderReport: { dryRun: true, missing: [], renderedAt: "x" } }} />);
+    const v = document.querySelector("video");
+    expect(v).toBeTruthy();
+    expect(v?.getAttribute("src")).toContain("/api/artifacts/aq1");
+    expect(screen.getByText(/dry-run/i)).toBeTruthy();
+  });
+
+  it("keeps script preview for content_type='clip'", () => {
+    render(<ContentPreview approvalId="aq2" contentType="clip" content={{ hook: "H", script: "S" }} />);
+    expect(document.querySelector("video")).toBeNull();
+    expect(screen.getByText("H")).toBeTruthy();
+  });
 });
