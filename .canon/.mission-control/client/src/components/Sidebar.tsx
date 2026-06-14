@@ -8,12 +8,22 @@ import {
   Wrench,
   Rocket,
   Building2,
+  KanbanSquare,
+  Inbox,
+  ShieldCheck,
+  Megaphone,
+  Terminal,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ECOSYSTEMS } from "@/data/ecosystems";
 
 const NAV_ITEMS = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, end: true },
+  { to: "/board", label: "Board", icon: KanbanSquare, end: false },
+  { to: "/intake", label: "Intake", icon: Inbox, end: false },
+  { to: "/approvals", label: "Approvals", icon: ShieldCheck, end: false },
+  { to: "/campaigns", label: "Campaigns", icon: Megaphone, end: false },
+  { to: "/agents", label: "Agents", icon: Terminal, end: false },
   { to: "/launch/viral/tech", label: "Launch", icon: Rocket, end: false },
   { to: "/setup/content", label: "Setup", icon: ListChecks, end: false },
   { to: "/earnings", label: "Earnings", icon: DollarSign, end: false },

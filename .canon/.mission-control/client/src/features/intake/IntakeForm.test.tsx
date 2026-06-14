@@ -3,12 +3,12 @@ import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi } from "vitest";
 import { IntakeForm } from "./IntakeForm";
 
-const createCampaignWithTasks = vi.fn(() => Promise.resolve({ campaign: {}, tasks: [{}, {}, {}] }));
-const fileInfraTask = vi.fn(() => Promise.resolve({}));
+const createCampaignWithTasks = vi.fn((_a: unknown) => Promise.resolve({ campaign: {}, tasks: [{}, {}, {}] }));
+const fileInfraTask = vi.fn((_title: unknown, _description: unknown) => Promise.resolve({}));
 vi.mock("./intake.api", () => ({
-  createCampaignWithTasks: (...a: unknown[]) => createCampaignWithTasks(...a),
+  createCampaignWithTasks: (a: unknown) => createCampaignWithTasks(a),
   registerBrand: vi.fn(() => Promise.resolve()),
-  fileInfraTask: (...a: unknown[]) => fileInfraTask(...a),
+  fileInfraTask: (title: unknown, description: unknown) => fileInfraTask(title, description),
 }));
 
 describe("IntakeForm", () => {
