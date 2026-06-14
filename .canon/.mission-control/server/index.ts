@@ -13,11 +13,17 @@ import { createApprovalsRouter } from "./routes/approvals.js";
 import { createAgentRunsRouter } from "./routes/agentRuns.js";
 import { createVaultRouter } from "./routes/vault.js";
 import { VaultService } from "./services/vault.service.js";
-import { setupWebSocketStub } from "./ws/stub.ws.js";
+import { PtyService } from "./services/pty.service.js";
+import { SessionService } from "./services/session.service.js";
+import { AgentRunsService } from "./services/agentRuns.service.js";
+import { createSessionsRouter } from "./routes/sessions.js";
+import { setupTerminalWebSocket } from "./ws/terminal.ws.js";
+import { setupSessionsWebSocket } from "./ws/sessions.ws.js";
 
 export interface AppDeps {
   db: Db;
   vaultLaunchesDir: string;
+  sessions: SessionService;
 }
 
 export function createApp(deps: AppDeps): Express {
@@ -38,15 +44,32 @@ export function createApp(deps: AppDeps): Express {
   app.use("/api/approvals", createApprovalsRouter(deps.db));
   app.use("/api/agent-runs", createAgentRunsRouter(deps.db));
   app.use("/api/vault", createVaultRouter(new VaultService(deps.vaultLaunchesDir)));
+  app.use("/api/sessions", createSessionsRouter({ db: deps.db, sessions: deps.sessions }));
 
   return app;
 }
 
 export async function startServer(): Promise<void> {
   const db = getDb(config.dbPath);
-  const app = createApp({ db, vaultLaunchesDir: config.vaultLaunchesDir });
+  const ptyService = new PtyService();
+  const sessions = new SessionService(new AgentRunsService(db));
+  sessions.setPtyService(ptyService);
+
+  const app = createApp({ db, vaultLaunchesDir: config.vaultLaunchesDir, sessions });
   const httpServer = http.createServer(app);
-  setupWebSocketStub(httpServer); // stub only
+
+  const terminalWss = setupTerminalWebSocket(ptyService, sessions);
+  const statusWss = setupSessionsWebSocket(sessions);
+  httpServer.on("upgrade", (req, socket, head) => {
+    const url = new URL(req.url ?? "", `http://${req.headers.host}`);
+    if (url.pathname === "/ws/terminal") {
+      terminalWss.handleUpgrade(req, socket, head, (ws) => terminalWss.emit("connection", ws, req));
+    } else if (url.pathname === "/ws") {
+      statusWss.handleUpgrade(req, socket, head, (ws) => statusWss.emit("connection", ws, req));
+    } else {
+      socket.destroy();
+    }
+  });
 
   httpServer.listen(config.port, () => {
     console.log(`Polymath Mission Control server running on port ${config.port}`);
@@ -54,6 +77,8 @@ export async function startServer(): Promise<void> {
   });
 
   const shutdown = () => {
+    ptyService.killAll();
+    sessions.stopIdleDetection();
     db.close();
     httpServer.close(() => process.exit(0));
   };

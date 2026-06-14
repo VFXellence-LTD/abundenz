@@ -5,6 +5,8 @@ import path from "node:path";
 import fs from "node:fs";
 import { createDb, type Db } from "../db.js";
 import { createApp } from "../index.js";
+import { SessionService } from "../services/session.service.js";
+import { AgentRunsService } from "../services/agentRuns.service.js";
 
 let db: Db;
 let tmpVault: string;
@@ -17,16 +19,21 @@ afterEach(() => {
   fs.rmSync(tmpVault, { recursive: true, force: true });
 });
 
+function makeApp(db: Db, tmpVault: string) {
+  const sessions = new SessionService(new AgentRunsService(db));
+  return createApp({ db, vaultLaunchesDir: tmpVault, sessions });
+}
+
 describe("createApp wiring", () => {
   it("GET /api/health -> ok", async () => {
-    const app = createApp({ db, vaultLaunchesDir: tmpVault });
+    const app = makeApp(db, tmpVault);
     const res = await request(app).get("/api/health");
     expect(res.status).toBe(200);
     expect(res.body.status).toBe("ok");
   });
 
   it("mounts all routers", async () => {
-    const app = createApp({ db, vaultLaunchesDir: tmpVault });
+    const app = makeApp(db, tmpVault);
     for (const p of ["/api/transactions", "/api/tools", "/api/setup", "/api/launch", "/api/tasks", "/api/campaigns", "/api/approvals", "/api/agent-runs"]) {
       const res = await request(app).get(p);
       expect(res.status).toBeLessThan(500);
@@ -34,7 +41,7 @@ describe("createApp wiring", () => {
   });
 
   it("POST /api/vault/launches/:filename writes the file", async () => {
-    const app = createApp({ db, vaultLaunchesDir: tmpVault });
+    const app = makeApp(db, tmpVault);
     const res = await request(app)
       .post("/api/vault/launches/zrodinger.md")
       .set("Content-Type", "text/plain")
@@ -44,7 +51,7 @@ describe("createApp wiring", () => {
   });
 
   it("rejects path traversal in vault filename -> 400", async () => {
-    const app = createApp({ db, vaultLaunchesDir: tmpVault });
+    const app = makeApp(db, tmpVault);
     const res = await request(app).post("/api/vault/launches/..%2Fevil.md").send("x");
     expect(res.status).toBe(400);
   });
