@@ -21,6 +21,14 @@ This surfaced via a **Meta/Instagram ad**. Per `polymath-pitfalls` #7: tools sol
 - Free / paid / freemium?
 - Data handling: what does the remote server see and log about our queries and accounts? (A 3rd party gains visibility into our research intent.)
 
+## Vendor (verified 2026-06-14)
+
+**Who:** Leif Abel is a San Diego-based furniture restoration practitioner (@revisionfurniture, ~93K followers; @leifabel11). Built ReVision Furniture over 7 years — organic IG growth to 125K+ followers, $500K+ in sales. Now pivots to a **personal-brand-as-a-service** business ("I make invisible experts famous") targeting busy professionals, using AI to automate content across 7+ platforms. Also sells restoration courses (educator layer on top of practitioner base).
+
+**Legitimacy read:** Real practitioner with documented results — not a pure course-seller. However, the current pivot is squarely into *teaching/selling personal branding services*, not running IG growth campaigns for others. The IG research tool is a lead-gen asset (surfaced via paid Meta ad, delivered through an `apply.` subdomain funnel) — pitfall #7 pattern is confirmed. He is credible *as a person* but the tool is unproven and the delivery model (tokenized MCP via funnel) is a red flag for a business productivity tool.
+
+**Pricing / access model (verified 2026-06-14):** The landing page at `https://apply.leifabel.com/ig-research-tool/` returned **HTTP 403 Forbidden** to automated fetch — it is not a publicly crawlable page. No pricing is indexed anywhere on the web or on leifabel.com. The `apply.` subdomain + per-user token in the shared link strongly suggests **application-gated access** (likely free-to-apply, with paid tier or upsell behind the application). Status: **pricing UNKNOWN — application/waitlist gate confirmed; free tier unverified**.
+
 ## Real questions before any connection
 1. **Credentials:** does it need our IG account login, or only public data? Surge accounts are anonymous — **never** feed them to an unverified 3rd party (brand isolation + ToS).
 2. **Token scope/expiry** + exactly what the server can do once connected (MCP tools run in-session).
