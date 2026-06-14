@@ -3,6 +3,7 @@ import { Check, X, MessageSquare } from "lucide-react";
 import type { Approval, ApprovalStatus } from "@/lib/engine";
 import { Badge } from "@/components/ui/Badge";
 import { ContentPreview } from "./ContentPreview";
+import { PublishButton } from "./PublishButton";
 
 export function ApprovalCard({
   approval,
@@ -77,6 +78,7 @@ export function ApprovalCard({
           <X className="h-4 w-4" /> Reject
         </button>
       </div>
+      <PublishButton approval={approval} />
     </div>
   );
 }
