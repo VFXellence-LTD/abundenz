@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Play, Check, AlertTriangle } from "lucide-react";
-import { api } from "@/lib/api";
+import { Play, Check, AlertTriangle, X } from "lucide-react";
+import { sessions as sessionsApi } from "@/lib/api";
 import type { Campaign, AgentRun } from "@/lib/engine";
 import { Badge } from "@/components/ui/Badge";
+import { EmbeddedTerminal } from "@/features/terminal/EmbeddedTerminal";
 
 const RUN_STATUS_COLOR: Record<string, string> = {
   queued: "text-zinc-400", running: "text-emerald-400", waiting: "text-amber-400",
@@ -22,6 +23,8 @@ export function CampaignPanel({
 }) {
   const [notice, setNotice] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+  const [activeSessionCampaignId, setActiveSessionCampaignId] = useState<string | null>(null);
 
   const runFor = (cid: string) => runs.find((r) => r.campaignId === cid);
 
@@ -32,9 +35,9 @@ export function CampaignPanel({
       if (!c.approvedBy) {
         await onApprove(c.id); // gate: must be approved before running
       }
-      // Plan-3 endpoint. Not live yet — expect 404 and degrade gracefully.
-      await api.post<{ sessionId: string }>("/sessions/start", { campaignId: c.id });
-      setNotice(`Session start requested for ${c.name}.`);
+      const session = await sessionsApi.start({ campaignId: c.id });
+      setActiveSessionId(session.id);
+      setActiveSessionCampaignId(c.id);
     } catch (e) {
       const msg = (e as Error).message;
       if (msg.includes("404") || msg.toLowerCase().includes("not found") || msg.toLowerCase().includes("failed to fetch")) {
@@ -62,29 +65,48 @@ export function CampaignPanel({
       )}
       {campaigns.map((c) => {
         const r = runFor(c.id);
+        const isTerminalOpen = activeSessionCampaignId === c.id && activeSessionId !== null;
         return (
-          <div key={c.id} className="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-900 p-4">
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2">
-                <p className="truncate font-medium text-zinc-100">{c.name}</p>
-                <Badge variant="outline">{c.ecosystemId}</Badge>
-                <Badge variant="secondary">{c.status}</Badge>
-                {c.approvedBy && <Badge variant="default"><Check className="mr-0.5 h-3 w-3" /> approved</Badge>}
+          <div key={c.id} className="rounded-lg border border-zinc-800 bg-zinc-900">
+            <div className="flex items-center gap-3 p-4">
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <p className="truncate font-medium text-zinc-100">{c.name}</p>
+                  <Badge variant="outline">{c.ecosystemId}</Badge>
+                  <Badge variant="secondary">{c.status}</Badge>
+                  {c.approvedBy && <Badge variant="default"><Check className="mr-0.5 h-3 w-3" /> approved</Badge>}
+                </div>
+                <p className="mt-0.5 font-mono text-xs text-zinc-600">{c.id} · target {c.targetCount}</p>
+                {r && (
+                  <p className={`mt-1 text-xs ${RUN_STATUS_COLOR[r.status] ?? "text-zinc-400"}`}>
+                    run: {r.status}{r.error ? ` — ${r.error}` : ""}
+                  </p>
+                )}
               </div>
-              <p className="mt-0.5 font-mono text-xs text-zinc-600">{c.id} · target {c.targetCount}</p>
-              {r && (
-                <p className={`mt-1 text-xs ${RUN_STATUS_COLOR[r.status] ?? "text-zinc-400"}`}>
-                  run: {r.status}{r.error ? ` — ${r.error}` : ""}
-                </p>
-              )}
+              <div className="flex items-center gap-2">
+                {isTerminalOpen && (
+                  <button
+                    onClick={() => { setActiveSessionId(null); setActiveSessionCampaignId(null); }}
+                    className="flex items-center gap-1 rounded-md border border-zinc-700 px-2 py-1.5 text-xs text-zinc-400 hover:bg-zinc-800"
+                    aria-label="Close terminal"
+                  >
+                    <X className="h-3.5 w-3.5" /> Close
+                  </button>
+                )}
+                <button
+                  disabled={busyId === c.id || c.status === "running"}
+                  onClick={() => run(c)}
+                  className="flex items-center gap-1.5 rounded-md bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-50"
+                >
+                  <Play className="h-4 w-4" /> {c.approvedBy ? "Run" : "Approve & Run"}
+                </button>
+              </div>
             </div>
-            <button
-              disabled={busyId === c.id || c.status === "running"}
-              onClick={() => run(c)}
-              className="flex items-center gap-1.5 rounded-md bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-50"
-            >
-              <Play className="h-4 w-4" /> {c.approvedBy ? "Run" : "Approve & Run"}
-            </button>
+            {isTerminalOpen && activeSessionId && (
+              <div className="border-t border-zinc-800 rounded-b-lg overflow-hidden" style={{ height: 320 }}>
+                <EmbeddedTerminal sessionId={activeSessionId} />
+              </div>
+            )}
           </div>
         );
       })}
