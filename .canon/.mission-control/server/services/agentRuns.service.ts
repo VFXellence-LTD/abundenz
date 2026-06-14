@@ -53,15 +53,15 @@ export class AgentRunsService {
     return this.get(data.id)!;
   }
 
-  setStatus(id: string, status: AgentRunStatus): AgentRun | undefined {
+  setStatus(id: string, status: AgentRunStatus, error?: string): AgentRun | undefined {
     const existing = this.get(id);
     if (!existing) return undefined;
     const now = new Date().toISOString();
     const startedAt = status === "running" && !existing.startedAt ? now : existing.startedAt ?? null;
     const completedAt = ["done", "error", "killed"].includes(status) ? now : existing.completedAt ?? null;
     this.db.raw
-      .prepare("UPDATE agent_runs SET status=?, started_at=?, completed_at=? WHERE id=?")
-      .run(status, startedAt, completedAt, id);
+      .prepare("UPDATE agent_runs SET status=?, started_at=?, completed_at=?, error=COALESCE(?, error) WHERE id=?")
+      .run(status, startedAt, completedAt, error ?? null, id);
     return this.get(id);
   }
 }
