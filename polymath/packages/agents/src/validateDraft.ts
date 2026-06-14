@@ -29,13 +29,13 @@ export function validateDraft(draft: ClipDraft): ValidationResult {
   const errors: string[] = [];
 
   // Scope guard: no render/asset keys (script-level only).
-  for (const key of Object.keys(draft as Record<string, unknown>)) {
+  for (const key of Object.keys(draft as unknown as Record<string, unknown>)) {
     if (!ALLOWED_KEYS.has(key as keyof ClipDraft)) {
       errors.push(`Unexpected field "${key}" — script-level draft only, no render/asset data.`);
     }
   }
   for (const k of FORBIDDEN_RENDER_KEYS) {
-    if (k in (draft as Record<string, unknown>)) {
+    if (k in (draft as unknown as Record<string, unknown>)) {
       errors.push(`Forbidden render field "${k}" — script-level draft only.`);
     }
   }

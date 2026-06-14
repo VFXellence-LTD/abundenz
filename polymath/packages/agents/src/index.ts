@@ -4,3 +4,4 @@ export * from "./validateDraft.js";
 export * from "./safeguard.js";
 export * from "./artifact.js";
 export * from "./apiClient.js";
+export * from "./driver.js";
