@@ -29,6 +29,7 @@ export const config = {
     "VAULT_LAUNCHES_DIR",
     path.join(CANON_ROOT, "4_orchestrator", "projects", "polymath-business", "launches"),
   ),
+  artifactsRoot: env("ARTIFACTS_ROOT", path.join(REPO_ROOT, "polymath", "packages", "agents", "artifacts")),
 };
 
 export type Config = typeof config;

@@ -10,6 +10,7 @@ import { createLaunchRouter } from "./routes/launch.js";
 import { createTasksRouter } from "./routes/tasks.js";
 import { createCampaignsRouter } from "./routes/campaigns.js";
 import { createApprovalsRouter } from "./routes/approvals.js";
+import { createArtifactsRouter } from "./routes/artifacts.js";
 import { createAgentRunsRouter } from "./routes/agentRuns.js";
 import { createVaultRouter } from "./routes/vault.js";
 import { VaultService } from "./services/vault.service.js";
@@ -24,6 +25,7 @@ export interface AppDeps {
   db: Db;
   vaultLaunchesDir: string;
   sessions: SessionService;
+  artifactsRoot?: string;
 }
 
 export function createApp(deps: AppDeps): Express {
@@ -42,6 +44,7 @@ export function createApp(deps: AppDeps): Express {
   app.use("/api/tasks", createTasksRouter(deps.db));
   app.use("/api/campaigns", createCampaignsRouter(deps.db));
   app.use("/api/approvals", createApprovalsRouter(deps.db));
+  app.use("/api/artifacts", createArtifactsRouter(deps.db, deps.artifactsRoot ?? config.artifactsRoot));
   app.use("/api/agent-runs", createAgentRunsRouter(deps.db));
   app.use("/api/vault", createVaultRouter(new VaultService(deps.vaultLaunchesDir)));
   app.use("/api/sessions", createSessionsRouter({ db: deps.db, sessions: deps.sessions }));
