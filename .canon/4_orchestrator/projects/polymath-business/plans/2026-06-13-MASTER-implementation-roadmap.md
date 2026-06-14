@@ -15,7 +15,7 @@ This roadmap sequences the build into 5 plans + a scaling design. Each plan prod
 | 0 | Monorepo restructure | ops / migration runbook | — | **authored** (`2026-06-13-restructure-monorepo.md`) |
 | 1 | Mission Control server (SQLite + routes + scoping) | TDD software | 0 | pending |
 | 2 | Mission Control client (Board, intake, Approval Queue) | software | 1 | pending |
-| 3 | PTY Claude-session engine driver (port from CMC) | software | 1 | pending |
+| 3 | PTY Claude-session engine driver (port from CMC) | software | 1 | **done** (`2026-06-14-plan3-pty-engine-driver.md`; 75 server tests green; branch `feat/pty-driver`) |
 | 4 | Surge engine `/surge-generate` → one approved draft | software | 2, 3 | pending |
 | S | Scaling model (swarm of agents across streams) | design doc | 4 (MVP proven) | pending |
 
