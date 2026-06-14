@@ -14,11 +14,12 @@ class FakePtyService {
 }
 
 describe("validateCommand (allowlist)", () => {
-  it("accepts the three surge skills, bare or with an argument", () => {
+  it("accepts the four surge skills, bare or with an argument", () => {
     expect(() => validateCommand("/surge-generate")).not.toThrow();
     expect(() => validateCommand("/surge-generate camp-001")).not.toThrow();
     expect(() => validateCommand("/surge-safeguard-check camp-001")).not.toThrow();
     expect(() => validateCommand("/surge-continue")).not.toThrow();
+    expect(() => validateCommand("/surge-render aq_abc_123")).not.toThrow();
   });
   it("accepts --resume <uuid> with optional trailing directive", () => {
     expect(() => validateCommand("--resume 123e4567-e89b-42d3-a456-426614174000")).not.toThrow();
