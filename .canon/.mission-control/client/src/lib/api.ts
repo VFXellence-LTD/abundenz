@@ -30,3 +30,20 @@ export const api = {
     }).then((r) => handle<T>(r)),
   del: <T>(path: string) => fetch(`${BASE}${path}`, { method: "DELETE" }).then((r) => handle<T>(r)),
 };
+
+export interface SessionInfo {
+  id: string;
+  command: string;
+  cwd: string | null;
+  campaignId: string | null;
+  taskId: string | null;
+  status: "running" | "waiting" | "done" | "error";
+  startedAt: string;
+  endedAt: string | null;
+}
+
+export const sessions = {
+  start: (body: { campaignId?: string; taskId?: string }) => api.post<SessionInfo>("/sessions/start", body),
+  list: () => api.get<SessionInfo[]>("/sessions"),
+  stop: (id: string) => api.post<{ id: string; status: string }>(`/sessions/${id}/stop`, {}),
+};
