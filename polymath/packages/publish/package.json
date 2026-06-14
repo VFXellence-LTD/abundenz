@@ -1,0 +1,11 @@
+{
+  "name": "@polymath/publish",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Polymath publish layer — human-gated social distribution adapters (dry-run by default)",
+  "scripts": { "test": "vitest run", "test:watch": "vitest", "typecheck": "tsc --noEmit" },
+  "engines": { "node": ">=22" },
+  "dependencies": {},
+  "devDependencies": { "@types/node": "^24.12.3", "tsx": "^4.22.3", "typescript": "~6.0.2", "vitest": "^4.1.7" }
+}
