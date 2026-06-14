@@ -5,3 +5,5 @@ export * from "./safeguard.js";
 export * from "./artifact.js";
 export * from "./apiClient.js";
 export * from "./driver.js";
+export * from "./renderClip.js";
+export * from "./renderTypes.js";
