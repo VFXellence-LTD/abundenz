@@ -5,6 +5,9 @@
 /_backup_*_2026-06-13/
 /_backup_polymath_repo_2026-06-13.git/
 
+# Independent repo with its own remote (github.com/zrodinger/abundenz-site)
+/abundenz-site/
+
 # Machine-local Claude config (keep CLAUDE.md + settings.json, drop the rest)
 .claude/*
 !.claude/CLAUDE.md
