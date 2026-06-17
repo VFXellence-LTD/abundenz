@@ -29,38 +29,9 @@ interface ChoreTask {
 }
 
 const CHORE_TASKS: ChoreTask[] = [
-  // ── INFRA / cleanup ──────────────────────────────────────────────────────
-  {
-    id: "INFRA-001",
-    title: "Delete orphan git worktree dirs",
-    description:
-      "rmdir /s D:\\VFXellence-LTD-mc-worktree and D:\\VFXellence-LTD-wt-plan2..plan6 (sandbox blocked auto-delete; outside repo, just disk).",
-    type: "infra",
-    // ecosystem_id is NOT NULL in schema; use "apps" as the infra/system bucket
-    ecosystemId: "apps",
-    priority: "low",
-    status: "backlog",
-  },
-  {
-    id: "INFRA-002",
-    title: "Fix server-side brand registration",
-    description:
-      "IntakeForm brand register currently falls back to vault markdown write because /api/setup only stores stepId toggles. Add a brands table + /api/brands so brands are queryable server-side.",
-    type: "infra",
-    ecosystemId: "apps",
-    priority: "medium",
-    status: "backlog",
-  },
-  {
-    id: "INFRA-003",
-    title: "Update stale CLAUDE.md routing tables",
-    description:
-      "D:\\VFXellence-LTD\\.claude\\CLAUDE.md and D:\\dev\\.claude\\CLAUDE.md still reference old polymath/vault/* + apps/dashboard paths. Update to .canon + .mission-control layout.",
-    type: "infra",
-    ecosystemId: "apps",
-    priority: "low",
-    status: "backlog",
-  },
+  // ── INFRA-001, INFRA-002, INFRA-003 removed 2026-06-17 ───────────────────
+  // Migrated to GitHub issues #12, #13, #14 (VFXellence-LTD/vfxellence).
+  // SQLite is business-only from this point forward.
 
   // ── GO-LIVE setup (viral) ─────────────────────────────────────────────────
   {
@@ -112,6 +83,16 @@ const CHORE_TASKS: ChoreTask[] = [
 function main(): void {
   const db = createDb(config.dbPath);
   const svc = new TasksService(db);
+
+  // ── Idempotent migration cleanup ───────────────────────────────────────────
+  // INFRA-001, INFRA-002, INFRA-003 migrated to GitHub #12/#13/#14 on 2026-06-17.
+  // Delete keeps SQLite business-only. Scoped to exact ids — safe to re-run.
+  const deleted = db.raw
+    .prepare(`DELETE FROM tasks WHERE id IN ('INFRA-001','INFRA-002','INFRA-003')`)
+    .run();
+  if (deleted.changes > 0) {
+    console.log(`  DELETE ${deleted.changes} stale INFRA row(s) migrated to GitHub.`);
+  }
 
   let inserted = 0;
   let skipped = 0;
