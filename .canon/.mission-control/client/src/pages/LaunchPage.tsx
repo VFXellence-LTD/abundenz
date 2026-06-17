@@ -25,6 +25,7 @@ import type { EcosystemId } from "@/types";
 import type { LaunchStep, LaunchField } from "@/data/launch-templates";
 import { generateText } from "@/lib/generate";
 import { saveToVault } from "@/lib/save-to-vault";
+import { PlatformHandlesEditor } from "@/components/PlatformHandlesEditor";
 
 function GenerateBtn({
   field,
@@ -114,6 +115,16 @@ function FieldInput({
 }) {
   const displayValue = value || field.placeholder || "";
   const hasCopyable = !!field.placeholder && field.type !== "select";
+
+  if (field.type === "platform-handles") {
+    return (
+      <PlatformHandlesEditor
+        value={value}
+        onChange={onChange}
+        defaultPlatforms={field.defaultPlatforms}
+      />
+    );
+  }
 
   if (field.type === "select") {
     return (
