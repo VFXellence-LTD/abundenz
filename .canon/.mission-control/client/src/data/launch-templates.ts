@@ -3,12 +3,13 @@ import type { EcosystemId } from "@/types";
 export interface LaunchField {
   key: string;
   label: string;
-  type: "text" | "url" | "email" | "password" | "select" | "note";
+  type: "text" | "url" | "email" | "password" | "select" | "note" | "platform-handles";
   placeholder?: string;
   options?: string[];
   sensitive?: boolean;
   generatable?: boolean;
   generatePrompt?: string;
+  defaultPlatforms?: string[];
 }
 
 export interface LaunchStep {
@@ -61,9 +62,7 @@ const SURGE_STEPS: LaunchStep[] = [
     fields: [
       { key: "brand_name", label: "Brand name", type: "text", placeholder: "Zrodinger" },
       { key: "handle", label: "Handle", type: "text", placeholder: "@zrodinger" },
-      { key: "tiktok_available", label: "TikTok handle available?", type: "select", options: ["Yes", "No", "Taken — using variant"] },
-      { key: "youtube_available", label: "YouTube handle available?", type: "select", options: ["Yes", "No", "Taken — using variant"] },
-      { key: "instagram_available", label: "Instagram handle available?", type: "select", options: ["Yes", "No", "Taken — using variant"] },
+      { key: "platform_handles", label: "Platform handles", type: "platform-handles" as const, defaultPlatforms: ["TikTok", "YouTube", "Instagram", "Pinterest", "X / Twitter", "Reddit", "Threads", "Blog"] },
     ],
   },
   {
@@ -484,6 +483,7 @@ const SIGNAL_STEPS: LaunchStep[] = [
     fields: [
       { key: "brand_name", label: "Brand name", type: "text", placeholder: "" },
       { key: "handle", label: "Handle", type: "text", placeholder: "" },
+      { key: "platform_handles", label: "Platform handles", type: "platform-handles" as const, defaultPlatforms: ["YouTube", "Podcast", "Substack", "X / Twitter", "LinkedIn", "Instagram", "Blog", "Newsletter"] },
     ],
   },
   {
@@ -596,7 +596,7 @@ const SIGNAL_STEPS: LaunchStep[] = [
 
 const ATELIER_STEPS: LaunchStep[] = [
   { id: "email", title: "Create brand email", description: "Dedicated email for Atelier brand.", instructions: ["Create [color]@abundenz.com"], category: "brand", fields: [{ key: "email", label: "Email", type: "email", placeholder: "" }] },
-  { id: "brand-name", title: "Select brand name", description: "Pick from Colors category.", instructions: ["Pick from Pantone/Crayola pool"], category: "brand", fields: [{ key: "brand_name", label: "Brand name", type: "text", placeholder: "" }] },
+  { id: "brand-name", title: "Select brand name", description: "Pick from Colors category.", instructions: ["Pick from Pantone/Crayola pool"], category: "brand", fields: [{ key: "brand_name", label: "Brand name", type: "text", placeholder: "" }, { key: "platform_handles", label: "Platform handles", type: "platform-handles" as const, defaultPlatforms: ["Instagram", "Pinterest", "TikTok", "YouTube", "Blog", "X / Twitter", "Etsy", "Newsletter"] }] },
   { id: "etsy", title: "Set up Etsy storefront", description: "Digital downloads first.", instructions: ["Sign up at etsy.com/sell"], category: "accounts", urls: ["https://www.etsy.com/sell"], dependsOn: ["email", "brand-name"], fields: [{ key: "etsy_url", label: "Shop URL", type: "url", placeholder: "" }] },
   { id: "gumroad", title: "Set up Gumroad", description: "Free + 10% fee.", instructions: ["Sign up at gumroad.com"], category: "accounts", urls: ["https://gumroad.com"], dependsOn: ["email"], fields: [{ key: "gumroad_url", label: "Gumroad URL", type: "url", placeholder: "" }] },
   { id: "first-product", title: "Create and list first product", description: "AI-generated digital product.", instructions: ["Create product", "List on Etsy + Gumroad"], category: "content", dependsOn: ["etsy", "gumroad"], fields: [{ key: "product_name", label: "Product", type: "text", placeholder: "" }] },
@@ -606,7 +606,7 @@ const ATELIER_STEPS: LaunchStep[] = [
 
 const CONDUIT_STEPS: LaunchStep[] = [
   { id: "email", title: "Create brand email", description: "Dedicated email for Conduit brand.", instructions: ["Create [cartography]@abundenz.com"], category: "brand", fields: [{ key: "email", label: "Email", type: "email", placeholder: "" }] },
-  { id: "brand-name", title: "Select brand name", description: "Pick from Cartography category.", instructions: ["Pick from Cartography pool"], category: "brand", fields: [{ key: "brand_name", label: "Brand name", type: "text", placeholder: "" }] },
+  { id: "brand-name", title: "Select brand name", description: "Pick from Cartography category.", instructions: ["Pick from Cartography pool"], category: "brand", fields: [{ key: "brand_name", label: "Brand name", type: "text", placeholder: "" }, { key: "platform_handles", label: "Platform handles", type: "platform-handles" as const, defaultPlatforms: ["Blog", "YouTube", "Instagram", "X / Twitter", "Pinterest", "Newsletter", "Reddit", "TikTok"] }] },
   { id: "domain", title: "Register domain", description: "SEO-focused domain.", instructions: ["Register via Cloudflare"], category: "brand", dependsOn: ["brand-name"], fields: [{ key: "domain", label: "Domain", type: "url", placeholder: "" }] },
   { id: "blog", title: "Set up blog", description: "Ghost or WordPress. SEO-optimized.", instructions: ["Set up and connect domain"], category: "accounts", dependsOn: ["domain"], fields: [{ key: "blog_url", label: "Blog URL", type: "url", placeholder: "" }] },
   { id: "affiliate-programs", title: "Apply to affiliate programs", description: "Amazon + SaaS programs.", instructions: ["Apply to relevant programs"], category: "affiliate", dependsOn: ["email"], fields: [{ key: "programs_applied", label: "Programs applied", type: "text", placeholder: "0" }] },
@@ -640,6 +640,7 @@ const FORGE_STEPS: LaunchStep[] = [
     { key: "one_liner", label: "One-line description", type: "text", placeholder: "Speak directly through your kids' headphones" },
     { key: "platforms", label: "Target platforms", type: "text", placeholder: "Windows, iOS, Android" },
     { key: "monetization", label: "Monetization model", type: "select", options: ["Freemium", "One-time purchase", "Subscription", "Ads + premium"] },
+    { key: "platform_handles", label: "Platform handles", type: "platform-handles" as const, defaultPlatforms: ["Product Hunt", "TikTok", "YouTube", "X / Twitter", "Reddit", "Instagram", "Blog", "Newsletter"] },
   ] },
   { id: "tech-stack", title: "Choose tech stack", description: "Cross-platform framework for multi-OS deployment.", instructions: [
     "React Native (mobile) or Electron (desktop) or Tauri (desktop, lighter)",
