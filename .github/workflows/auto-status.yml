@@ -1,0 +1,410 @@
+# auto-status.yml
+#
+# PURPOSE: Automatically transition project Status for issues linked to PRs:
+#   - PR opened  → linked issue(s) set to "In Progress"
+#   - PR merged  → linked issue(s) set to "Done"
+#   - Issue closed directly → set to "Done"
+#
+# PAT REQUIREMENT (INERT UNTIL SET):
+#   The default GITHUB_TOKEN cannot write to org-level Projects v2.
+#   This workflow is INERT until a fine-grained PAT with "Projects: Read and write"
+#   permission is created and stored as repo secret PROJECT_PAT.
+#   See §2.1 and §6.2 of the plan for setup instructions.
+#
+# Org Project:  VFXellence Dev
+# Project URL:  https://github.com/orgs/VFXellence-LTD/projects/2
+# Project #:    2
+#
+# Linked-issue detection strategy:
+#   - For Status→In Progress (PR opened): parse #NNN references from PR title + body
+#     (covers "Closes #N", "Fixes #N", "Relates to #N", bare "#N", etc.).
+#   - For Status→Done (PR merged): use the `closingIssuesReferences` GraphQL connection
+#     on the PR node — this is the canonical GitHub-resolved set of auto-close issues.
+#   - For Status→Done (issue closed directly): use the issue number from the event.
+
+name: Auto-update project status
+
+on:
+  pull_request:
+    types: [opened, closed]
+  issues:
+    types: [closed]
+
+permissions:
+  contents: read
+  pull-requests: read
+  issues: read
+
+jobs:
+  # --------------------------------------------------------------------------
+  # JOB 1: PR opened → In Progress
+  # --------------------------------------------------------------------------
+  pr-opened-in-progress:
+    name: PR opened — set linked issues to In Progress
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
+    steps:
+      - name: Set linked issue(s) to In Progress
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          set -euo pipefail
+
+          # --- Resolve project node ID ---
+          PROJECT_ID=$(gh api graphql -f query='
+            query($org: String!, $number: Int!) {
+              organization(login: $org) {
+                projectV2(number: $number) { id }
+              }
+            }
+          ' -f org="VFXellence-LTD" -F number=2 --jq '.data.organization.projectV2.id')
+
+          # --- Resolve Status field ID and "In Progress" option ID ---
+          FIELD_INFO=$(gh api graphql -f query='
+            query($projectId: ID!) {
+              node(id: $projectId) {
+                ... on ProjectV2 {
+                  fields(first: 20) {
+                    nodes {
+                      ... on ProjectV2SingleSelectField {
+                        id
+                        name
+                        options { id name }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ' -f projectId="$PROJECT_ID")
+
+          STATUS_FIELD_ID=$(echo "$FIELD_INFO" | jq -r '
+            .data.node.fields.nodes[]
+            | select(.name == "Status")
+            | .id
+          ')
+
+          IN_PROGRESS_OPTION_ID=$(echo "$FIELD_INFO" | jq -r '
+            .data.node.fields.nodes[]
+            | select(.name == "Status")
+            | .options[]
+            | select(.name == "In Progress")
+            | .id
+          ')
+
+          if [ -z "$STATUS_FIELD_ID" ] || [ -z "$IN_PROGRESS_OPTION_ID" ]; then
+            echo "Could not resolve Status field or In Progress option — skipping."
+            exit 0
+          fi
+
+          # --- Parse issue numbers from PR title + body ---
+          # Match: #NNN, Closes #NNN, Fixes #NNN, Resolves #NNN (case-insensitive)
+          COMBINED="$PR_TITLE $PR_BODY"
+          ISSUE_NUMBERS=$(echo "$COMBINED" | grep -oiE '(closes|fixes|resolves|relates to)?\s*#[0-9]+' \
+            | grep -oE '[0-9]+' | sort -u || true)
+
+          if [ -z "$ISSUE_NUMBERS" ]; then
+            echo "No issue references found in PR title/body — nothing to update."
+            exit 0
+          fi
+
+          REPO="${{ github.repository }}"
+
+          for ISSUE_NUM in $ISSUE_NUMBERS; do
+            echo "Processing issue #$ISSUE_NUM..."
+
+            # Find the project item ID for this issue
+            ITEM_ID=$(gh api graphql -f query='
+              query($repo: String!, $owner: String!, $issueNum: Int!, $projectId: ID!) {
+                repository(owner: $owner, name: $repo) {
+                  issue(number: $issueNum) {
+                    projectItems(first: 10) {
+                      nodes {
+                        id
+                        project { id }
+                      }
+                    }
+                  }
+                }
+              }
+            ' \
+              -f owner="${{ github.repository_owner }}" \
+              -f repo="${{ github.event.repository.name }}" \
+              -F issueNum="$ISSUE_NUM" \
+              -f projectId="$PROJECT_ID" \
+              --jq ".data.repository.issue.projectItems.nodes[]
+                    | select(.project.id == \"$PROJECT_ID\")
+                    | .id" 2>/dev/null || true)
+
+            if [ -z "$ITEM_ID" ]; then
+              echo "Issue #$ISSUE_NUM not found in project — skipping."
+              continue
+            fi
+
+            # Set Status = In Progress
+            gh api graphql -f query='
+              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $projectId
+                  itemId: $itemId
+                  fieldId: $fieldId
+                  value: { singleSelectOptionId: $optionId }
+                }) {
+                  projectV2Item { id }
+                }
+              }
+            ' \
+              -f projectId="$PROJECT_ID" \
+              -f itemId="$ITEM_ID" \
+              -f fieldId="$STATUS_FIELD_ID" \
+              -f optionId="$IN_PROGRESS_OPTION_ID"
+
+            echo "Issue #$ISSUE_NUM set to In Progress."
+          done
+
+  # --------------------------------------------------------------------------
+  # JOB 2: PR merged → Done (uses closingIssuesReferences — canonical list)
+  # --------------------------------------------------------------------------
+  pr-merged-done:
+    name: PR merged — set closing issues to Done
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == true
+    steps:
+      - name: Set closing issue(s) to Done
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+        run: |
+          set -euo pipefail
+
+          PR_NODE_ID="${{ github.event.pull_request.node_id }}"
+
+          # --- Resolve project node ID ---
+          PROJECT_ID=$(gh api graphql -f query='
+            query($org: String!, $number: Int!) {
+              organization(login: $org) {
+                projectV2(number: $number) { id }
+              }
+            }
+          ' -f org="VFXellence-LTD" -F number=2 --jq '.data.organization.projectV2.id')
+
+          # --- Resolve Status field ID and "Done" option ID ---
+          FIELD_INFO=$(gh api graphql -f query='
+            query($projectId: ID!) {
+              node(id: $projectId) {
+                ... on ProjectV2 {
+                  fields(first: 20) {
+                    nodes {
+                      ... on ProjectV2SingleSelectField {
+                        id
+                        name
+                        options { id name }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ' -f projectId="$PROJECT_ID")
+
+          STATUS_FIELD_ID=$(echo "$FIELD_INFO" | jq -r '
+            .data.node.fields.nodes[]
+            | select(.name == "Status")
+            | .id
+          ')
+
+          DONE_OPTION_ID=$(echo "$FIELD_INFO" | jq -r '
+            .data.node.fields.nodes[]
+            | select(.name == "Status")
+            | .options[]
+            | select(.name == "Done")
+            | .id
+          ')
+
+          if [ -z "$STATUS_FIELD_ID" ] || [ -z "$DONE_OPTION_ID" ]; then
+            echo "Could not resolve Status field or Done option — skipping."
+            exit 0
+          fi
+
+          # --- Fetch the canonical closing issues via closingIssuesReferences ---
+          CLOSING_ISSUES=$(gh api graphql -f query='
+            query($prNodeId: ID!) {
+              node(id: $prNodeId) {
+                ... on PullRequest {
+                  closingIssuesReferences(first: 25) {
+                    nodes {
+                      number
+                    }
+                  }
+                }
+              }
+            }
+          ' -f prNodeId="$PR_NODE_ID" \
+            --jq '.data.node.closingIssuesReferences.nodes[].number' 2>/dev/null || true)
+
+          if [ -z "$CLOSING_ISSUES" ]; then
+            echo "No closing issues found for this PR — nothing to update."
+            exit 0
+          fi
+
+          for ISSUE_NUM in $CLOSING_ISSUES; do
+            echo "Processing issue #$ISSUE_NUM..."
+
+            ITEM_ID=$(gh api graphql -f query='
+              query($owner: String!, $repo: String!, $issueNum: Int!, $projectId: ID!) {
+                repository(owner: $owner, name: $repo) {
+                  issue(number: $issueNum) {
+                    projectItems(first: 10) {
+                      nodes {
+                        id
+                        project { id }
+                      }
+                    }
+                  }
+                }
+              }
+            ' \
+              -f owner="${{ github.repository_owner }}" \
+              -f repo="${{ github.event.repository.name }}" \
+              -F issueNum="$ISSUE_NUM" \
+              --jq ".data.repository.issue.projectItems.nodes[]
+                    | select(.project.id == \"$PROJECT_ID\")
+                    | .id" 2>/dev/null || true)
+
+            if [ -z "$ITEM_ID" ]; then
+              echo "Issue #$ISSUE_NUM not found in project — skipping."
+              continue
+            fi
+
+            gh api graphql -f query='
+              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $projectId
+                  itemId: $itemId
+                  fieldId: $fieldId
+                  value: { singleSelectOptionId: $optionId }
+                }) {
+                  projectV2Item { id }
+                }
+              }
+            ' \
+              -f projectId="$PROJECT_ID" \
+              -f itemId="$ITEM_ID" \
+              -f fieldId="$STATUS_FIELD_ID" \
+              -f optionId="$DONE_OPTION_ID"
+
+            echo "Issue #$ISSUE_NUM set to Done."
+          done
+
+  # --------------------------------------------------------------------------
+  # JOB 3: Issue closed directly → Done
+  # --------------------------------------------------------------------------
+  issue-closed-done:
+    name: Issue closed — set to Done
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' && github.event.action == 'closed'
+    steps:
+      - name: Set closed issue to Done
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+        run: |
+          set -euo pipefail
+
+          ISSUE_NUM="${{ github.event.issue.number }}"
+
+          # --- Resolve project node ID ---
+          PROJECT_ID=$(gh api graphql -f query='
+            query($org: String!, $number: Int!) {
+              organization(login: $org) {
+                projectV2(number: $number) { id }
+              }
+            }
+          ' -f org="VFXellence-LTD" -F number=2 --jq '.data.organization.projectV2.id')
+
+          # --- Resolve Status field ID and "Done" option ID ---
+          FIELD_INFO=$(gh api graphql -f query='
+            query($projectId: ID!) {
+              node(id: $projectId) {
+                ... on ProjectV2 {
+                  fields(first: 20) {
+                    nodes {
+                      ... on ProjectV2SingleSelectField {
+                        id
+                        name
+                        options { id name }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ' -f projectId="$PROJECT_ID")
+
+          STATUS_FIELD_ID=$(echo "$FIELD_INFO" | jq -r '
+            .data.node.fields.nodes[]
+            | select(.name == "Status")
+            | .id
+          ')
+
+          DONE_OPTION_ID=$(echo "$FIELD_INFO" | jq -r '
+            .data.node.fields.nodes[]
+            | select(.name == "Status")
+            | .options[]
+            | select(.name == "Done")
+            | .id
+          ')
+
+          if [ -z "$STATUS_FIELD_ID" ] || [ -z "$DONE_OPTION_ID" ]; then
+            echo "Could not resolve Status field or Done option — skipping."
+            exit 0
+          fi
+
+          # --- Find the project item ID for this issue ---
+          ITEM_ID=$(gh api graphql -f query='
+            query($owner: String!, $repo: String!, $issueNum: Int!, $projectId: ID!) {
+              repository(owner: $owner, name: $repo) {
+                issue(number: $issueNum) {
+                  projectItems(first: 10) {
+                    nodes {
+                      id
+                      project { id }
+                    }
+                  }
+                }
+              }
+            }
+          ' \
+            -f owner="${{ github.repository_owner }}" \
+            -f repo="${{ github.event.repository.name }}" \
+            -F issueNum="$ISSUE_NUM" \
+            --jq ".data.repository.issue.projectItems.nodes[]
+                  | select(.project.id == \"$PROJECT_ID\")
+                  | .id" 2>/dev/null || true)
+
+          if [ -z "$ITEM_ID" ]; then
+            echo "Issue #$ISSUE_NUM not found in project — nothing to update."
+            exit 0
+          fi
+
+          gh api graphql -f query='
+            mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+              updateProjectV2ItemFieldValue(input: {
+                projectId: $projectId
+                itemId: $itemId
+                fieldId: $fieldId
+                value: { singleSelectOptionId: $optionId }
+              }) {
+                projectV2Item { id }
+              }
+            }
+          ' \
+            -f projectId="$PROJECT_ID" \
+            -f itemId="$ITEM_ID" \
+            -f fieldId="$STATUS_FIELD_ID" \
+            -f optionId="$DONE_OPTION_ID"
+
+          echo "Issue #$ISSUE_NUM set to Done."

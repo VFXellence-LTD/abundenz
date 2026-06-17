@@ -1,0 +1,129 @@
+# add-to-project.yml
+#
+# PURPOSE: When an issue is opened, add it to the "VFXellence Dev" org Project v2
+#          and set its Status field to "Backlog".
+#
+# PAT REQUIREMENT (INERT UNTIL SET):
+#   The default GITHUB_TOKEN cannot write to org-level Projects v2.
+#   This workflow is INERT until a fine-grained PAT with "Projects: Read and write"
+#   permission is created and stored as repo secret PROJECT_PAT.
+#   See §2.1 and §6.2 of the plan for setup instructions.
+#
+# Org Project:  VFXellence Dev
+# Project URL:  https://github.com/orgs/VFXellence-LTD/projects/2
+# Project #:    2
+
+name: Add issue to project
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  add-to-project:
+    name: Add issue to VFXellence Dev project
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Add the issue to the project using the official action.
+      # This registers the item but does NOT set custom field values.
+      - name: Add issue to project
+        id: add-issue
+        uses: actions/add-to-project@v1
+        with:
+          project-url: https://github.com/orgs/VFXellence-LTD/projects/2
+          github-token: ${{ secrets.PROJECT_PAT }}
+
+      # Step 2: Set the Status field to "Backlog" via GraphQL.
+      #
+      # Strategy (runtime resolution — survives field renames/re-options):
+      #   a) Resolve the project node ID from org + project number.
+      #   b) Fetch the Status field ID and the "Backlog" option ID from the project.
+      #   c) Call updateProjectV2ItemFieldValue to set Status = Backlog on the item
+      #      returned by add-to-project in step 1.
+      - name: Set Status to Backlog
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          ITEM_ID: ${{ steps.add-issue.outputs.itemId }}
+        run: |
+          # --- Resolve project node ID ---
+          PROJECT_ID=$(gh api graphql -f query='
+            query($org: String!, $number: Int!) {
+              organization(login: $org) {
+                projectV2(number: $number) {
+                  id
+                }
+              }
+            }
+          ' -f org="VFXellence-LTD" -F number=2 --jq '.data.organization.projectV2.id')
+
+          echo "Project node ID: $PROJECT_ID"
+
+          # --- Resolve Status field ID and Backlog option ID ---
+          FIELD_INFO=$(gh api graphql -f query='
+            query($projectId: ID!) {
+              node(id: $projectId) {
+                ... on ProjectV2 {
+                  fields(first: 20) {
+                    nodes {
+                      ... on ProjectV2SingleSelectField {
+                        id
+                        name
+                        options {
+                          id
+                          name
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ' -f projectId="$PROJECT_ID")
+
+          STATUS_FIELD_ID=$(echo "$FIELD_INFO" | jq -r '
+            .data.node.fields.nodes[]
+            | select(.name == "Status")
+            | .id
+          ')
+
+          BACKLOG_OPTION_ID=$(echo "$FIELD_INFO" | jq -r '
+            .data.node.fields.nodes[]
+            | select(.name == "Status")
+            | .options[]
+            | select(.name == "Backlog")
+            | .id
+          ')
+
+          echo "Status field ID:   $STATUS_FIELD_ID"
+          echo "Backlog option ID: $BACKLOG_OPTION_ID"
+
+          # Guard: bail cleanly if resolution failed (e.g. PROJECT_PAT not set)
+          if [ -z "$STATUS_FIELD_ID" ] || [ -z "$BACKLOG_OPTION_ID" ]; then
+            echo "Could not resolve Status field or Backlog option — skipping field update."
+            exit 0
+          fi
+
+          # --- Set Status = Backlog on the newly added project item ---
+          gh api graphql -f query='
+            mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+              updateProjectV2ItemFieldValue(input: {
+                projectId: $projectId
+                itemId: $itemId
+                fieldId: $fieldId
+                value: { singleSelectOptionId: $optionId }
+              }) {
+                projectV2Item {
+                  id
+                }
+              }
+            }
+          ' \
+            -f projectId="$PROJECT_ID" \
+            -f itemId="$ITEM_ID" \
+            -f fieldId="$STATUS_FIELD_ID" \
+            -f optionId="$BACKLOG_OPTION_ID"
+
+          echo "Status set to Backlog for item $ITEM_ID."
