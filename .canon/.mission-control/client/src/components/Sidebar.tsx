@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ECOSYSTEMS } from "@/data/ecosystems";
+import { BugReportButton } from "@/components/BugReportButton";
 
 const NAV_ITEMS = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, end: true },
@@ -92,6 +93,11 @@ export function Sidebar() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Bug report */}
+      <div className="px-3 pb-3 border-t border-zinc-800 pt-2">
+        <BugReportButton />
       </div>
     </aside>
   );
