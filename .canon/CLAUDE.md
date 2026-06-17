@@ -40,7 +40,7 @@ Full explanation: [[5_knowledge/learning/canon-naming-model]]
 │   └── zappz-marketplace/ # Zappz marketplace architecture stubs
 ├── 3_notes/             # N - Scratch space, raw ideas, inbox
 ├── 4_orchestrator/      # O - Active projects, changelogs
-│   ├── projects/        #     File-based issue tracker (VFX-NNN)
+│   ├── projects/        #     Business planning documents (not an issue tracker)
 │   └── changelogs/      #     Daily session summaries (YYYY-MM-DD.md)
 ├── 5_knowledge/         # N - Lessons learned, references, growth playbooks
 │   ├── learning/        #     What we discovered (by topic)
@@ -66,19 +66,19 @@ Full explanation: [[5_knowledge/learning/canon-naming-model]]
 
 ---
 
-## Issue Tracking (No Jira)
+## Issue Tracking
 
-=== NO JIRA. NO ATLASSIAN. FILE-BASED TRACKER ONLY. ===
+=== NO JIRA. NO ATLASSIAN. NEVER. ===
 
-All issues live in `4_orchestrator/projects/` as markdown files, organized by status folder.
+We are NOT adopting Atlassian. We replaced the home-grown file-based dev tracker with **GitHub-native PM** — the global toolchain already supports it (`gh` authed, `git -C`, PR workflow). Business ops stay in SQLite.
 
-ID scheme: `VFX-NNN` (zero-padded, e.g. `VFX-001`).
+**Dev work** → **GitHub** `VFXellence-LTD/vfxellence` — Issues + Projects v2. Project board: https://github.com/orgs/VFXellence-LTD/projects/2 ("VFXellence Dev"). Identity scheme: native issue numbers `#NNN`.
 
-Full workflow: [[1_controller/workflows/issue-tracking]]
+**Business ops** → **SQLite Mission Control** (`tasks` table in `server/db.ts`). Identity scheme: in-DB ids (e.g. `GOLIVE-001`).
 
-Status folders: `backlog/ → todo/ → in-progress/ → blocked/ → in-review/ → done/`
+**`VFX-NNN` is retired for dev tracking.** Long-form business planning documents may remain as docs under `4_orchestrator/projects/` (e.g. this plan) — they are *documents*, not an issue tracker. No new `VFX-NNN` ids are minted going forward.
 
-Time logging: Record timestamps in the issue file's Time Log section. No external worklogs.
+Full PM workflow: [[1_controller/workflows/issue-tracking]] (to be updated to reflect GitHub-native flow)
 
 ---
 
@@ -104,7 +104,7 @@ Key rules:
 |----------|---------------|
 | [[1_controller/workflows/development-lifecycle]] | Full ticket-to-merge lifecycle (no Jira) |
 | [[1_controller/workflows/issue-tracking]] | File-based issue tracker (replaces Jira) |
-| [[1_controller/workflows/git-conventions]] | Branch naming (`TYPE/VFX-NNN/DESC`), commit format |
+| [[1_controller/workflows/git-conventions]] | Branch naming (`type/NNN-description`), commit format |
 | [[1_controller/workflows/worktrees]] | Mandatory worktree isolation |
 | [[1_controller/workflows/subagent-strategy]] | Subagent dispatch, model routing, knowledge gathering |
 | [[1_controller/workflows/e2e-testing]] | Lint → type → test → build gate |
@@ -116,12 +116,12 @@ Key rules:
 
 **Lifecycle:**
 - `=== ALL DEVELOPMENT FOLLOWS development-lifecycle.md ===`
-- `=== ALL ISSUES TRACKED IN 4_orchestrator/projects/ ===`
+- `=== ALL DEV ISSUES TRACKED IN GITHUB (VFXellence-LTD/vfxellence) ===`
 
 **Git** ([[1_controller/workflows/git-conventions]]):
-- `=== ALL BRANCHES FOLLOW FORMAT: TYPE/VFX-NNN/DESCRIPTION_SUMMARY ===`
+- `=== ALL DEV BRANCHES FOLLOW FORMAT: type/NNN-description (e.g. feat/123-add-hyperframes) ===`
 - `=== ALWAYS FETCH BEFORE CREATING BRANCH ===`
-- `=== NO BRANCHES WITHOUT AN ISSUE FILE ===`
+- `=== NO DEV BRANCHES WITHOUT A GITHUB ISSUE ===`
 
 **Worktrees** ([[1_controller/workflows/worktrees]]):
 - `=== ALL CODE WORK MUST HAPPEN IN WORKTREES — NEVER IN PRIMARY CHECKOUT ===`
@@ -132,8 +132,8 @@ Key rules:
 **Subagents** ([[1_controller/workflows/subagent-strategy]]):
 - `=== ALWAYS GATHER CODEBASE KNOWLEDGE BEFORE SPAWNING CODE AGENTS ===`
 - `=== USE WORKTREE ISOLATION FOR ANY AGENT THAT WRITES CODE ===`
-- `=== EVERY CODE TASK GETS AN ISSUE TRACKER FILE ===`
-- `=== RECORD TIMESTAMPS IN ISSUE FILE TIME LOG ===`
+- `=== EVERY CODE TASK GETS A GITHUB ISSUE ===`
+- `=== RECORD TIMESTAMPS IN THE CHANGELOG ===`
 
 **Testing** ([[1_controller/workflows/e2e-testing]]):
 - `=== ALL TESTS MUST PASS BEFORE CREATING PR ===`
@@ -182,8 +182,8 @@ Key rules:
 2. Capture remaining gotchas in `5_knowledge/learning/`
 3. Finalize changelog with outcomes + next steps
 4. `/caveman:compress` AI-facing docs
-5. Move issue file to `4_orchestrator/projects/done/`
-6. Update `4_orchestrator/projects/README.md` index
+5. Close the GitHub issue (`gh issue close #NNN`) or let `Closes #NNN` in the PR auto-close it
+6. Update project field Status → Done in "VFXellence Dev" board if not auto-updated
 7. Clean up worktree
 
 ### When Editing .canon Files
