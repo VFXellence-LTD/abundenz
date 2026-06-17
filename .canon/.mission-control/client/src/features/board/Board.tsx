@@ -10,7 +10,6 @@ const SCOPES: { id: string; label: string }[] = [
   { id: "viral", label: "Viral (Surge)" },
   { id: "products", label: "Products (Atelier)" },
   { id: "affiliate", label: "Affiliate (Conduit)" },
-  { id: "apps", label: "Apps (Forge)" },
 ];
 
 export function Board({

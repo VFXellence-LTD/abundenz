@@ -31,7 +31,6 @@ export function ApprovalsPage() {
           <option value="viral">Viral</option>
           <option value="products">Products</option>
           <option value="affiliate">Affiliate</option>
-          <option value="apps">Apps</option>
         </select>
       </div>
       <p className="text-sm text-zinc-500">

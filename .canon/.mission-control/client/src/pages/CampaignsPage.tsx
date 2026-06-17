@@ -28,7 +28,6 @@ export function CampaignsPage() {
           <option value="viral">Viral</option>
           <option value="products">Products</option>
           <option value="affiliate">Affiliate</option>
-          <option value="apps">Apps</option>
         </select>
       </div>
       <CampaignPanel campaigns={campaigns} runs={runs} onApprove={approve} error={error} />

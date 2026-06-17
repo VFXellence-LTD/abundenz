@@ -628,74 +628,11 @@ const CONDUIT_STEPS: LaunchStep[] = [
  * ];
  */
 
-const FORGE_STEPS: LaunchStep[] = [
-  { id: "concept", title: "Define app concept", description: "Core idea, target audience, platform targets (Windows, iOS, Android).", instructions: [
-    "Write one-sentence app description",
-    "Identify target user and pain point",
-    "Choose platforms: Windows / iOS / Android / all",
-    "Decide monetization: freemium, one-time, subscription",
-    "Check app stores for existing competition",
-  ], category: "brand", fields: [
-    { key: "app_name", label: "App name (z-rule)", type: "text", placeholder: "Dinnerz" },
-    { key: "one_liner", label: "One-line description", type: "text", placeholder: "Speak directly through your kids' headphones" },
-    { key: "platforms", label: "Target platforms", type: "text", placeholder: "Windows, iOS, Android" },
-    { key: "monetization", label: "Monetization model", type: "select", options: ["Freemium", "One-time purchase", "Subscription", "Ads + premium"] },
-    { key: "platform_handles", label: "Platform handles", type: "platform-handles" as const, defaultPlatforms: ["Product Hunt", "TikTok", "YouTube", "X / Twitter", "Reddit", "Instagram", "Blog", "Newsletter"] },
-  ] },
-  { id: "tech-stack", title: "Choose tech stack", description: "Cross-platform framework for multi-OS deployment.", instructions: [
-    "React Native (mobile) or Electron (desktop) or Tauri (desktop, lighter)",
-    "Flutter for true cross-platform (mobile + desktop)",
-    "For audio/mic features: check platform-specific APIs",
-    "Consider Expo for fastest React Native start",
-  ], category: "brand", dependsOn: ["concept"], fields: [
-    { key: "framework", label: "Framework", type: "select", options: ["React Native + Expo", "Flutter", "Electron", "Tauri", "Native per platform", "Other"] },
-    { key: "tech_notes", label: "Tech notes", type: "note", placeholder: "" },
-  ] },
-  { id: "mvp", title: "Build MVP", description: "Minimum viable product — core feature only, one platform.", instructions: [
-    "Pick ONE platform for MVP (easiest to test)",
-    "Build core feature only — no polish, no extras",
-    "Test with family/friends",
-    "Target: working prototype in 2-4 weeks",
-  ], category: "content", dependsOn: ["tech-stack"], fields: [
-    { key: "mvp_platform", label: "MVP platform", type: "select", options: ["iOS", "Android", "Windows", "Web"] },
-    { key: "mvp_status", label: "Status", type: "select", options: ["Not started", "In progress", "Testing", "Ready"] },
-  ] },
-  { id: "store-setup", title: "Set up app store accounts", description: "Developer accounts for publishing.", instructions: [
-    "Apple Developer Program ($99/year) — required for iOS",
-    "Google Play Console ($25 one-time) — required for Android",
-    "Microsoft Store ($19 one-time) — for Windows",
-    "Use VFXellence Ltd as publisher name",
-  ], category: "accounts", dependsOn: ["concept"], fields: [
-    { key: "apple_dev", label: "Apple Developer status", type: "select", options: ["Not started", "Applied", "Active"] },
-    { key: "google_play", label: "Google Play status", type: "select", options: ["Not started", "Applied", "Active"] },
-    { key: "ms_store", label: "Microsoft Store status", type: "select", options: ["Not started", "Applied", "Active"] },
-  ] },
-  { id: "launch", title: "Launch on stores", description: "Publish MVP, gather feedback, iterate.", instructions: [
-    "Write store listing (screenshots, description, keywords)",
-    "Set pricing / freemium gate",
-    "Submit for review",
-    "Plan launch marketing (TikTok, Product Hunt)",
-  ], category: "content", dependsOn: ["mvp", "store-setup"], fields: [
-    { key: "launch_date", label: "Launch date", type: "text", placeholder: "" },
-    { key: "downloads_week1", label: "Downloads (week 1)", type: "text", placeholder: "0" },
-  ] },
-  { id: "evaluate", title: "30-day evaluation", description: "Downloads, retention, revenue, reviews.", instructions: [
-    "Track: downloads, DAU, retention, revenue, reviews",
-    "Decide: iterate, pivot, or build next app",
-  ], category: "tracking", dependsOn: ["launch"], fields: [
-    { key: "total_downloads", label: "Total downloads", type: "text", placeholder: "" },
-    { key: "revenue_30d", label: "Revenue (30 days)", type: "text", placeholder: "$0" },
-    { key: "avg_rating", label: "Avg rating", type: "text", placeholder: "" },
-    { key: "decision", label: "Decision", type: "select", options: ["Iterate this app", "Build next app", "Pivot concept", "Pause"] },
-  ] },
-];
-
 export const LAUNCH_TEMPLATES: Record<EcosystemId, LaunchStep[]> = {
   viral: SURGE_STEPS,
   content: SIGNAL_STEPS,
   products: ATELIER_STEPS,
   affiliate: CONDUIT_STEPS,
-  apps: FORGE_STEPS,
 };
 
 export const CATEGORY_LABELS: Record<LaunchStep["category"], string> = {

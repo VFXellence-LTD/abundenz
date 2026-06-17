@@ -51,7 +51,7 @@ class MissionControlDb implements Db {
         title TEXT NOT NULL,
         description TEXT,
         type TEXT NOT NULL,                           -- task|campaign|agent-run|content-piece|research|setup|infra
-        ecosystem_id TEXT NOT NULL,                   -- content|viral|products|affiliate|apps
+        ecosystem_id TEXT NOT NULL,                   -- content|viral|products|affiliate
         vertical_id TEXT,
         source TEXT NOT NULL DEFAULT 'manual',        -- manual|agent|import
         status TEXT NOT NULL DEFAULT 'backlog',       -- backlog|todo|in-progress|blocked|in-review|done

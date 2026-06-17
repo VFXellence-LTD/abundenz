@@ -16,7 +16,6 @@ export const ECOSYSTEM_LEGEND: LegendEntry[] = [
   { code: "SIG", name: "Signal (Content)", description: "Voice-driven pillar content — audience × trust × monetization" },
   { code: "ATE", name: "Atelier (Products)", description: "AI-generated products on marketplaces — design × listings × margin" },
   { code: "CON", name: "Conduit (Affiliate)", description: "SEO content driving affiliate traffic — search × conversion × commission" },
-  { code: "LUL", name: "Lullaby", description: "Bedtime story narration — owner voice only, child-safe" },
 ];
 
 export const BAND_LEGEND: LegendEntry[] = BANDS.map((b) => ({
@@ -48,7 +47,7 @@ export const EXPENSE_LEGEND: LegendEntry[] = [
 // TAXONOMY HIERARCHY
 // ──────────────────────────────────────────────────────────────────
 //
-// ECOSYSTEM    Business model         Surge, Signal, Atelier, Conduit, Lullaby
+// ECOSYSTEM    Business model         Surge, Signal, Atelier, Conduit
 //  └─ VERTICAL    Topic niche         Tech, Kitchen, Finance, VFX Pipeline
 //      └─ BAND       Price tier       Impulse ($1-30), Recurring ($5-50/mo), Premium ($100-500+)
 //          └─ LISTING    Product      Notion, MagSafe Mount, Shopify
@@ -79,7 +78,6 @@ export const EXPENSE_LEGEND: LegendEntry[] = [
 // Signal   → RPM + SUB + SPO + LIC
 // Atelier  → MAR + LIC
 // Conduit  → COM + REC
-// Lullaby  → RPM + SUB + LIC
 // ──────────────────────────────────────────────────────────────────
 
 export { BANDS, VERTICALS, REVENUE_STREAMS };

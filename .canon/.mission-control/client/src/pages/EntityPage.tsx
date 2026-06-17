@@ -124,7 +124,6 @@ const ecosystemBorderColor: Record<string, string> = {
   viral: "border-t-orange-500",
   products: "border-t-blue-500",
   affiliate: "border-t-purple-500",
-  apps: "border-t-cyan-500",
 };
 
 const ecosystemDotBg: Record<string, string> = {
@@ -132,7 +131,6 @@ const ecosystemDotBg: Record<string, string> = {
   viral: "bg-orange-400",
   products: "bg-blue-400",
   affiliate: "bg-purple-400",
-  apps: "bg-cyan-400",
 };
 
 // ─── Platform limit tracker ─────────────────────────────────────────

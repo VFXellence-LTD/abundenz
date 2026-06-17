@@ -67,14 +67,14 @@ export async function registerBrand(input: NewBrandInput): Promise<void> {
   await saveToVault(`brands/${id}.md`, content);
 }
 
-/** File a self-improvement infra task against the apps ecosystem. */
+/** File a self-improvement infra task against the content ecosystem. */
 export async function fileInfraTask(title: string, description: string): Promise<Task> {
   return api.post<Task>("/tasks", {
     id: `tsk_infra_${slug(title)}_${stamp()}`,
     title: `[MC] ${title}`,
     description,
     type: "infra",
-    ecosystemId: "apps",
+    ecosystemId: "content",
     priority: "medium",
     source: "intake",
   });

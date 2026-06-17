@@ -1,7 +1,7 @@
 import type Database from "better-sqlite3";
 import type { Request, Response, NextFunction } from "express";
 
-export type EcosystemId = "content" | "viral" | "products" | "affiliate" | "apps";
+export type EcosystemId = "content" | "viral" | "products" | "affiliate";
 
 export interface Scope {
   ecosystemId: EcosystemId;
@@ -14,7 +14,6 @@ const CODENAME: Record<EcosystemId, string> = {
   viral: "surge",
   products: "atelier",
   affiliate: "conduit",
-  apps: "forge",
 };
 
 /** Tables that carry ecosystem_id and therefore get per-ecosystem views. */

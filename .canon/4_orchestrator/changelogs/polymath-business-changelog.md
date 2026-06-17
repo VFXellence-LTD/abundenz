@@ -2,6 +2,20 @@
 
 ---
 
+## 2026-06-17 — Phase B Epic #1: Ecosystem naming drift fix
+
+**Sub-issues closed:** #5 (apply), #7 (reseed + verify), #9 (regression-check)
+
+- Removed phantom `apps` / `Forge` ecosystem from all client code: `EcosystemId` and `EcosystemCodename` unions in `types/index.ts`, the `ECOSYSTEMS` array entry in `data/ecosystems.ts`, `FORGE_STEPS` const and `apps: FORGE_STEPS` entry in `data/launch-templates.ts`, `{ id: "apps" }` scope entry in `features/board/Board.tsx`, `<option value="apps">` in `CampaignsPage.tsx` and `ApprovalsPage.tsx`, `"apps"` in `IntakeForm.tsx` ECO array, `apps:` color map entries in `EntityPage.tsx`, and hardcoded `ecosystemId: "apps"` in `features/intake/intake.api.ts` (reassigned to `"content"`).
+- Removed phantom `apps` / `forge` from server: `EcosystemId` union and `apps: "forge"` CODENAME entry in `server/scoping.ts`; updated `ecosystem_id` column comment in `server/db.ts`.
+- Dropped `{ code: "LUL", name: "Lullaby", ... }` from `ECOSYSTEM_LEGEND` in `data/taxonomy.ts` (Lullaby is a vertical under Surge, not an ecosystem). Also removed Lullaby from the ecosystem↔stream mapping comment blocks in `taxonomy.ts` and `ecosystems.ts`, and from the taxonomy hierarchy comment in `taxonomy.ts`.
+- **Q7 resolved — reseed is a no-op:** Ecosystems are code-only static data (no `ecosystems` table in SQLite). The 4 real machine IDs (`content/viral/products/affiliate`) are unchanged; zero DB rows were keyed by `apps`. No migration or seed script needed.
+- **Typecheck:** `tsc --noEmit` on client returned exit 0, zero errors. The `build` script reports one pre-existing unrelated error (`within` unused import in `PlatformHandlesEditor.test.tsx`) that predates this work.
+- **Tests:** 34/34 client tests pass (12 test files, vitest 2.76s).
+- **Orphaned DB views flagged for Boss (do not drop yet):** The live SQLite DB at `server/.data/mission-control.db` still contains `v_forge_tasks`, `v_forge_approval_queue`, `v_forge_transactions`, and `v_forge_agent_runs` — created by a prior `createScopedViews` call when `apps/forge` was still in the CODENAME map. These are SELECT-only views, harmless, and will not be re-created on fresh DB init. Dropping them is a separate Boss-gated DB operation.
+
+---
+
 ## 2026-06-17 — Phase A: GitHub PM standup (scaffold + epics)
 
 **Project:** VFXellence Dev — https://github.com/orgs/VFXellence-LTD/projects/2

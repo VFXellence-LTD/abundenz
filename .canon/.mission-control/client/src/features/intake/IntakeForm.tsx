@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { createCampaignWithTasks, registerBrand, fileInfraTask } from "./intake.api";
 
 type Tab = "campaign" | "brand" | "infra";
-const ECO = ["content", "viral", "products", "affiliate", "apps"];
+const ECO = ["content", "viral", "products", "affiliate"];
 
 export function IntakeForm() {
   const [tab, setTab] = useState<Tab>("campaign");

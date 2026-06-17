@@ -13,10 +13,9 @@ export type EcosystemId =
   | "content"
   | "viral"
   | "products"
-  | "affiliate"
-  | "apps";
+  | "affiliate";
 
-export type EcosystemCodename = "Signal" | "Surge" | "Atelier" | "Conduit" | "Forge";
+export type EcosystemCodename = "Signal" | "Surge" | "Atelier" | "Conduit";
 
 export type EcosystemStatus = "Active" | "Parked" | "Design";
 

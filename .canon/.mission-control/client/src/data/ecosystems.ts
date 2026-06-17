@@ -43,18 +43,6 @@ export const ECOSYSTEMS: Ecosystem[] = [
     accentColor: "purple",
     dotColor: "bg-zinc-600",
   },
-  // Lullaby demoted from ecosystem to vertical under Surge.
-  // Safeguards still apply — see _passive_income/ecosystems/lullaby/safeguards/POLICY.md
-  {
-    id: "apps",
-    name: "Apps",
-    codename: "Forge",
-    status: "Design",
-    phase: "Design Phase",
-    nextAction: "Define first app concept and platform targets",
-    accentColor: "cyan",
-    dotColor: "bg-cyan-400",
-  },
 ];
 
 // ─── Verticals ──────────────────────────────────────────────────────
@@ -126,7 +114,6 @@ export const BANDS: Band[] = [
 //   Signal  → RPM + SUB + SPO + LIC
 //   Atelier → MAR + LIC
 //   Conduit → COM + REC
-//   Lullaby → RPM + SUB + LIC
 // ──────────────────────────────────────────────────────────────────
 
 export const REVENUE_STREAMS: { id: RevenueStreamId; code: string; label: string; description: string }[] = [
