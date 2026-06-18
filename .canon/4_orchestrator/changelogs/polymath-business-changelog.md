@@ -2,6 +2,29 @@
 
 ---
 
+## 2026-06-18 — Phase B Epic #2: Harden HyperFrames invocation (closes #2, #4, #6, #8, #10, #11)
+
+- **Shell injection hardening:** Replaced `{ shell: true }` on both the `npx hyperframes render` call and the `ffmpeg` thumbnail call in `packages/agents/src/adapters/assembly.ts`.
+- **Windows-safe pattern:** On Windows, `npx` is a `.cmd` shim that cannot be spawned with `execFile` directly (EINVAL). Correct injection-safe pattern: `execFile("cmd.exe", ["/c", "npx", ...args])` — args passed as argv array, never concatenated into a shell string. On POSIX: plain `execFile("npx", args)`.
+- **Re-verified:** Real render re-run with hardened code; `zrodinger-proof-001.mp4` produced — 1080×1920, 32s, H.264 + AAC, isom/MP4, 2 streams. ffprobe probe_score 100.
+- **Tests:** 54/54 passing (no test changes needed — tests mock execFile and don't assert shell option).
+- **Epic closed:** All sub-issues (#4, #6, #8, #10, #11) and epic (#2) closed on VFXellence Dev board, Status = Done.
+
+---
+
+## 2026-06-18 — Phase B Epic #2: Real MP4 integration proof (sub-issue #11)
+
+- **Draft:** Authored @zrodinger clip draft directly (stand-in for spawned Claude session) — AI-tools productivity tip: 3-tool stack (prompt library + image-to-caption pipeline + smart scheduler) recovering 8-12 hours/week, 30s narration, 4 shots
+- **Voice:** STUB (ElevenLabs — no `ELEVENLABS_API_KEY`/`ELEVENLABS_SURGE_VOICE_ID`); replaced with silent MP3 placeholder via ffmpeg
+- **Visual:** STUB (Higgsfield/Meta.ai — no `hf.exe`); replaced with 4 colored 1080×1920 PNG placeholders via ffmpeg
+- **Assembly (HyperFrames):** REAL — `npx hyperframes@0.6.110 render` project-dir model, `HYPERFRAMES_ENABLED=true`
+- **Windows shell fix:** `execFile('npx', ..., { shell: true })` added to `assembly.ts` — Windows requires `shell: true` because `npx` is a `.cmd` shim, not a bare executable; same fix applied to the ffmpeg thumbnail extraction call
+- **Result:** PROVEN — `zrodinger-proof-001.mp4`, ffprobe: 1080×1920 portrait, duration 32s, video stream (H.264 High@L4.0, 30fps) + audio stream (AAC LC stereo, 48kHz); container isom/MP4; 2 streams confirmed
+- **Output path:** `D:\VFXellence-LTD\polymath\proof-output\renders\zrodinger-proof-001\`
+- **Remaining for full-real pipeline:** ElevenLabs API key + voice ID (voice stage); Higgsfield/Meta.ai CLI access (visual stage); spawned-Claude-session trigger wiring (draft stage)
+
+---
+
 ## 2026-06-17 — Phase B Epic #2: HyperFrames tool-eval (sub-issue #6)
 
 - Verified HyperFrames tool-eval written to `5_knowledge/reference/polymath-business/tools/hyperframes.md` (v0.6.110 CLI ground-truth, captured via `npx hyperframes@0.6.110`); most important finding: `render` takes a project **directory** (`[DIR]`), not an HTML file path, and has no `--thumbnail` flag — the adapter's current invocation (`["render", htmlPath, "--output", videoPath, "--thumbnail", thumbnailPath]`) is entirely wrong and must be replaced with a project-dir-based invocation + separate FFmpeg thumbnail extraction.

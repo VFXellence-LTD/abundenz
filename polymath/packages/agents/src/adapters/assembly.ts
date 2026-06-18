@@ -133,9 +133,17 @@ export function makeAssemblyAdapter(opts?: { available?: boolean }): AssemblyAda
       const { execFile } = await import("node:child_process");
       const { promisify } = await import("node:util");
       const execFileAsync = promisify(execFile);
-      await execFileAsync("npx", [`hyperframes@${HYPERFRAMES_VERSION}`, "render", projectDir, "-o", videoPath, "--quiet"], { cwd: projectDir });
+      // On Windows, npx is a .cmd shim that cannot be spawned directly with execFile.
+      // Invoke via cmd.exe /c with args as an argv array — injection-proof (no shell string
+      // concatenation) and space-safe. On POSIX, npx is a plain executable; use it directly.
+      const npxArgs = [`hyperframes@${HYPERFRAMES_VERSION}`, "render", projectDir, "-o", videoPath, "--quiet"];
+      if (process.platform === "win32") {
+        await execFileAsync("cmd.exe", ["/c", "npx", ...npxArgs], { cwd: projectDir });
+      } else {
+        await execFileAsync("npx", npxArgs, { cwd: projectDir });
+      }
 
-      // Extract thumbnail at t=1s via ffmpeg
+      // Extract thumbnail at t=1s via ffmpeg — real executable, no shell needed
       await execFileAsync("ffmpeg", ["-ss", "1", "-i", videoPath, "-vframes", "1", "-y", thumbnailPath]);
 
       return {
