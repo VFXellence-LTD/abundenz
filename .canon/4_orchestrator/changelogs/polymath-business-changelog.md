@@ -2,6 +2,48 @@
 
 ---
 
+## 2026-06-17 — Phase B Epic #2: HyperFrames tool-eval (sub-issue #6)
+
+- Verified HyperFrames tool-eval written to `5_knowledge/reference/polymath-business/tools/hyperframes.md` (v0.6.110 CLI ground-truth, captured via `npx hyperframes@0.6.110`); most important finding: `render` takes a project **directory** (`[DIR]`), not an HTML file path, and has no `--thumbnail` flag — the adapter's current invocation (`["render", htmlPath, "--output", videoPath, "--thumbnail", thumbnailPath]`) is entirely wrong and must be replaced with a project-dir-based invocation + separate FFmpeg thumbnail extraction.
+
+---
+
+## 2026-06-17 — Phase B Epic #2: AssemblyAdapter wiring + dry-run tests (sub-issues #8 + #10)
+
+### Sub-issue #8 — Wire `npx hyperframes@0.6.110` into AssemblyAdapter
+
+File: `packages/agents/src/adapters/assembly.ts` — fully rewritten real render path.
+
+- **Env gate renamed**: `HYPERFRAMES_BIN` → `HYPERFRAMES_ENABLED`. `HYPERFRAMES_ENABLED === "true"` enables real render; anything else (absent, "false") stays dry-run. Matches existing dry-run discipline (same pattern as `MC_BUG_REPORT_ENABLED`).
+- **Version constant**: `const HYPERFRAMES_VERSION = "0.6.110"` declared at top of file.
+- **Real render path — project-dir model**: creates `<outDir>/<slug>-hf-project/` with `assets/` subdir; copies voiceover + visual assets in with `copyFileSync` (Windows-safe, no symlinks).
+- **Scaffold files written**: `hyperframes.json` (matches real scaffold schema/registry/paths), `meta.json` (id/name/createdAt).
+- **Portrait composition**: `buildCompositionHtml()` (exported pure function) generates `index.html` at **1080×1920** portrait — correct `data-width`, `data-height`, `data-composition-id="main"`, `window.__timelines["main"]`, GSAP CDN, per-shot clip divs with cumulative `data-start` offsets from `draft.shotlist`, voiceover `<audio>` track.
+- **Invocation corrected**: `execFile("npx", ["hyperframes@0.6.110", "render", projectDir, "-o", videoPath, "--quiet"], { cwd: projectDir })` — project DIR (not HTML path), no `--thumbnail` flag.
+- **FFmpeg thumbnail**: `execFile("ffmpeg", ["-ss", "1", "-i", videoPath, "-vframes", "1", "-y", thumbnailPath])` — separate from hyperframes CLI.
+- **Return contract preserved**: `{ videoPath, thumbnailPath, durationSec, step }` — unchanged for callers.
+- **`HYPERFRAMES_BIN` fully purged** — only two references existed (both in `assembly.ts`); both replaced. No `.env.example` existed to update.
+
+### Sub-issue #10 — Dry-run tests
+
+File: `packages/agents/test/assembly.adapter.test.ts` — rewritten with 14 tests (all pass).
+
+- Gate-off tests: `HYPERFRAMES_ENABLED` unset → dry-run; `HYPERFRAMES_ENABLED=false` → dry-run; explicit `available:false` → dry-run stub files.
+- Cost-safety override: `forceDryRun:true` even with `available:true` → dry-run.
+- No-spawn assertion: `vi.mock("node:child_process")` + `vi.spyOn(cp, "execFile")` — confirmed 0 calls in dry-run path.
+- Composition HTML tests (via exported `buildCompositionHtml`): portrait 1080×1920 dimensions, `data-composition-id="main"`, `window.__timelines`, narration text from shotlist, cumulative `data-start` offsets, per-shot `data-duration`, GSAP CDN tag, empty-shotlist fallback.
+- Input validation: empty shotlist → `durationSec` falls back to `voice.durationSec`.
+- Full suite: 14/14 new + 40/40 existing = 54/54 passing.
+
+### `hyperframes doctor` verdict — auth-free
+
+- No HeyGen API key required for local render.
+- FFmpeg present: `ffmpeg 8.0` at `C:\ProgramData\chocolatey\bin\ffmpeg.exe`.
+- Chrome Headless Shell missing (standalone binary) — Chrome itself is installed at `C:\Program Files\Google\Chrome\Application\chrome.exe`.
+- **Sub-issue #11 (real MP4 render) is NOT blocked on credentials.** It is blocked on Chrome Headless Shell — run `npx hyperframes browser ensure` to install it before attempting #11.
+
+---
+
 ## 2026-06-17 — Phase B Epic #1: Ecosystem naming drift fix
 
 **Sub-issues closed:** #5 (apply), #7 (reseed + verify), #9 (regression-check)
