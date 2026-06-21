@@ -91,7 +91,7 @@ describe("PublishService routing integration", () => {
       .run(id, brandId, platform, `@h_${id}`, credentialRef);
   }
 
-  it("with two active tiktok accounts: publish_log has two rows each with account_id set", async () => {
+  it("writes ONE publish_log row for two same-platform accounts (no-identical cap)", async () => {
     seedBrandAndApproval();
     seedAccount(10, "viral", "tiktok", null); // dry-run: no credential
     seedAccount(11, "viral", "tiktok", null);
@@ -102,9 +102,11 @@ describe("PublishService routing integration", () => {
     const logs = db.raw
       .prepare("SELECT account_id, platform FROM publish_log WHERE approval_id='aq2'")
       .all() as any[];
-    // Each active account per platform gets a log row
-    expect(logs.length).toBeGreaterThanOrEqual(1);
-    expect(logs.every((l: any) => l.account_id !== null)).toBe(true);
+    // No-identical-cross-account cap (maxAccountsPerPlatform=1): only the LRU winner
+    // is selected. Both accounts have last_posted_at NULL and rotation_order 0, so
+    // SQLite returns the first-inserted row (id=10). id=11 is skipped by the cap.
+    expect(logs).toHaveLength(1);
+    expect(logs[0].account_id).toBe(10);
   });
 
   it("dry-run still works when no active accounts (falls back to legacy DEFAULT_TARGETS behaviour)", async () => {
