@@ -76,4 +76,24 @@ describe("db schema + migration", () => {
     const count: any = db.raw.prepare("SELECT COUNT(*) c FROM tools").get();
     expect(count.c).toBe(0);
   });
+
+  it("platform_accounts has routing columns after migration", () => {
+    db = createDb(":memory:");
+    const cols = db.raw
+      .prepare("PRAGMA table_info(platform_accounts)")
+      .all()
+      .map((r: any) => r.name);
+    for (const c of ["active", "rotation_order", "last_posted_at", "stagger_hours", "credential_ref"]) {
+      expect(cols).toContain(c);
+    }
+  });
+
+  it("publish_log has account_id column after migration", () => {
+    db = createDb(":memory:");
+    const cols = db.raw
+      .prepare("PRAGMA table_info(publish_log)")
+      .all()
+      .map((r: any) => r.name);
+    expect(cols).toContain("account_id");
+  });
 });

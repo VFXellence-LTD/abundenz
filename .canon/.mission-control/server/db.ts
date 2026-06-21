@@ -175,6 +175,11 @@ class MissionControlDb implements Db {
         notes TEXT,
         url TEXT,
         max_accounts TEXT,
+        active INTEGER NOT NULL DEFAULT 0,            -- 1 = eligible for routing
+        rotation_order INTEGER NOT NULL DEFAULT 0,    -- lower = earlier in rotation
+        last_posted_at TEXT,                          -- ISO timestamp, NULL = never posted
+        stagger_hours REAL NOT NULL DEFAULT 4.0,      -- min hours between posts (fractional OK)
+        credential_ref TEXT,                          -- env var key for this account's token
         FOREIGN KEY (brand_id) REFERENCES brands(id)
       );
 
@@ -183,11 +188,13 @@ class MissionControlDb implements Db {
         approval_id TEXT NOT NULL,
         ecosystem_id TEXT NOT NULL,
         platform TEXT NOT NULL,
+        account_id INTEGER,                           -- FK to platform_accounts.id; NULL for legacy rows
         url TEXT,
         status TEXT NOT NULL,
         dry_run INTEGER NOT NULL DEFAULT 1,
         published_by TEXT NOT NULL,
-        published_at TEXT NOT NULL
+        published_at TEXT NOT NULL,
+        FOREIGN KEY (account_id) REFERENCES platform_accounts(id)
       );
 
       -- ===== Indexes =====
@@ -204,6 +211,13 @@ class MissionControlDb implements Db {
     const additive: Array<[string, string, string]> = [
       // [table, column, type] — append future columns here, never reorder.
       ["tasks", "agent_id", "TEXT"],
+      // Module 1 — Multi-Account Routing Layer
+      ["platform_accounts", "active", "INTEGER NOT NULL DEFAULT 0"],
+      ["platform_accounts", "rotation_order", "INTEGER NOT NULL DEFAULT 0"],
+      ["platform_accounts", "last_posted_at", "TEXT"],
+      ["platform_accounts", "stagger_hours", "REAL NOT NULL DEFAULT 4.0"],
+      ["platform_accounts", "credential_ref", "TEXT"],
+      ["publish_log", "account_id", "INTEGER"],
     ];
     for (const [table, col, type] of additive) {
       try {
