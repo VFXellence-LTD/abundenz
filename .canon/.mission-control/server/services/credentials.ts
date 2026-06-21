@@ -1,3 +1,5 @@
+import { logger } from "./logger.service.js";
+
 export interface CredentialResult {
   profileId: string;
   dryRun: boolean;
@@ -6,21 +8,21 @@ export interface CredentialResult {
 /**
  * Resolves a Buffer profileId for a platform account.
  * credentialRef: the env var key stored in platform_accounts.credential_ref.
- * If the key is absent from env, or credentialRef is null, returns a synthetic
+ * If the key is absent from env, or credentialRef is null/undefined/empty, returns a synthetic
  * profileId and sets dryRun=true — never throws.
  */
 export function resolveAccountCredential(
   credentialRef: string | null,
   env: Record<string, string | undefined>,
 ): CredentialResult {
-  if (credentialRef === null || credentialRef === undefined) {
-    console.log(`[DRY-RUN] Would resolve credential for null (no credential_ref configured)`);
-    return { profileId: `dry-run-${Date.now()}`, dryRun: true };
+  if (!credentialRef) {
+    logger.info("credentials", "[DRY-RUN] Would resolve credential — no credential_ref configured");
+    return { profileId: "dry-run-null", dryRun: true };
   }
 
   const value = env[credentialRef];
   if (!value) {
-    console.log(`[DRY-RUN] Would resolve credential for ${credentialRef}`);
+    logger.info("credentials", `[DRY-RUN] Would resolve credential for ${credentialRef}`);
     return { profileId: `dry-run-${credentialRef}`, dryRun: true };
   }
 
