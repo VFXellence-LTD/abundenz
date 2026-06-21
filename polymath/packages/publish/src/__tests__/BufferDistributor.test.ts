@@ -29,4 +29,29 @@ describe("BufferDistributor (mocked HTTP)", () => {
     expect(r.status).toBe("failed");
     expect(r.dryRun).toBe(false);
   });
+
+  it("passes resolved profileId in the profileIds mutation variable", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true, status: 200, json: async () => ({ id: "post_2", url: "https://buffer.test/post_2" }),
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    const d = new BufferDistributor({ bufferToken: "FAKE_TOKEN", profileId: "profile_tiktok_abc123" });
+    await d.publish(clip, "tiktok");
+    expect(fetchMock).toHaveBeenCalledOnce();
+    const [, init] = fetchMock.mock.calls[0];
+    const parsed = JSON.parse(init.body as string);
+    expect(parsed.variables.input.profileIds).toEqual(["profile_tiktok_abc123"]);
+  });
+
+  it("uses empty profileIds array when no profileId provided (backward compat)", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true, status: 200, json: async () => ({ id: "post_3", url: "https://buffer.test/post_3" }),
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    const d = new BufferDistributor({ bufferToken: "FAKE_TOKEN" }); // no profileId
+    await d.publish(clip, "tiktok");
+    const [, init] = fetchMock.mock.calls[0];
+    const parsed = JSON.parse(init.body as string);
+    expect(parsed.variables.input.profileIds).toEqual([]);
+  });
 });
