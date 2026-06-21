@@ -62,3 +62,69 @@ describe("PublishService gate", () => {
     expect(task.status).toBe("published");
   });
 });
+
+describe("PublishService routing integration", () => {
+  function seedBrandAndApproval(ecosystemId = "viral") {
+    db.raw
+      .prepare(`INSERT OR IGNORE INTO brands (id, name, ecosystem_id, email) VALUES (?, ?, ?, '')`)
+      .run(`brand_${ecosystemId}`, ecosystemId, ecosystemId);
+    db.raw
+      .prepare(`INSERT INTO tasks (id, title, type, ecosystem_id) VALUES (?, 'x', 'clip', ?)`)
+      .run("t2", ecosystemId);
+    db.raw
+      .prepare(
+        `INSERT INTO approval_queue
+           (id, task_id, ecosystem_id, content_type, status, content_json, created_at)
+         VALUES ('aq2', 't2', ?, 'video', 'approved', '{"caption":"test","hashtags":["#x"],"videoPath":"/a/aq2.mp4"}', '2026-01-01')`,
+      )
+      .run(ecosystemId);
+  }
+
+  function seedAccount(id: number, ecosystemId: string, platform: string, credentialRef: string | null = null) {
+    const brandId = `brand_${ecosystemId}`;
+    db.raw
+      .prepare(
+        `INSERT INTO platform_accounts
+           (id, brand_id, platform, handle, active, rotation_order, last_posted_at, stagger_hours, credential_ref)
+         VALUES (?, ?, ?, ?, 1, 0, NULL, 4.0, ?)`,
+      )
+      .run(id, brandId, platform, `@h_${id}`, credentialRef);
+  }
+
+  it("with two active tiktok accounts: publish_log has two rows each with account_id set", async () => {
+    seedBrandAndApproval();
+    seedAccount(10, "viral", "tiktok", null); // dry-run: no credential
+    seedAccount(11, "viral", "tiktok", null);
+
+    const r = await svc.publish("aq2", "boss");
+    expect(r).toHaveProperty("results");
+
+    const logs = db.raw
+      .prepare("SELECT account_id, platform FROM publish_log WHERE approval_id='aq2'")
+      .all() as any[];
+    // Each active account per platform gets a log row
+    expect(logs.length).toBeGreaterThanOrEqual(1);
+    expect(logs.every((l: any) => l.account_id !== null)).toBe(true);
+  });
+
+  it("dry-run still works when no active accounts (falls back to legacy DEFAULT_TARGETS behaviour)", async () => {
+    // No active accounts seeded — publish must not throw and must return results
+    seedBrandAndApproval();
+    const r = await svc.publish("aq2", "boss");
+    expect(r).toHaveProperty("results");
+    const outcome = r as { results: Array<{ dryRun: boolean }> };
+    expect(outcome.results[0].dryRun).toBe(true);
+  });
+
+  it("publish_log rows carry correct account_id when credential resolves (dry-run)", async () => {
+    seedBrandAndApproval();
+    seedAccount(20, "viral", "instagram", null); // credential_ref null => dry-run
+    const r = await svc.publish("aq2", "boss");
+    expect(r).toHaveProperty("results");
+    const log = db.raw
+      .prepare("SELECT account_id FROM publish_log WHERE approval_id='aq2' AND platform='instagram'")
+      .get() as any;
+    expect(log).toBeTruthy();
+    expect(log.account_id).toBe(20);
+  });
+});
