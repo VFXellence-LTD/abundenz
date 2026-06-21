@@ -2,6 +2,13 @@
 
 ---
 
+## 2026-06-21 — Module 1 routing-layer complete + ship-ready
+
+- Module 1 (multi-account routing layer) COMPLETE + ship-ready — 5 TDD tasks: schema (platform_accounts routing fields + publish_log.account_id), CredentialResolver (per-account Buffer profileId, dry-run safe), RoutingService (pure; LRU sort, stagger, no-identical default cap 1, ecosystem scope), publish.service wiring + BufferDistributor profileId injection, route-level integration test. Commits 5783da5..4d25a2e. All gates intact: publish stays human-gated, dry-run by default, no-identical-cross-account default, RoutingService pure read-only. Full suites green (server 120 pass/1 skip; publish 16 pass).
+- FOLLOW-UP (deferred, out of Module 1 scope): nothing writes `platform_accounts.last_posted_at` back after a publish — LRU rotation will not advance on real publishes until a later module/go-live step closes this writeback.
+
+---
+
 ## 2026-06-21 — Module 1 routing-layer implementation plan written
 
 - Module 1 routing-layer implementation plan written (5 tasks, TDD) for the multi-account routing layer: platform_accounts routing fields, publish_log.account_id, per-account credential resolver, pure RoutingService (rotation/stagger/slot limits), publish.service wiring. Buffer credential injection wired end-to-end (dry-run until go-live tokens).
