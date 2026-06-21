@@ -2,6 +2,27 @@
 
 ---
 
+## 2026-06-21 — Growth-operator design spec written
+
+- Growth-operator design spec written to `4_orchestrator/projects/polymath-business/plans/growth-operator-design-2026-06-21.md` — covers 4 modules (multi-account routing layer, closed feedback loop, meta-ads amplification, pre-publish daily loop orchestrator), all gated off by default, `viral` / @zrodinger first with other ecosystems inheriting later. Awaiting Boss spec review before GitHub epics are filed.
+
+---
+
+## 2026-06-19 — Phase B INFRA-001: Orphan worktree cleanup (closes #12)
+
+- **6 orphan directories removed** from disk (all outside the repo root at `D:\VFXellence-LTD\`):
+  - `D:\VFXellence-LTD-mc-worktree` — stale gitfile pointer; worktree metadata already gone from `.git/worktrees/`
+  - `D:\VFXellence-LTD-wt-plan2` — stale gitfile pointer (same)
+  - `D:\VFXellence-LTD-wt-plan3` — stale gitfile pointer (same)
+  - `D:\VFXellence-LTD-wt-plan4` — plain stale directory snapshot (no git), dated Jun 14
+  - `D:\VFXellence-LTD-wt-plan5` — stale gitfile pointer (same)
+  - `D:\VFXellence-LTD-wt-plan6` — plain stale directory snapshot (no git), dated Jun 14
+- **Verification:** All 6 confirmed absent from disk post-deletion. `git worktree prune` run — no residual metadata. `git worktree list` shows main checkout only.
+- **No dirs skipped** — all were confirmed clean (no uncommitted changes, no unpushed commits; worktree metadata had already been pruned from the main repo).
+- **GitHub:** Issue #12 closed; VFXellence Dev board Status = Done.
+
+---
+
 ## 2026-06-18 — Phase B Epic #2: Harden HyperFrames invocation (closes #2, #4, #6, #8, #10, #11)
 
 - **Shell injection hardening:** Replaced `{ shell: true }` on both the `npx hyperframes render` call and the `ffmpeg` thumbnail call in `packages/agents/src/adapters/assembly.ts`.
