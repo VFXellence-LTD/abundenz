@@ -2,6 +2,7 @@ import type { Db } from "../db.js";
 
 export interface RoutingInput {
   ecosystemId: string;
+  /** Asset being published. Not used in routing logic — forwarded to Task 4 wiring (publish.service). */
   assetId: string;
   platforms: string[];
   /** Max accounts allowed per platform for the same asset. Default: 1 (no-identical-cross-account). */
@@ -40,7 +41,7 @@ export class RoutingService {
   constructor(private db: Db) {}
 
   buildPlan(input: RoutingInput, now: Date = new Date()): PostingPlan[] {
-    const { ecosystemId, platforms, maxAccountsPerPlatform = Infinity } = input;
+    const { ecosystemId, platforms, maxAccountsPerPlatform = 1 } = input;
 
     const placeholders = platforms.map(() => "?").join(", ");
     const rows = this.db.raw
@@ -69,7 +70,11 @@ export class RoutingService {
       // Enforce no-identical-cross-account: skip if we've already hit maxAccountsPerPlatform
       if (accountsAdded >= maxAccountsPerPlatform) continue;
 
-      // Determine scheduled time
+      // Determine scheduled time.
+      // Stagger semantics: the gap between consecutive same-platform slots equals
+      // the *being-added* account's stagger_hours. The first account on a platform
+      // always gets scheduledAt = now (no prior slot to offset from) — this is
+      // intentional: the lead account posts immediately, followers are pushed out.
       let scheduledAt: Date;
       if (!state) {
         // First account for this platform — post immediately (now)

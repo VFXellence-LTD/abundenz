@@ -63,7 +63,7 @@ RoutingService
 
   internal logic:
     1. Load active accounts for the asset's ecosystem from platform_accounts
-    2. Sort by rotation_order, break ties by last_posted_at ASC (least-recently-posted first)
+    2. Sort by last_posted_at ASC (least-recently-posted first, nulls first), break ties by rotation_order ASC
     3. Apply stagger_hours between consecutive same-platform posts
     4. Enforce no-identical-cross-account rule (same asset cannot post to two accounts on the same platform within stagger_hours)
     5. Return plan — no side effects, no writes

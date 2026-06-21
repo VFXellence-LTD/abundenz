@@ -57,7 +57,7 @@ describe("RoutingService.buildPlan", () => {
   it("sorts active accounts by last_posted_at ASC (least-recently-posted first)", () => {
     seedAccount({ id: 1, ecosystemId: "viral", platform: "tiktok", rotationOrder: 1, lastPostedAt: "2026-06-21T10:00:00.000Z", staggerHours: 4, active: 1 });
     seedAccount({ id: 2, ecosystemId: "viral", platform: "tiktok", rotationOrder: 2, lastPostedAt: "2026-06-20T08:00:00.000Z", staggerHours: 4, active: 1 });
-    const plan = svc.buildPlan({ ecosystemId: "viral", assetId: "aq1", platforms: ["tiktok"] }, NOW);
+    const plan = svc.buildPlan({ ecosystemId: "viral", assetId: "aq1", platforms: ["tiktok"], maxAccountsPerPlatform: 2 }, NOW);
     // account 2 posted earlier (June 20), so it comes first
     expect(plan[0].accountId).toBe(2);
     expect(plan[1].accountId).toBe(1);
@@ -66,7 +66,7 @@ describe("RoutingService.buildPlan", () => {
   it("uses rotation_order as tiebreaker when last_posted_at is equal or both null", () => {
     seedAccount({ id: 1, ecosystemId: "viral", platform: "tiktok", rotationOrder: 2, lastPostedAt: null, staggerHours: 4, active: 1 });
     seedAccount({ id: 2, ecosystemId: "viral", platform: "tiktok", rotationOrder: 1, lastPostedAt: null, staggerHours: 4, active: 1 });
-    const plan = svc.buildPlan({ ecosystemId: "viral", assetId: "aq1", platforms: ["tiktok"] }, NOW);
+    const plan = svc.buildPlan({ ecosystemId: "viral", assetId: "aq1", platforms: ["tiktok"], maxAccountsPerPlatform: 2 }, NOW);
     // both null, so rotation_order decides: account 2 (order=1) first
     expect(plan[0].accountId).toBe(2);
     expect(plan[1].accountId).toBe(1);
@@ -75,7 +75,7 @@ describe("RoutingService.buildPlan", () => {
   it("staggers consecutive same-platform posts by stagger_hours", () => {
     seedAccount({ id: 1, ecosystemId: "viral", platform: "tiktok", rotationOrder: 1, lastPostedAt: null, staggerHours: 6, active: 1 });
     seedAccount({ id: 2, ecosystemId: "viral", platform: "tiktok", rotationOrder: 2, lastPostedAt: null, staggerHours: 6, active: 1 });
-    const plan = svc.buildPlan({ ecosystemId: "viral", assetId: "aq1", platforms: ["tiktok"] }, NOW);
+    const plan = svc.buildPlan({ ecosystemId: "viral", assetId: "aq1", platforms: ["tiktok"], maxAccountsPerPlatform: 2 }, NOW);
     expect(plan).toHaveLength(2);
     const t1 = new Date(plan[0].scheduledAt).getTime();
     const t2 = new Date(plan[1].scheduledAt).getTime();
@@ -111,6 +111,8 @@ describe("RoutingService.buildPlan", () => {
     seedAccount({ id: 1, ecosystemId: "viral", platform: "tiktok", rotationOrder: 1, lastPostedAt: null, staggerHours: 4, active: 1 });
     seedAccount({ id: 2, ecosystemId: "content", platform: "tiktok", rotationOrder: 1, lastPostedAt: null, staggerHours: 4, active: 1 });
     const plan = svc.buildPlan({ ecosystemId: "viral", assetId: "aq1", platforms: ["tiktok"] }, NOW);
-    expect(plan.every((p) => p.accountId === 1)).toBe(true);
+    // default maxAccountsPerPlatform=1 → exactly one slot; must be the viral account
+    expect(plan).toHaveLength(1);
+    expect(plan[0].accountId).toBe(1);
   });
 });
