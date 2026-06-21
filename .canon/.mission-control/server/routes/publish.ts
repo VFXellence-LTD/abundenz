@@ -2,9 +2,12 @@ import { Router, type Request, type Response } from "express";
 import type { Db } from "../db.js";
 import { PublishService } from "../services/publish.service.js";
 
-export function createPublishRouter(db: Db): Router {
+export function createPublishRouter(
+  db: Db,
+  env: Record<string, string | undefined> = process.env as Record<string, string | undefined>,
+): Router {
   const router = Router();
-  const svc = new PublishService(db, process.env as Record<string, string | undefined>);
+  const svc = new PublishService(db, env);
 
   router.post("/", async (req: Request, res: Response) => {
     const { approvalId, publishedBy } = req.body as { approvalId?: string; publishedBy?: string };
