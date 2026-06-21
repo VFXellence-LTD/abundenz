@@ -2,6 +2,12 @@
 
 ---
 
+## 2026-06-21 — Module 1 routing-layer implementation plan written
+
+- Module 1 routing-layer implementation plan written (5 tasks, TDD) for the multi-account routing layer: platform_accounts routing fields, publish_log.account_id, per-account credential resolver, pure RoutingService (rotation/stagger/slot limits), publish.service wiring. Buffer credential injection wired end-to-end (dry-run until go-live tokens).
+
+---
+
 ## 2026-06-21 — Growth-operator design spec written
 
 - Growth-operator design spec written to `4_orchestrator/projects/polymath-business/plans/growth-operator-design-2026-06-21.md` — covers 4 modules (multi-account routing layer, closed feedback loop, meta-ads amplification, pre-publish daily loop orchestrator), all gated off by default, `viral` / @zrodinger first with other ecosystems inheriting later. Awaiting Boss spec review before GitHub epics are filed.
