@@ -56,7 +56,7 @@ export function IntakeForm() {
     wrap(async () => {
       await fileInfraTask(iTitle, iDesc);
       setITitle(""); setIDesc("");
-    }, "Infra task filed against Apps.");
+    }, "Infra task filed against Mission Control.");
 
   const input = "w-full rounded border border-zinc-700 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500";
   const label = "mb-1 block text-xs text-zinc-500";

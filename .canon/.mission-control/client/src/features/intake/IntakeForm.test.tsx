@@ -30,6 +30,6 @@ describe("IntakeForm", () => {
     await userEvent.type(screen.getByPlaceholderText(/Add bulk-approve/i), "Add bulk approve");
     await userEvent.click(screen.getByRole("button", { name: /file infra task/i }));
     await waitFor(() => expect(fileInfraTask).toHaveBeenCalled());
-    expect(screen.getByText(/Infra task filed against Apps/i)).toBeInTheDocument();
+    expect(screen.getByText(/Infra task filed against Mission Control/i)).toBeInTheDocument();
   });
 });
