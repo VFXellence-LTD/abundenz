@@ -644,7 +644,7 @@ v_signal_agent_runs       v_surge_agent_runs       v_atelier_agent_runs      v_c
 
 <div class="table-wrap"><table>
 <tr><th>Stage</th><th>Adapter</th><th>Env Gate</th><th>Dry-run output</th><th>Live output</th></tr>
-<tr><td>Voice</td><td>ElevenLabs</td><td><code>ELEVENLABS_API_KEY</code> + <code>ELEVENLABS_SURGE_VOICE_ID</code> both set</td><td>Text placeholder <code>.mp3</code></td><td>ElevenLabs API <code>eleven_turbo_v2_5</code></td></tr>
+<tr><td>Voice</td><td>ElevenLabs</td><td><code>ELEVENLABS_API_KEY</code> + <code>ELEVENLABS_VIRAL_VOICE_ID</code> both set</td><td>Text placeholder <code>.mp3</code></td><td>ElevenLabs API <code>eleven_turbo_v2_5</code></td></tr>
 <tr><td>Visual</td><td>Higgsfield (<code>hf.exe</code>)</td><td><code>HF_PATH</code> set OR <code>D:\dev\sandbox\hf.exe</code> exists</td><td>Text placeholder <code>.png</code> per shot</td><td><code>hf.exe generate --prompt &lt;shot.visual&gt;</code> per shot</td></tr>
 <tr><td>Assembly</td><td>HyperFrames + ffmpeg</td><td><code>HYPERFRAMES_ENABLED === "true"</code></td><td>Text placeholder <code>.mp4</code> + <code>-thumb.png</code></td><td><code>npx hyperframes@0.6.110 render</code> + ffmpeg thumbnail</td></tr>
 </table></div>
@@ -684,7 +684,7 @@ v_signal_agent_runs       v_surge_agent_runs       v_atelier_agent_runs      v_c
 <tr><td><code>&lt;credential_ref value&gt;</code></td><td><code>dryRun: true</code>, synthetic profileId</td><td>Per-account Buffer profileId (e.g. <code>BUFFER_PROFILE_ZRODINGER_TIKTOK</code>)</td></tr>
 <tr><td><code>BUFFER_TOKEN__&lt;ECOSYSTEM&gt;</code></td><td><code>DryRunDistributor</code></td><td>Legacy single-account Buffer token per ecosystem</td></tr>
 <tr><td><code>POSTIZ_API_KEY__&lt;ECOSYSTEM&gt;</code> + <code>POSTIZ_API_URL__&lt;ECOSYSTEM&gt;</code></td><td>Falls to Buffer or DryRun</td><td>Postiz distributor (wins over Buffer when both set)</td></tr>
-<tr><td><code>ELEVENLABS_API_KEY</code> + <code>ELEVENLABS_SURGE_VOICE_ID</code></td><td>Voice dry-run (text placeholder .mp3)</td><td>ElevenLabs TTS synthesis</td></tr>
+<tr><td><code>ELEVENLABS_API_KEY</code> + <code>ELEVENLABS_VIRAL_VOICE_ID</code></td><td>Voice dry-run (text placeholder .mp3)</td><td>ElevenLabs TTS synthesis</td></tr>
 <tr><td><code>HF_PATH</code></td><td>Visual dry-run if binary also absent</td><td>Path to <code>hf.exe</code> for Higgsfield frame generation</td></tr>
 <tr><td><code>HYPERFRAMES_ENABLED</code></td><td>Assembly dry-run (text placeholder .mp4)</td><td>HyperFrames video render + ffmpeg thumbnail</td></tr>
 <tr><td><code>PORT</code></td><td><code>4500</code></td><td>Server listen port</td></tr>

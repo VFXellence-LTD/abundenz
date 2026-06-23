@@ -17,7 +17,7 @@ arguments:
 
 - Runs ONLY on an already-`approved` `content_type='clip'` row. Never renders an unapproved or rejected draft.
 - NEVER publish. NEVER log into or touch any social account. The skill ends at "second pending video approval + HALT".
-- BRAND ISOLATION: Viral is anonymous. AI voice = anonymous Viral voice id (`ELEVENLABS_SURGE_VOICE_ID`), never the operator's voice. No owner identity in rendered artifacts or approval rows.
+- BRAND ISOLATION: Viral is anonymous. AI voice = anonymous Viral voice id (`ELEVENLABS_VIRAL_VOICE_ID`), never the operator's voice. No owner identity in rendered artifacts or approval rows.
 - **Paid-tool doctrine:** The real ElevenLabs TTS path costs money. **Boss must approve spend before the real path runs.** Default is dry-run (free stub) — this is what runs without `ELEVENLABS_API_KEY`. Higgsfield / Meta.ai / HyperFrames are free but external; absence triggers dry-run stubs.
 - Output: a `RenderedClip` artifact (videoPath .mp4 + thumbnailPath .png) and a new `pending` `approval_queue` row with `content_type='video'`. Plan 6 consumes that row for final human-gated publish.
 

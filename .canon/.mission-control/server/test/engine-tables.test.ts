@@ -110,7 +110,7 @@ describe("approval_queue (the per-asset gate)", () => {
 
 describe("agent_runs", () => {
   it("POST creates a queued run; PATCH advances status", async () => {
-    const created = await request(app).post("/api/agent-runs").send({ id: "RUN-1", taskId: null, agentName: "surge-writer", ecosystemId: "viral" });
+    const created = await request(app).post("/api/agent-runs").send({ id: "RUN-1", taskId: null, agentName: "viral-writer", ecosystemId: "viral" });
     expect(created.status).toBe(201);
     expect(created.body.status).toBe("queued");
     const res = await request(app).patch("/api/agent-runs/RUN-1/status").send({ status: "running" });

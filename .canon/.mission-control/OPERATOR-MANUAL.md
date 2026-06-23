@@ -370,7 +370,7 @@ The pipeline lives in `packages/agents/src/adapters/` and has three stages. All 
 
 **Stage 1 — Voice (`adapters/voice.ts`)**
 
-Uses ElevenLabs eleven_turbo_v2_5. Requires `ELEVENLABS_API_KEY` and `ELEVENLABS_SURGE_VOICE_ID` in the environment. If either is absent, produces an mp3 placeholder file and continues.
+Uses ElevenLabs eleven_turbo_v2_5. Requires `ELEVENLABS_API_KEY` and `ELEVENLABS_VIRAL_VOICE_ID` in the environment. If either is absent, produces an mp3 placeholder file and continues.
 
 **Stage 2 — Visual (`adapters/visual.ts`)**
 
@@ -488,7 +488,7 @@ The following table shows every feature gate, the default behavior when the vari
 | Variable | Default (absent) | What it enables |
 |----------|-----------------|-----------------|
 | `HYPERFRAMES_ENABLED=true` | MP4 placeholder file | Real 1080×1920 HyperFrames render |
-| `ELEVENLABS_API_KEY` + `ELEVENLABS_SURGE_VOICE_ID` | MP3 placeholder | Real ElevenLabs TTS audio |
+| `ELEVENLABS_API_KEY` + `ELEVENLABS_VIRAL_VOICE_ID` | MP3 placeholder | Real ElevenLabs TTS audio |
 | `HF_PATH` (or `D:\dev\sandbox\hf.exe` present) | PNG placeholders | Real Higgsfield visual generation |
 | `BUFFER_TOKEN__VIRAL` (or other ecosystem suffix) | DryRunDistributor | Real Buffer posting for that ecosystem |
 | `POSTIZ_API_KEY__<ECOSYSTEM>` + `POSTIZ_API_URL__<ECOSYSTEM>` | DryRunDistributor | Real Postiz posting for that ecosystem |
