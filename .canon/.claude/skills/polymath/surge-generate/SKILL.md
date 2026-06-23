@@ -28,7 +28,7 @@ You run with `cwd = D:\VFXellence-LTD\polymath\packages\agents`. Read these befo
 2. `D:\VFXellence-LTD\.canon\2_architect\polymath-business\ecosystems\viral\verticals\tech\README.md` — the Zrodinger vertical spec (tone "informed insider", no face, dark UI, content formats, hook patterns, source material). This is the vertical you write for.
 3. `D:\VFXellence-LTD\.canon\2_architect\polymath-business\ecosystems\viral\shared\playbooks\hook-library.md` — pull from the "Tech / AI Tools (Zrodinger-specific)" hooks.
 4. `D:\VFXellence-LTD\.canon\2_architect\polymath-business\ecosystems\viral\shared\playbooks\title-formula.md` — apply [NUMBER][ADJECTIVE][TOPIC][ENFORCEMENT] + the "you" rule to the caption/title angle.
-5. `D:\VFXellence-LTD\.canon\1_controller\standards\polymath-business\safeguards\viral-surge.md` — the POLICY. Internalize the 7 hard bans, quality floor, FTC + AI disclosure. Write so the draft passes.
+5. `D:\VFXellence-LTD\.canon\1_controller\standards\polymath-business\safeguards\viral-safeguards.md` — the POLICY. Internalize the 7 hard bans, quality floor, FTC + AI disclosure. Write so the draft passes.
 
 ## Procedure
 

@@ -62,7 +62,7 @@ Famous quote paired with stylized portrait of the speaker.
 - Ancient philosophers: Socrates, Plato, Aristotle, Confucius, Lao Tzu
 - Literary: Shakespeare, Poe, Wilde, Twain, Emerson
 
-**⚠ See `atelier-licensing-guide.md` for full legal risk assessment.**
+**⚠ See `products-licensing-guide.md` for full legal risk assessment.**
 
 ---
 
@@ -86,8 +86,8 @@ Famous quote paired with stylized portrait of the speaker.
 
 ## Color Palettes
 
-See [[5_knowledge/reference/products/atelier-color-palettes]] for the 8 standard palettes applied across all lines.
+See [[5_knowledge/reference/products/products-color-palettes]] for the 8 standard palettes applied across all lines.
 
 ## Legal
 
-See [[5_knowledge/reference/products/atelier-licensing-guide]] for IP risk matrix.
+See [[5_knowledge/reference/products/products-licensing-guide]] for IP risk matrix.

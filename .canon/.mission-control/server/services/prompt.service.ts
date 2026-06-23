@@ -30,7 +30,7 @@ export function buildSurgePrompt(opts: BuildSurgePromptOpts): string {
     canonPath, "2_architect", "polymath-business", "ecosystems", "viral", "README.md",
   );
   const safeguardsPath = path.join(
-    canonPath, "1_controller", "standards", "polymath-business", "safeguards", "viral-surge.md",
+    canonPath, "1_controller", "standards", "polymath-business", "safeguards", "viral-safeguards.md",
   );
 
   const formula = readOrMissing(formulaPath);

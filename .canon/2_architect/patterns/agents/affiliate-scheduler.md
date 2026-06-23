@@ -67,6 +67,6 @@ Autonomous publishing + metrics tracking. Manages consistent posting (3-5 posts/
 
 ## Related
 
-- [[2_architect/patterns/agents/conduit-content-generator]] — upstream content producer
+- [[2_architect/patterns/agents/affiliate-content-generator]] — upstream content producer
 - [[5_knowledge/reference/growth-playbooks/tiktok-best-practices]] — platform tactics
 - [[5_knowledge/reference/growth-playbooks/affiliate-pipeline]] — revenue tracking

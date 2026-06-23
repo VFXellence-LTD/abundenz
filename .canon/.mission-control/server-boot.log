@@ -1,0 +1,46 @@
+
+> polymath-mc-server@0.0.0 dev D:\VFXellence-LTD\.canon\.mission-control\server
+> tsx watch index.ts
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Polymath Mission Control server running on port 4500
+DB: D:\VFXellence-LTD\.canon\.mission-control\server\.data\e2e-test.db 
+[publish] WOULD PUBLISH to tiktok: The future just arrived. @surge.zrodinger #quantum #science #breakthrough
+[publish] WOULD PUBLISH to youtube: The future just arrived. @surge.zrodinger #quantum #science #breakthrough
+[publish] WOULD PUBLISH to instagram: The future just arrived. @surge.zrodinger #quantum #science #breakthrough
+15:18:43 [tsx] change in ./index.ts Rerunning...
+c◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Polymath Mission Control server running on port 4500
+DB: D:\VFXellence-LTD\.canon\.mission-control\server\.data\e2e-test.db 
+15:18:49 [tsx] change in ./index.ts Restarting...
+c◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Polymath Mission Control server running on port 4500
+DB: D:\VFXellence-LTD\.canon\.mission-control\server\.data\e2e-test.db 
+20:23:21 [tsx] change in ./scoping.ts Restarting...
+c◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Polymath Mission Control server running on port 4500
+DB: D:\VFXellence-LTD\.canon\.mission-control\server\.data\e2e-test.db 
+20:23:23 [tsx] change in ./scoping.ts Restarting...
+c◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Polymath Mission Control server running on port 4500
+DB: D:\VFXellence-LTD\.canon\.mission-control\server\.data\e2e-test.db 
+20:23:29 [tsx] change in ./db.ts Restarting...
+c◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Polymath Mission Control server running on port 4500
+DB: D:\VFXellence-LTD\.canon\.mission-control\server\.data\e2e-test.db 
+17:10:03 [tsx] change in ./db.ts Restarting...
+c◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Polymath Mission Control server running on port 4500
+DB: D:\VFXellence-LTD\.canon\.mission-control\server\.data\e2e-test.db 
+17:10:12 [tsx] change in ./db.ts Restarting...
+c◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Polymath Mission Control server running on port 4500
+DB: D:\VFXellence-LTD\.canon\.mission-control\server\.data\e2e-test.db 
+22:18:30 [tsx] change in ./services\publish.service.ts Restarting...
+c◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Polymath Mission Control server running on port 4500
+DB: D:\VFXellence-LTD\.canon\.mission-control\server\.data\e2e-test.db 
+22:28:00 [tsx] change in ./routes\publish.ts Restarting...
+c◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Polymath Mission Control server running on port 4500
+DB: D:\VFXellence-LTD\.canon\.mission-control\server\.data\e2e-test.db 

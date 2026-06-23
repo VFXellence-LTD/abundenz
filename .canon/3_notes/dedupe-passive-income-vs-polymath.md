@@ -12,15 +12,15 @@ Polymath vault at: `D:/VFXellence-LTD/polymath/vault/`
 | Salvaged to .canon | archive/_passive_income source | Polymath vault equivalent | Risk |
 |---|---|---|---|
 | `5_knowledge/reference/entity-strategy.md` | `shared/entity-strategy.md` | `polymath/vault/shared/` (may exist or overlap) | LOW — entity-strategy is structural reference, both can coexist |
-| `5_knowledge/reference/products/atelier-product-lines.md` | `ecosystems/atelier/brief/product-lines.md` | `polymath/vault/ecosystems/atelier/` (if it exists) | MEDIUM — if polymath vault has Atelier ecosystem, these may diverge |
-| `5_knowledge/reference/products/atelier-color-palettes.md` | `ecosystems/atelier/brief/color-palettes.md` | Same | MEDIUM |
-| `5_knowledge/reference/products/atelier-licensing-guide.md` | `ecosystems/atelier/brief/licensing-guide.md` | Same | MEDIUM |
+| `5_knowledge/reference/products/products-product-lines.md` | `ecosystems/atelier/brief/product-lines.md` | `polymath/vault/ecosystems/atelier/` (if it exists) | MEDIUM — if polymath vault has Atelier ecosystem, these may diverge |
+| `5_knowledge/reference/products/products-color-palettes.md` | `ecosystems/atelier/brief/color-palettes.md` | Same | MEDIUM |
+| `5_knowledge/reference/products/products-licensing-guide.md` | `ecosystems/atelier/brief/licensing-guide.md` | Same | MEDIUM |
 | `5_knowledge/reference/growth-playbooks/tiktok-best-practices.md` | `ecosystems/conduit/playbooks/tiktok-best-practices.md` | `polymath/vault/ecosystems/conduit/` (if it exists) | MEDIUM |
 | `5_knowledge/reference/growth-playbooks/affiliate-pipeline.md` | `ecosystems/conduit/workflows/affiliate-pipeline.md` | Same | MEDIUM |
 | `5_knowledge/reference/growth-playbooks/pinterest-growth.md` | `ecosystems/conduit/workflows/pinterest-growth.md` | Same | MEDIUM |
 | `5_knowledge/reference/growth-playbooks/niche-selection.md` | `ecosystems/conduit/brief/niche-selection.md` | Same | MEDIUM |
-| `2_architect/patterns/agents/conduit-content-generator.md` | `ecosystems/conduit/agents/02-content-generator.md` | Same | LOW — agent specs likely not in polymath vault |
-| `2_architect/patterns/agents/conduit-scheduler.md` | `ecosystems/conduit/agents/03-scheduler.md` | Same | LOW |
+| `2_architect/patterns/agents/affiliate-content-generator.md` | `ecosystems/conduit/agents/02-content-generator.md` | Same | LOW — agent specs likely not in polymath vault |
+| `2_architect/patterns/agents/affiliate-scheduler.md` | `ecosystems/conduit/agents/03-scheduler.md` | Same | LOW |
 
 ---
 

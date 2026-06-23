@@ -110,4 +110,4 @@ Apply product angle to trending meme format.
 ## Related
 
 - [[5_knowledge/reference/growth-playbooks/tiktok-best-practices]] — platform tactics
-- [[2_architect/patterns/agents/conduit-scheduler]] — downstream scheduling agent
+- [[2_architect/patterns/agents/affiliate-scheduler]] — downstream scheduling agent

@@ -99,7 +99,7 @@ D:\VFXellence-LTD\.canon\
 │   ├── dedupe-passive-income-vs-polymath.md   # EXISTS
 │   └── polymath-business\          # NEW
 │       ├── references-inbox.md     ← references/_inbox.md
-│       ├── surge-vertical-research.md ← ecosystems/viral/research/
+│       ├── viral-vertical-research.md ← ecosystems/viral/research/
 │       └── app-ideas\              ← ecosystems/apps/ideas/
 │
 ├── 4_orchestrator\                 # O — Active work tracking

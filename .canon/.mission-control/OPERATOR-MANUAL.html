@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polymath Mission Control — Operator Manual</title>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13161f;
+    --bg3: #1b1f2e;
+    --border: #2a2f42;
+    --accent: #6c8ef5;
+    --accent2: #a78bfa;
+    --green: #34d399;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --text: #e2e8f0;
+    --muted: #8892aa;
+    --code-bg: #1a1f2e;
+    --radius: 6px;
+    font-size: 15px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.65;
+    padding: 0;
+  }
+  /* Layout */
+  .shell { display: flex; min-height: 100vh; }
+  nav {
+    width: 240px;
+    flex-shrink: 0;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 24px 0 40px;
+  }
+  main {
+    flex: 1;
+    min-width: 0;
+    padding: 40px 48px 80px;
+    max-width: 900px;
+  }
+  /* Nav */
+  .nav-logo {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .nav-section {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 14px 20px 6px;
+  }
+  nav a {
+    display: block;
+    padding: 5px 20px;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  nav a:hover { color: var(--text); border-left-color: var(--border); }
+  /* Typography */
+  h1 { font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  h2 { font-size: 20px; font-weight: 700; color: var(--text); margin: 48px 0 16px; padding-top: 48px; border-top: 1px solid var(--border); }
+  h2:first-of-type { margin-top: 32px; }
+  h3 { font-size: 15px; font-weight: 700; color: var(--accent2); margin: 28px 0 10px; }
+  h4 { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin: 20px 0 8px; }
+  p { margin-bottom: 12px; color: var(--text); }
+  .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 32px; }
+  /* Tables */
+  .table-wrap { overflow-x: auto; margin: 16px 0 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--bg3);
+    border: 1px solid var(--border);
+  }
+  td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text);
+  }
+  tr:nth-child(even) td { background: var(--bg2); }
+  /* Code */
+  code {
+    font-family: "Cascadia Code", "Fira Code", "Consolas", monospace;
+    font-size: 12px;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #c9d1e8;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    overflow-x: auto;
+    font-size: 12.5px;
+    font-family: "Cascadia Code", "Fira Code", "Consolas", monospace;
+    color: #c9d1e8;
+    margin: 12px 0 20px;
+    line-height: 1.6;
+  }
+  /* Badges */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    vertical-align: middle;
+  }
+  .badge-green { background: rgba(52,211,153,.15); color: var(--green); border: 1px solid rgba(52,211,153,.3); }
+  .badge-amber { background: rgba(251,191,36,.12); color: var(--amber); border: 1px solid rgba(251,191,36,.3); }
+  .badge-red { background: rgba(248,113,113,.12); color: var(--red); border: 1px solid rgba(248,113,113,.3); }
+  .badge-blue { background: rgba(108,142,245,.12); color: var(--accent); border: 1px solid rgba(108,142,245,.3); }
+  .badge-muted { background: var(--bg3); color: var(--muted); border: 1px solid var(--border); }
+  /* Callout */
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--bg3);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 12px 16px;
+    margin: 16px 0 20px;
+    font-size: 13.5px;
+  }
+  .callout.warn { border-color: var(--amber); }
+  .callout.danger { border-color: var(--red); }
+  .callout.ok { border-color: var(--green); }
+  .callout strong { color: var(--text); }
+  /* Status dot */
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  .dot-green { background: var(--green); }
+  .dot-amber { background: var(--amber); }
+  .dot-red { background: var(--red); }
+  .dot-muted { background: var(--muted); }
+  /* Path chip */
+  .path { font-size: 11.5px; color: var(--muted); font-family: "Cascadia Code", monospace; }
+  /* Section separator */
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  /* List */
+  ul, ol { padding-left: 20px; margin-bottom: 12px; }
+  li { margin-bottom: 4px; }
+  /* Grid */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 16px 0 24px; }
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 6px; }
+  .card-value { font-size: 22px; font-weight: 700; color: var(--text); }
+  .card-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="shell">
+<nav>
+  <div class="nav-logo">MC Operator Manual</div>
+  <div class="nav-section">Overview</div>
+  <a href="#overview">System Map</a>
+  <a href="#ports">Ports &amp; Paths</a>
+  <div class="nav-section">Client UI</div>
+  <a href="#screens">All Screens (14)</a>
+  <a href="#nav-items">Sidebar Nav</a>
+  <div class="nav-section">Server</div>
+  <a href="#routes">API Routes</a>
+  <a href="#websockets">WebSockets</a>
+  <div class="nav-section">Database</div>
+  <a href="#tables">Tables &amp; Schema</a>
+  <a href="#views">Read-Only Views</a>
+  <div class="nav-section">Engine</div>
+  <a href="#generate-pipeline">Generate Pipeline</a>
+  <a href="#render-pipeline">Render Pipeline</a>
+  <a href="#distributors">Distributors</a>
+  <a href="#safeguard">Safeguard Rules</a>
+  <div class="nav-section">Operations</div>
+  <a href="#env-gates">Env Gates</a>
+  <a href="#dry-run">Dry-Run Discipline</a>
+  <a href="#routing">Multi-Account Routing</a>
+  <a href="#bug-report">Bug Report Bridge</a>
+  <div class="nav-section">Governance</div>
+  <a href="#github-pm">GitHub PM</a>
+  <a href="#data-layer">Static Data Layer</a>
+  <div class="nav-section">Roadmap</div>
+  <a href="#roadmap">What's Built vs Designed</a>
+  <a href="#ambiguities">Ambiguous Status</a>
+  <a href="#critical-path">Critical Path to Live</a>
+</nav>
+
+<main>
+
+<!-- ===== HEADER ===== -->
+<h1>Polymath Mission Control</h1>
+<p class="subtitle">Operator Manual — Generated 2026-06-22 &nbsp;·&nbsp; Read-only inventory of all running code, schema, env gates, and roadmap state.</p>
+
+<div class="card-grid">
+  <div class="card"><div class="card-title">Client port</div><div class="card-value">5174</div><div class="card-sub">Vite dev server</div></div>
+  <div class="card"><div class="card-title">Server port</div><div class="card-value">4500</div><div class="card-sub">Express + SQLite</div></div>
+  <div class="card"><div class="card-title">Screens</div><div class="card-value">14</div><div class="card-sub">React Router routes</div></div>
+  <div class="card"><div class="card-title">DB tables</div><div class="card-value">12</div><div class="card-sub">+ 16 read-only views</div></div>
+  <div class="card"><div class="card-title">API endpoints</div><div class="card-value">~35</div><div class="card-sub">REST + 2 WS channels</div></div>
+  <div class="card"><div class="card-title">Env gates</div><div class="card-value">13</div><div class="card-sub">All default to dry-run/stub</div></div>
+</div>
+
+<!-- ===== OVERVIEW ===== -->
+<h2 id="overview">System Map</h2>
+<p>Mission Control is a monorepo workspace at <code>D:\VFXellence-LTD\.canon\.mission-control\</code>. Two packages: <code>client</code> (Vite + React 19, port 5174) and <code>server</code> (Express + better-sqlite3, port 4500). Agent engine lives at <code>D:\VFXellence-LTD\polymath\packages\agents\</code> and is invoked via PTY sessions spawned by the server.</p>
+
+<pre>Browser (5174)
+  └─ Vite proxy /api/* → localhost:4500
+  └─ Vite proxy /ws    → localhost:4500  (WebSocket status bus)
+  └─ Vite proxy /ws/terminal → localhost:4500  (xterm.js PTY)
+
+Express (4500)
+  ├─ REST routes (transactions, tools, setup, launch, tasks, campaigns, approvals, artifacts, agent-runs, sessions, vault, publish, bug-report)
+  ├─ WS /ws          → EventEmitter status bus
+  └─ WS /ws/terminal → node-pty ↔ xterm.js
+
+node-pty spawns:
+  └─ claude --resume &lt;uuid&gt;  (or skill entry-points)
+     └─ packages/agents/src/  (generate driver, render driver, safeguard, publish)</pre>
+
+<h2 id="ports">Ports, Paths &amp; Dev Commands</h2>
+<div class="table-wrap"><table>
+<tr><th>Item</th><th>Value</th></tr>
+<tr><td>Client dev port</td><td><code>5174</code></td></tr>
+<tr><td>Server port</td><td><code>4500</code> (override with <code>PORT</code> env)</td></tr>
+<tr><td>SQLite DB</td><td><code>server/.data/mission-control.db</code> (override with <code>DB_PATH</code>)</td></tr>
+<tr><td>Artifacts root</td><td><code>ARTIFACTS_ROOT</code> env — served via <code>GET /api/artifacts/:id</code></td></tr>
+<tr><td>Mission Control root</td><td><code>D:\VFXellence-LTD\.canon\.mission-control\</code></td></tr>
+<tr><td>Agents package</td><td><code>D:\VFXellence-LTD\polymath\packages\agents\</code></td></tr>
+<tr><td>Publish package</td><td><code>D:\VFXellence-LTD\polymath\packages\publish\</code></td></tr>
+<tr><td>Start client</td><td><code>pnpm -C "D:\VFXellence-LTD\.canon\.mission-control\client" dev</code></td></tr>
+<tr><td>Start server</td><td><code>pnpm -C "D:\VFXellence-LTD\.canon\.mission-control\server" dev</code> (or <code>start</code>)</td></tr>
+<tr><td>Workspace pnpm start</td><td><code>pnpm -C "D:\VFXellence-LTD\.canon\.mission-control" ...</code></td></tr>
+</table></div>
+
+<!-- ===== SCREENS ===== -->
+<h2 id="screens">Client Screens (14 routes)</h2>
+
+<h3>/ — Dashboard</h3>
+<div class="table-wrap"><table>
+<tr><th>Data</th><th>Actions</th><th>Notes</th></tr>
+<tr><td>5 ecosystem cards (revenue hardcoded <code>0</code>), Recharts revenue chart, 8-item static "today" checklist</td><td>Display only</td><td class="badge badge-amber">Revenue = 0 hardcoded — no live aggregation from useTransactions</td></tr>
+</table></div>
+
+<h3>/earnings — Earnings</h3>
+<div class="table-wrap"><table>
+<tr><th>Data</th><th>Actions</th></tr>
+<tr><td>Revenue / Expenses / Net live from SQLite via <code>useTransactions</code>; revenue-by-ecosystem table; revenue-by-stream table; sparklines = static zeros</td><td>Export CSV, Add Transaction</td></tr>
+</table></div>
+
+<h3>/transactions — Transactions</h3>
+<div class="table-wrap"><table>
+<tr><th>Data</th><th>Actions</th></tr>
+<tr><td>Full transaction list, date/ecosystem/stream/type filters</td><td>Import CSV, Export CSV, Add / Edit / Delete Transaction</td></tr>
+</table></div>
+
+<h3>/tax — Tax Center</h3>
+<div class="table-wrap"><table>
+<tr><th>Data</th><th>Actions</th></tr>
+<tr><td>YTD income by ecosystem, TaxEstimator, expenses by category, 1099 tracker (6 platforms, $600 threshold)</td><td>Read-only</td></tr>
+</table></div>
+
+<h3>/tools — Tools</h3>
+<div class="table-wrap"><table>
+<tr><th>Data</th><th>Actions</th></tr>
+<tr><td>Monthly burn, active/candidate counts, full tool table (14 tools seeded from <code>data/tools.ts</code>)</td><td>Inline status select: active / candidate / rejected → <code>PUT /api/tools/:id/status</code></td></tr>
+</table></div>
+
+<h3>/setup/:ecosystem — Setup</h3>
+<div class="table-wrap"><table>
+<tr><th>Tab</th><th>Status</th><th>Notes</th></tr>
+<tr><td>Content (Signal)</td><td><span class="badge badge-green">Live</span></td><td>8-step checklist, persisted to SQLite <code>setup_progress</code></td></tr>
+<tr><td>Viral (Surge)</td><td><span class="badge badge-amber">Placeholder</span></td><td>8 steps displayed, toggle is no-op</td></tr>
+<tr><td>Products (Atelier)</td><td><span class="badge badge-muted">Locked</span></td><td>UI locked, no interaction</td></tr>
+<tr><td>Affiliate (Conduit)</td><td><span class="badge badge-muted">Locked</span></td><td>UI locked, no interaction</td></tr>
+</table></div>
+
+<h3>/agents — Agents</h3>
+<div class="table-wrap"><table>
+<tr><th>Data</th><th>Actions</th></tr>
+<tr><td><code>AgentBoard</code> populated from <code>useAgentRuns</code> hook (polls <code>GET /api/agent-runs</code>)</td><td>None</td></tr>
+</table></div>
+
+<h3>/board — Board</h3>
+<div class="table-wrap"><table>
+<tr><th>Data</th><th>Actions</th></tr>
+<tr><td>Kanban with 6 columns: backlog → todo → in-progress → blocked → in-review → done. Ecosystem scope selector, text filter. Polls every 5s.</td><td>Drag cards between columns → <code>PATCH /api/tasks/:id/status</code></td></tr>
+</table></div>
+
+<h3>/intake — Intake</h3>
+<div class="table-wrap"><table>
+<tr><th>Tab</th><th>What it does</th><th>API?</th></tr>
+<tr><td>New Campaign</td><td>Create campaign + N tasks</td><td><span class="badge badge-green">Yes</span> <code>POST /api/campaigns</code></td></tr>
+<tr><td>Register Brand</td><td>Generates vault markdown, calls <code>saveToVault()</code></td><td><span class="badge badge-amber">Vault only</span> — no DB write, no <code>/api/brands</code> endpoint</td></tr>
+<tr><td>Improve MC</td><td>Creates infra task</td><td><span class="badge badge-green">Yes</span> <code>POST /api/tasks</code></td></tr>
+</table></div>
+
+<h3>/sessions — Sessions</h3>
+<div class="table-wrap"><table>
+<tr><th>Data</th><th>Actions</th></tr>
+<tr><td>SessionBoard; live via WebSocket PTY (<code>/ws/terminal?sessionId=</code>). 200k-line scrollback. Session survives WS disconnect.</td><td>Stop session → <code>POST /api/sessions/:id/stop</code></td></tr>
+</table></div>
+
+<h3>/launch/:ecosystem/:vertical — Launch Wizard</h3>
+<div class="table-wrap"><table>
+<tr><th>Data</th><th>Actions</th></tr>
+<tr><td>Step wizard with per-category sections. Steps sourced from <code>data/launch-templates.ts</code>. Field types: text / url / email / password / select / note / platform-handles. Dependency locking between steps.</td><td>Generate field via LLM, Copy to clipboard, Mark step complete, Export JSON, Save to Vault (<code>POST /api/vault/launches/:filename</code>)</td></tr>
+</table></div>
+<div class="callout warn"><strong>Save to Vault path mismatch:</strong> Client calls <code>PUT /__vault/:filename</code>; server mounts at <code>POST /api/vault/launches/:filename</code>. Method (PUT vs POST) AND prefix (<code>/__vault/</code> vs <code>/api/vault/launches/</code>) differ. Save to Vault may be silently broken unless the Vite proxy normalizes both.</div>
+
+<h3>/campaigns — Campaigns</h3>
+<div class="table-wrap"><table>
+<tr><th>Data</th><th>Actions</th></tr>
+<tr><td>Campaign cards with status, ecosystem badge, agent run history. Polls every 5s.</td><td>Approve &amp; Run → starts Claude PTY session (<code>POST /api/sessions/start</code>). Inline <code>EmbeddedTerminal</code>. Graceful 404 shows amber notice "Session engine not yet available (lands in Plan 3)."</td></tr>
+</table></div>
+<p>Gate: Approve &amp; Run blocked until <code>approvedBy</code> is set on campaign.</p>
+
+<h3>/approvals — Approvals</h3>
+<div class="table-wrap"><table>
+<tr><th>Data</th><th>Actions</th></tr>
+<tr><td>Approval cards showing: hook / script / shotlist / caption / hashtags / safeguard report. DRY RUN badge when render ran in dry-run mode. Polls every 4s.</td><td><strong>Approve</strong>, <strong>Request Changes</strong> (requires notes), <strong>Reject</strong> — all via <code>PATCH /api/approvals/:id/status</code>. <strong>Publish</strong> button → <code>POST /api/publish</code>.</td></tr>
+</table></div>
+<div class="callout"><strong>Publish button gate:</strong> only renders when <code>contentType === "video"</code> AND <code>status === "approved"</code>.</div>
+
+<h3>/entity — Entity</h3>
+<div class="table-wrap"><table>
+<tr><th>Data</th><th>Actions</th></tr>
+<tr><td>LLC card, platform account limit bars, brand cards (Zrodinger / Ateliez / Signal TBD), shared accounts (Amazon Associates, Stripe, Cloudflare, Google Analytics)</td><td>Static — display only</td></tr>
+</table></div>
+<div class="callout warn"><strong>Two disjoint registries:</strong> EntityPage reads hardcoded <code>src/data/entity.ts</code>. Routing uses <code>platform_accounts</code> SQLite table. No API connects them. Accounts seeded in SQLite do not appear in UI.</div>
+
+<h2 id="nav-items">Sidebar Navigation Items</h2>
+<div class="table-wrap"><table>
+<tr><th>Label</th><th>Route</th></tr>
+<tr><td>Dashboard</td><td><code>/</code></td></tr>
+<tr><td>Board</td><td><code>/board</code></td></tr>
+<tr><td>Campaigns</td><td><code>/campaigns</code></td></tr>
+<tr><td>Approvals</td><td><code>/approvals</code></td></tr>
+<tr><td>Sessions</td><td><code>/sessions</code></td></tr>
+<tr><td>Agents</td><td><code>/agents</code></td></tr>
+<tr><td>Launch</td><td><code>/launch/:ecosystem/:vertical</code></td></tr>
+<tr><td>Intake</td><td><code>/intake</code></td></tr>
+<tr><td>Setup</td><td><code>/setup/:ecosystem</code></td></tr>
+<tr><td>Earnings</td><td><code>/earnings</code></td></tr>
+<tr><td>Transactions</td><td><code>/transactions</code></td></tr>
+<tr><td>Tax</td><td><code>/tax</code></td></tr>
+<tr><td>Tools</td><td><code>/tools</code></td></tr>
+<tr><td>Entity</td><td><code>/entity</code></td></tr>
+<tr><td colspan="2">Footer: <strong>BugReportButton</strong> (modal → <code>POST /api/bug-report</code>)</td></tr>
+</table></div>
+
+<!-- ===== SERVER ROUTES ===== -->
+<h2 id="routes">Server API Routes</h2>
+
+<h3>Health</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>GET</td><td><code>/api/health</code></td><td>Liveness check</td></tr>
+</table></div>
+
+<h3>Transactions</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>GET</td><td><code>/api/transactions</code></td><td>List all transactions</td></tr>
+<tr><td>POST</td><td><code>/api/transactions</code></td><td>Create transaction</td></tr>
+<tr><td>POST</td><td><code>/api/transactions/import</code></td><td>Bulk import from CSV</td></tr>
+<tr><td>PUT</td><td><code>/api/transactions/:id</code></td><td>Update transaction</td></tr>
+<tr><td>DELETE</td><td><code>/api/transactions/:id</code></td><td>Delete transaction</td></tr>
+</table></div>
+
+<h3>Tools</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>GET</td><td><code>/api/tools</code></td><td>List tools (seeds DB from <code>data/tools.ts</code> if empty)</td></tr>
+<tr><td>PUT</td><td><code>/api/tools/:id/status</code></td><td>Update tool status (active / candidate / rejected)</td></tr>
+</table></div>
+
+<h3>Setup Progress</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>GET</td><td><code>/api/setup</code></td><td>Get all step completion states</td></tr>
+<tr><td>POST</td><td><code>/api/setup/toggle</code></td><td>Toggle a step's <code>done</code> flag</td></tr>
+</table></div>
+
+<h3>Launch Wizard</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>GET</td><td><code>/api/launch</code></td><td>Get step completion + field values</td></tr>
+<tr><td>POST</td><td><code>/api/launch/toggle</code></td><td>Toggle step done</td></tr>
+<tr><td>PUT</td><td><code>/api/launch/field</code></td><td>Save a field value</td></tr>
+</table></div>
+
+<h3>Tasks</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>GET</td><td><code>/api/tasks[?ecosystem=]</code></td><td>List tasks, optional ecosystem filter</td></tr>
+<tr><td>POST</td><td><code>/api/tasks</code></td><td>Create task</td></tr>
+<tr><td>PATCH</td><td><code>/api/tasks/:id/status</code></td><td>Update status — gate: cannot set <code>done</code> if pending approval exists</td></tr>
+</table></div>
+
+<h3>Campaigns</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>GET</td><td><code>/api/campaigns</code></td><td>List campaigns</td></tr>
+<tr><td>POST</td><td><code>/api/campaigns</code></td><td>Create campaign</td></tr>
+<tr><td>POST</td><td><code>/api/campaigns/:id/approve</code></td><td>Set <code>approvedBy</code></td></tr>
+<tr><td>PATCH</td><td><code>/api/campaigns/:id/status</code></td><td>Update status — gate: cannot set <code>running</code> without <code>approvedBy</code></td></tr>
+</table></div>
+
+<h3>Approvals</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>GET</td><td><code>/api/approvals[?ecosystem=&amp;status=]</code></td><td>List approvals, optional filters</td></tr>
+<tr><td>POST</td><td><code>/api/approvals</code></td><td>Create approval record</td></tr>
+<tr><td>PATCH</td><td><code>/api/approvals/:id/status</code></td><td>Transition status — terminal gate: approved/rejected/changes-requested → 409 if already terminal</td></tr>
+</table></div>
+
+<h3>Artifacts</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>GET</td><td><code>/api/artifacts/:id</code></td><td>Stream file from disk. Path sanitized — must be within <code>ARTIFACTS_ROOT</code></td></tr>
+</table></div>
+
+<h3>Agent Runs</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>GET</td><td><code>/api/agent-runs</code></td><td>List all agent run records</td></tr>
+<tr><td>POST</td><td><code>/api/agent-runs</code></td><td>Create run record</td></tr>
+<tr><td>PATCH</td><td><code>/api/agent-runs/:id/status</code></td><td>Update run status</td></tr>
+</table></div>
+
+<h3>Sessions (PTY)</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>GET</td><td><code>/api/sessions</code></td><td>List sessions</td></tr>
+<tr><td>POST</td><td><code>/api/sessions/start</code></td><td>Spawn PTY with whitelisted command. Gate: campaign must have <code>approvedBy</code>. Claude UUID backfill: 6s after start scans <code>~/.claude/projects/</code> JSONL files.</td></tr>
+<tr><td>POST</td><td><code>/api/sessions/:id/stop</code></td><td>Kill PTY process</td></tr>
+</table></div>
+<p>Allowed commands whitelist: <code>/surge-generate</code>, <code>/surge-safeguard-check</code>, <code>/surge-continue</code>, <code>/surge-render</code>, <code>--resume &lt;uuid&gt;</code>.</p>
+<div class="callout warn"><strong>Missing binary:</strong> <code>/surge-safeguard-check</code> is whitelisted but <code>bin/surge-safeguard-check.ts</code> does not exist. PTY would accept the command but fail at runtime.</div>
+
+<h3>Vault</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>POST</td><td><code>/api/vault/launches/:filename</code></td><td>Write a launch JSON file to vault. Rejects paths containing <code>..</code>, <code>/</code>, or <code>\</code>.</td></tr>
+</table></div>
+
+<h3>Publish</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>POST</td><td><code>/api/publish</code></td><td>Publish approved artifact to platform. Requires <code>approvalId</code>. Writes to <code>publish_log</code> with <code>dry_run</code> flag.</td></tr>
+</table></div>
+
+<h3>Bug Report</h3>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+<tr><td>POST</td><td><code>/api/bug-report</code></td><td>Create GitHub issue via <code>gh</code> CLI (or dry-run log)</td></tr>
+</table></div>
+
+<h2 id="websockets">WebSocket Channels</h2>
+<div class="table-wrap"><table>
+<tr><th>Path</th><th>Purpose</th></tr>
+<tr><td><code>/ws</code></td><td>Status bus — session status changes + logger events. Server pushes; client reads only.</td></tr>
+<tr><td><code>/ws/terminal?sessionId=&lt;id&gt;</code></td><td>Bidirectional PTY ↔ xterm.js. 200k-line scrollback buffer. Session survives WS disconnect (PTY keeps running server-side).</td></tr>
+</table></div>
+
+<!-- ===== DATABASE ===== -->
+<h2 id="tables">Database Tables</h2>
+
+<h3>campaigns</h3>
+<div class="table-wrap"><table>
+<tr><th>Column</th><th>Type</th><th>Notes</th></tr>
+<tr><td><code>id</code></td><td>TEXT PK</td><td>UUID</td></tr>
+<tr><td><code>name</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>ecosystem_id</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>vertical_id</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>status</code></td><td>TEXT</td><td>planned / running / paused / review / done / killed</td></tr>
+<tr><td><code>autonomy_stage</code></td><td>TEXT</td><td>Present but not read by any service logic</td></tr>
+<tr><td><code>target_count</code></td><td>INT</td><td></td></tr>
+<tr><td><code>approved_by</code></td><td>TEXT</td><td>Required before session start</td></tr>
+<tr><td><code>approved_at</code></td><td>TEXT</td><td>ISO timestamp</td></tr>
+<tr><td><code>started_at</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>completed_at</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>notes</code></td><td>TEXT</td><td></td></tr>
+</table></div>
+
+<h3>tasks</h3>
+<div class="table-wrap"><table>
+<tr><th>Column</th><th>Type</th><th>Notes</th></tr>
+<tr><td><code>id</code></td><td>TEXT PK</td><td></td></tr>
+<tr><td><code>title</code>, <code>description</code>, <code>type</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>ecosystem_id</code>, <code>vertical_id</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>source</code></td><td>TEXT</td><td>intake source identifier</td></tr>
+<tr><td><code>status</code></td><td>TEXT</td><td>backlog / todo / in-progress / blocked / in-review / done (+ "published" in service layer only)</td></tr>
+<tr><td><code>priority</code>, <code>owner</code>, <code>agent_id</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>parent_id</code></td><td>TEXT</td><td>FK to tasks.id</td></tr>
+<tr><td><code>linked_ids</code></td><td>JSON</td><td>Array of related task IDs</td></tr>
+<tr><td><code>campaign_id</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>content_type</code>, <code>platform</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>autonomy_stage</code></td><td>TEXT</td><td>Typed but dormant — no service reads or advances it</td></tr>
+<tr><td><code>checklist</code></td><td>JSON</td><td></td></tr>
+<tr><td><code>tracker_content</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>claude_session_id</code>, <code>worktree_path</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>time_total_seconds</code></td><td>INT</td><td></td></tr>
+</table></div>
+
+<h3>approval_queue</h3>
+<div class="table-wrap"><table>
+<tr><th>Column</th><th>Type</th><th>Notes</th></tr>
+<tr><td><code>id</code></td><td>TEXT PK</td><td></td></tr>
+<tr><td><code>task_id</code>, <code>campaign_id</code>, <code>ecosystem_id</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>content_type</code></td><td>TEXT</td><td>Must be "video" for Publish button to render</td></tr>
+<tr><td><code>artifact_path</code>, <code>preview_url</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>content_json</code></td><td>JSON</td><td>hook / script / shotlist / caption / hashtags / safeguard report</td></tr>
+<tr><td><code>status</code></td><td>TEXT</td><td>pending / approved / rejected / changes-requested (terminal states: 409 on re-transition)</td></tr>
+<tr><td><code>reviewed_by</code>, <code>reviewed_at</code></td><td>TEXT</td><td></td></tr>
+<tr><td><code>review_notes</code></td><td>TEXT</td><td>Required for changes-requested</td></tr>
+</table></div>
+
+<h3>agent_runs</h3>
+<div class="table-wrap"><table>
+<tr><th>Column</th><th>Notes</th></tr>
+<tr><td><code>id</code>, <code>campaign_id</code>, <code>task_id</code>, <code>agent_name</code></td><td></td></tr>
+<tr><td><code>claude_session_id</code>, <code>pty_session_id</code></td><td>PTY session linking</td></tr>
+<tr><td><code>status</code>, <code>cwd</code>, <code>command</code></td><td></td></tr>
+<tr><td><code>started_at</code>, <code>completed_at</code></td><td></td></tr>
+<tr><td><code>output_json</code>, <code>error</code></td><td>JSON blob of run results</td></tr>
+</table></div>
+
+<h3>transactions</h3>
+<div class="table-wrap"><table>
+<tr><th>Column</th><th>Notes</th></tr>
+<tr><td><code>id</code>, <code>date</code></td><td></td></tr>
+<tr><td><code>amount</code></td><td>REAL</td></tr>
+<tr><td><code>ecosystem_id</code>, <code>stream</code>, <code>vertical</code>, <code>band</code></td><td>Taxonomy codes</td></tr>
+<tr><td><code>listing_id</code>, <code>description</code></td><td></td></tr>
+<tr><td><code>type</code></td><td>income / expense</td></tr>
+</table></div>
+
+<h3>tools</h3>
+<div class="table-wrap"><table>
+<tr><th>Column</th><th>Notes</th></tr>
+<tr><td><code>id</code>, <code>name</code>, <code>url</code>, <code>notes</code></td><td></td></tr>
+<tr><td><code>cost_per_month</code></td><td>REAL</td></tr>
+<tr><td><code>ecosystems</code></td><td>JSON array of ecosystem IDs</td></tr>
+<tr><td><code>status</code></td><td>active / candidate / rejected</td></tr>
+</table></div>
+
+<h3>setup_progress</h3>
+<div class="table-wrap"><table>
+<tr><th>Column</th><th>Notes</th></tr>
+<tr><td><code>step_id</code></td><td>PK — matches step IDs from <code>data/setup-steps.ts</code></td></tr>
+<tr><td><code>done</code></td><td>Boolean</td></tr>
+</table></div>
+
+<h3>launch_state &amp; launch_data</h3>
+<div class="table-wrap"><table>
+<tr><th>Table</th><th>PK</th><th>Notes</th></tr>
+<tr><td><code>launch_state</code></td><td><code>(vertical_key, step_id)</code></td><td>Step completion booleans for Launch wizard</td></tr>
+<tr><td><code>launch_data</code></td><td><code>(vertical_key, field_key)</code></td><td>Field values saved in Launch wizard</td></tr>
+</table></div>
+
+<h3>brands</h3>
+<div class="table-wrap"><table>
+<tr><th>Column</th><th>Notes</th></tr>
+<tr><td><code>id</code>, <code>name</code>, <code>ecosystem_id</code>, <code>email</code></td><td>Written by Intake Register Brand tab only. No API reads this.</td></tr>
+</table></div>
+
+<h3>platform_accounts (Module 1 routing schema)</h3>
+<div class="table-wrap"><table>
+<tr><th>Column</th><th>Notes</th></tr>
+<tr><td><code>id</code>, <code>brand_id</code>, <code>platform</code>, <code>handle</code>, <code>email</code></td><td>Core identity</td></tr>
+<tr><td><code>tracking_id</code>, <code>status</code>, <code>url</code>, <code>notes</code></td><td></td></tr>
+<tr><td><code>max_accounts</code></td><td>Platform-level cap</td></tr>
+<tr><td><code>active</code></td><td>Routing eligibility flag</td></tr>
+<tr><td><code>rotation_order</code></td><td>Tie-breaker for routing sort</td></tr>
+<tr><td><code>last_posted_at</code></td><td>NULL = never posted. Used by RoutingService to prioritize. <strong>Never written back after publish.</strong></td></tr>
+<tr><td><code>stagger_hours</code></td><td>Default 4.0 — minimum gap between posts to same platform</td></tr>
+<tr><td><code>credential_ref</code></td><td>Env key name (e.g. <code>BUFFER_PROFILE_ZRODINGER_TIKTOK</code>)</td></tr>
+</table></div>
+<div class="callout warn">No UI seeding. Rows must be manually inserted via SQLite. Even after seeding, routing is not wired into publish.service — Module 1 Tasks 4A+4B not implemented.</div>
+
+<h3>publish_log</h3>
+<div class="table-wrap"><table>
+<tr><th>Column</th><th>Notes</th></tr>
+<tr><td><code>id</code>, <code>approval_id</code>, <code>ecosystem_id</code>, <code>platform</code></td><td></td></tr>
+<tr><td><code>account_id</code></td><td>FK to <code>platform_accounts.id</code> — nullable (null when legacy path used)</td></tr>
+<tr><td><code>url</code>, <code>status</code></td><td></td></tr>
+<tr><td><code>dry_run</code></td><td>0 or 1 — every publish records whether it was dry</td></tr>
+<tr><td><code>published_by</code>, <code>published_at</code></td><td></td></tr>
+</table></div>
+
+<h2 id="views">Read-Only Database Views (16)</h2>
+<p>Scoped views for each of the 4 active ecosystems (signal / surge / atelier / conduit) × 4 tables (tasks / approval_queue / transactions / agent_runs):</p>
+<pre>v_signal_tasks            v_surge_tasks            v_atelier_tasks           v_conduit_tasks
+v_signal_approval_queue   v_surge_approval_queue   v_atelier_approval_queue  v_conduit_approval_queue
+v_signal_transactions     v_surge_transactions     v_atelier_transactions    v_conduit_transactions
+v_signal_agent_runs       v_surge_agent_runs       v_atelier_agent_runs      v_conduit_agent_runs</pre>
+
+<!-- ===== ENGINE ===== -->
+<h2 id="generate-pipeline">Generate Pipeline (<code>driver.ts</code>)</h2>
+<pre>validate → safeguard → write artifact to disk → record approval + set task in-review → HALT</pre>
+<ul>
+  <li>Blocked drafts are still written with <code>BLOCKED-</code> filename prefix</li>
+  <li>Returns <code>{ halted, approvalId, draftPath, safeguardReport }</code></li>
+  <li>Never publishes — always halts for human review</li>
+</ul>
+
+<h2 id="render-pipeline">Render Pipeline (<code>renderDriver.ts</code> + <code>renderClip.ts</code>)</h2>
+<pre>fetch approval (guards: contentType=clip, status=approved) → read draft → renderClip() → recordVideoApproval() → HALT</pre>
+
+<div class="table-wrap"><table>
+<tr><th>Stage</th><th>Adapter</th><th>Env Gate</th><th>Dry-run output</th><th>Live output</th></tr>
+<tr><td>Voice</td><td>ElevenLabs</td><td><code>ELEVENLABS_API_KEY</code> + <code>ELEVENLABS_SURGE_VOICE_ID</code> both set</td><td>Text placeholder <code>.mp3</code></td><td>ElevenLabs API <code>eleven_turbo_v2_5</code></td></tr>
+<tr><td>Visual</td><td>Higgsfield (<code>hf.exe</code>)</td><td><code>HF_PATH</code> set OR <code>D:\dev\sandbox\hf.exe</code> exists</td><td>Text placeholder <code>.png</code> per shot</td><td><code>hf.exe generate --prompt &lt;shot.visual&gt;</code> per shot</td></tr>
+<tr><td>Assembly</td><td>HyperFrames + ffmpeg</td><td><code>HYPERFRAMES_ENABLED === "true"</code></td><td>Text placeholder <code>.mp4</code> + <code>-thumb.png</code></td><td><code>npx hyperframes@0.6.110 render</code> + ffmpeg thumbnail</td></tr>
+</table></div>
+<p><code>RenderReport.dryRun = true</code> if ANY of the three adapters ran in dry mode. Client shows "DRY RUN" badge on approval cards.</p>
+
+<h2 id="distributors">Distributors</h2>
+<div class="table-wrap"><table>
+<tr><th>Distributor</th><th>Condition</th><th>Status</th></tr>
+<tr><td><code>DryRunDistributor</code></td><td>No valid credentials found</td><td><span class="badge badge-green">Always works</span> — returns <code>{ status: "skipped", dryRun: true }</code></td></tr>
+<tr><td><code>BufferDistributor</code></td><td><code>BUFFER_TOKEN</code> set</td><td><span class="badge badge-amber">Unverified</span> — Buffer GraphQL API. Comment: <code>// VERIFY current API</code>. <code>profileIds = []</code> stub.</td></tr>
+<tr><td><code>PostizDistributor</code></td><td><code>POSTIZ_API_KEY__&lt;ECOSYSTEM&gt;</code> + <code>POSTIZ_API_URL__&lt;ECOSYSTEM&gt;</code> set (wins over Buffer)</td><td><span class="badge badge-amber">Unverified</span> — Postiz REST API. Comment: <code>// VERIFY current API</code>.</td></tr>
+</table></div>
+
+<h2 id="safeguard">Safeguard Rules</h2>
+<h4>Hard blocks (draft halted, BLOCKED- prefix)</h4>
+<ul>
+  <li>Hate speech</li>
+  <li>Health fabrications: "100% safe/effective", "cures cancer", "miracle cure"</li>
+  <li>Financial guarantees without disclaimer</li>
+  <li>Weak hook openers: "hey guys", "so today", "in this video", "welcome back", "what's up"</li>
+</ul>
+<h4>Soft flags (approval note, not blocked)</h4>
+<ul>
+  <li>Missing FTC disclosure when CTA present</li>
+  <li>Missing AI-disclosure</li>
+  <li>Unverified sources</li>
+</ul>
+<div class="callout warn"><strong>Enforcement mismatch:</strong> <code>publish.service.ts</code> hard-blocks Affiliate ecosystem on missing <code>affiliateDisclosure</code>. <code>validateDraft.ts</code> in agents only soft-flags the same rule. Two different enforcement levels for the same FTC rule.</div>
+
+<!-- ===== ENV GATES ===== -->
+<h2 id="env-gates">Environment Gates</h2>
+
+<div class="table-wrap"><table>
+<tr><th>Env Var</th><th>Default (absent)</th><th>What it unlocks</th></tr>
+<tr><td><code>MC_BUG_REPORT_ENABLED</code></td><td>Dry-run log only</td><td>Real <code>gh issue create</code> to <code>VFXellence-LTD/vfxellence</code></td></tr>
+<tr><td><code>BUFFER_TOKEN</code></td><td><code>DryRunDistributor</code></td><td>Shared Buffer bearer token for multi-account publish</td></tr>
+<tr><td><code>&lt;credential_ref value&gt;</code></td><td><code>dryRun: true</code>, synthetic profileId</td><td>Per-account Buffer profileId (e.g. <code>BUFFER_PROFILE_ZRODINGER_TIKTOK</code>)</td></tr>
+<tr><td><code>BUFFER_TOKEN__&lt;ECOSYSTEM&gt;</code></td><td><code>DryRunDistributor</code></td><td>Legacy single-account Buffer token per ecosystem</td></tr>
+<tr><td><code>POSTIZ_API_KEY__&lt;ECOSYSTEM&gt;</code> + <code>POSTIZ_API_URL__&lt;ECOSYSTEM&gt;</code></td><td>Falls to Buffer or DryRun</td><td>Postiz distributor (wins over Buffer when both set)</td></tr>
+<tr><td><code>ELEVENLABS_API_KEY</code> + <code>ELEVENLABS_SURGE_VOICE_ID</code></td><td>Voice dry-run (text placeholder .mp3)</td><td>ElevenLabs TTS synthesis</td></tr>
+<tr><td><code>HF_PATH</code></td><td>Visual dry-run if binary also absent</td><td>Path to <code>hf.exe</code> for Higgsfield frame generation</td></tr>
+<tr><td><code>HYPERFRAMES_ENABLED</code></td><td>Assembly dry-run (text placeholder .mp4)</td><td>HyperFrames video render + ffmpeg thumbnail</td></tr>
+<tr><td><code>PORT</code></td><td><code>4500</code></td><td>Server listen port</td></tr>
+<tr><td><code>DB_PATH</code></td><td><code>server/.data/mission-control.db</code></td><td>SQLite file location</td></tr>
+<tr><td><code>ARTIFACTS_ROOT</code></td><td>Required — no default</td><td>Root directory for artifact file serving</td></tr>
+<tr><td><code>FEEDBACK_LOOP_ENABLED</code></td><td>—</td><td>Module 2 placeholder (not built)</td></tr>
+<tr><td><code>ADS_ENABLED</code></td><td>—</td><td>Module 3 placeholder (not built)</td></tr>
+<tr><td><code>DAILY_LOOP_ENABLED</code></td><td>—</td><td>Module 4 placeholder (not built)</td></tr>
+</table></div>
+
+<!-- ===== DRY-RUN ===== -->
+<h2 id="dry-run">Dry-Run Discipline</h2>
+<p>Three independent dry-run layers. Each is individually gated. None shares state with the others.</p>
+
+<h3>Layer 1 — Bug Report</h3>
+<pre>MC_BUG_REPORT_ENABLED absent  →  log "[bug-report] WOULD CREATE ISSUE", return { dryRun: true }
+MC_BUG_REPORT_ENABLED=true    →  gh issue create --repo VFXellence-LTD/vfxellence ...</pre>
+<p>Client shows amber banner on modal when <code>dryRun: true</code>.</p>
+
+<h3>Layer 2 — Publish</h3>
+<pre>BUFFER_TOKEN absent            →  DryRunDistributor  (all publishes)
+BUFFER_TOKEN present but
+  credential_ref missing        →  DryRunDistributor  (that account)
+  credential_ref env key unset  →  DryRunDistributor  (that account)
+No active routing accounts      →  legacy path        →  same credential check
+All paths write publish_log with dry_run = 0 or 1</pre>
+
+<h3>Layer 3 — Render (three independent sub-gates)</h3>
+<pre>ELEVENLABS_API_KEY absent       →  voice placeholder .mp3
+HF_PATH absent + no hf.exe      →  visual placeholder .png per shot
+HYPERFRAMES_ENABLED != "true"   →  assembly placeholder .mp4
+
+Any one dry  →  RenderReport.dryRun = true  →  "DRY RUN" badge in Approvals UI</pre>
+
+<!-- ===== ROUTING ===== -->
+<h2 id="routing">Multi-Account Routing (Module 1)</h2>
+
+<h3>What is implemented</h3>
+<ul>
+  <li><code>platform_accounts</code> schema with all routing columns (migrations applied)</li>
+  <li><code>RoutingService.buildPlan()</code>: pure read — orders active accounts by <code>last_posted_at IS NULL</code> first, then oldest post, then <code>rotation_order</code>; staggers by <code>stagger_hours</code>; caps at <code>maxAccountsPerPlatform</code> (default 1)</li>
+  <li><code>CredentialResolver.resolve(ref, env)</code>: maps <code>credential_ref</code> → env var → Buffer profileId</li>
+  <li>16 scoped DB views include <code>platform_accounts</code> data</li>
+</ul>
+
+<h3>What is NOT implemented (operational gaps)</h3>
+<div class="callout danger">
+  <strong>Routing is a no-op in production.</strong> Four gaps:
+  <ol style="margin-top:8px;padding-left:18px;">
+    <li><code>publish.service.ts</code> does NOT call <code>RoutingService</code> — still uses legacy <code>selectDistributor()</code> (Task 4 of routing plan, not done)</li>
+    <li><code>platform_accounts.last_posted_at</code> is never written back after publish (Task 4B)</li>
+    <li><code>BufferDistributor.profileIds = []</code> — stub, not wired to <code>CredentialResolver</code> (Task 4A)</li>
+    <li>No UI to seed <code>platform_accounts</code> rows — manual SQLite INSERT required</li>
+  </ol>
+  Net result: <code>buildPlan()</code> returns empty list → every publish falls through to legacy single-account path.
+</div>
+
+<!-- ===== BUG REPORT ===== -->
+<h2 id="bug-report">Bug Report Bridge</h2>
+<pre>User clicks BugReportButton (Sidebar footer)
+  → Modal: title (required), description, area, severity
+  → POST /api/bug-report
+  → BugReportService.createIssue()
+     ├─ MC_BUG_REPORT_ENABLED absent: log + return { url: ".../issues/DRY-RUN", dryRun: true }
+     └─ MC_BUG_REPORT_ENABLED=true:
+          gh issue create
+            --repo VFXellence-LTD/vfxellence
+            --title "..."
+            --body "..."
+            --label type/bug
+            --label area/{mapped}
+Client: renders URL as link; amber banner when dryRun: true</pre>
+
+<div class="table-wrap"><table>
+<tr><th>Area value</th><th>GitHub label</th></tr>
+<tr><td>mission-control</td><td><code>area/mission-control</code></td></tr>
+<tr><td>server</td><td><code>area/server</code></td></tr>
+<tr><td>dashboard-client</td><td><code>area/dashboard-client</code></td></tr>
+<tr><td>polymath-engine</td><td><code>area/polymath-engine</code></td></tr>
+<tr><td>governance</td><td><code>area/governance</code></td></tr>
+<tr><td>automation</td><td><code>area/automation</code></td></tr>
+<tr><td>(unknown)</td><td><code>area/mission-control</code> (fallback)</td></tr>
+</table></div>
+<div class="callout warn">Requires <code>gh</code> CLI authenticated with <code>project</code> scope. Boss prerequisite.</div>
+
+<!-- ===== GITHUB PM ===== -->
+<h2 id="github-pm">GitHub PM</h2>
+<div class="callout"><strong>Status: design doc only.</strong> File: <span class="path">D:\VFXellence-LTD\.canon\4_orchestrator\projects\polymath-business\plans\github-pm-and-mvp-rollout-2026-06-17.md</span></div>
+
+<h3>Domain split (designed)</h3>
+<div class="table-wrap"><table>
+<tr><th>Domain</th><th>Tracking location</th></tr>
+<tr><td>Dev work (code, infra, bugs)</td><td>GitHub Issues + Projects v2 on <code>VFXellence-LTD/vfxellence</code></td></tr>
+<tr><td>Business ops (campaigns, tasks, revenue)</td><td>SQLite Mission Control — no sync</td></tr>
+</table></div>
+
+<h3>Label taxonomy (designed, not created)</h3>
+<p><code>type/</code> (bug, feat, chore, docs, infra) · <code>priority/</code> (p0–p3) · <code>area/</code> (6 areas) · <code>blocked</code></p>
+
+<h3>GitHub Actions (designed, not created)</h3>
+<ul>
+  <li><code>add-to-project.yml</code> — auto-add new issues to Backlog column</li>
+  <li><code>auto-status.yml</code> — PR open → In Progress; PR merge → Done</li>
+</ul>
+
+<h3>Branch naming (designed)</h3>
+<p><code>feat/123-short-description</code> (replacing old <code>VFX-NNN</code> format)</p>
+
+<h3>Boss prerequisites (not done)</h3>
+<pre>gh auth refresh -s project
+Create PROJECT_PAT secret on repo</pre>
+
+<!-- ===== DATA LAYER ===== -->
+<h2 id="data-layer">Static Data Layer (<code>client/src/data/</code>)</h2>
+<div class="table-wrap"><table>
+<tr><th>File</th><th>Contents</th><th>Used by</th></tr>
+<tr><td><code>ecosystems.ts</code></td><td>4 ecosystems, 10 verticals, 3 bands, 7 revenue streams (COM/REC/RPM/MAR/SPO/SUB/LIC), 9 expense streams, today actions</td><td>Transactions, Earnings, Board, filters everywhere</td></tr>
+<tr><td><code>taxonomy.ts</code></td><td>Legend exports for all taxonomy codes (ECOSYSTEM / BAND / STREAM / EXPENSE)</td><td>Tax Center, Transactions filters</td></tr>
+<tr><td><code>entity.ts</code></td><td>VFXellence Ltd entity: parent brand Abundenz, 3 child brands (Zrodinger fully active / Ateliez not-started / Signal TBD), shared accounts</td><td>Entity page only — no API backing</td></tr>
+<tr><td><code>tools.ts</code></td><td>14 tool entries with cost, status, ecosystems</td><td>Tools page seed (writes to SQLite once on first load)</td></tr>
+<tr><td><code>setup-steps.ts</code></td><td>8 onboarding steps for Content ecosystem</td><td>Setup page, setup_progress table</td></tr>
+<tr><td><code>launch-templates.ts</code></td><td>4 ecosystem launch checklists (viral: 15 steps, content: 11, products: 7, affiliate: 8). All brand-name steps use <code>platform-handles</code> field type. Many steps have <code>generatable: true</code> with Claude prompts.</td><td>Launch wizard</td></tr>
+</table></div>
+
+<!-- ===== ROADMAP ===== -->
+<h2 id="roadmap">Roadmap — Designed vs Built</h2>
+
+<div class="table-wrap"><table>
+<tr><th>Item</th><th>Status</th><th>Source</th></tr>
+<tr><td>GitHub PM setup (Phase A)</td><td><span class="badge badge-amber">Design only</span> — no GitHub Project, no Actions, no labels</td><td>github-pm plan</td></tr>
+<tr><td>Ecosystem codename drift fix (Phase B.1)</td><td><span class="badge badge-amber">Not done</span> — Signal/Atelier/Conduit/Forge IDs drift across 4 dashboard files</td><td>github-pm plan</td></tr>
+<tr><td>HyperFrames render (Phase B.2)</td><td><span class="badge badge-amber">Code exists, gate off</span> — requires FFmpeg + headless Chrome + Node 22; API compatibility unverified</td><td>github-pm plan</td></tr>
+<tr><td>Orphan worktree cleanup (Phase B.3)</td><td><span class="badge badge-amber">Not done</span> — <code>D:\VFXellence-LTD-mc-worktree</code> and <code>-wt-plan2..6</code> still exist</td><td>github-pm plan</td></tr>
+<tr><td>Module 1 completion (Tasks 4A + 4B + 5)</td><td><span class="badge badge-red">Partial</span> — schema + services coded; publish wiring + writeback + smoke test missing</td><td>routing plan</td></tr>
+<tr><td>Module 2 — Feedback Loop</td><td><span class="badge badge-muted">Not built</span> — <code>performance_signal</code>, <code>content_params</code>, <code>PerformanceStore</code>, <code>StrategyAdjuster</code>, MC Strategy view all absent</td><td>growth-operator-design</td></tr>
+<tr><td>Module 3 — Meta Ads</td><td><span class="badge badge-muted">Not built</span> — <code>ad_campaigns</code>, <code>AdProposer</code>, <code>MetaAdBuyer</code>, Ad Approval Queue absent</td><td>growth-operator-design</td></tr>
+<tr><td>Module 4 — Daily Loop</td><td><span class="badge badge-muted">Not built</span> — <code>LoopOrchestrator</code> (topic → draft → render → enqueue) absent. Structurally cannot reach publish.</td><td>growth-operator-design</td></tr>
+<tr><td><code>/surge-safeguard-check</code> binary</td><td><span class="badge badge-red">Missing</span> — whitelisted in sessions but <code>bin/surge-safeguard-check.ts</code> does not exist</td><td>server sessions route</td></tr>
+</table></div>
+
+<!-- ===== AMBIGUITIES ===== -->
+<h2 id="ambiguities">Ambiguous Operational Status</h2>
+
+<div class="table-wrap"><table>
+<tr><th>Feature</th><th>Ambiguity</th></tr>
+<tr><td>Dashboard revenue</td><td><code>DashboardPage</code> passes <code>revenueThisMonth={0}</code> hardcoded to every <code>EcosystemCard</code>. No live aggregation from <code>useTransactions</code>. Possibly intentional placeholder.</td></tr>
+<tr><td>Earnings sparklines</td><td>Static placeholder zeros throughout — no time-series query wired.</td></tr>
+<tr><td><code>autonomy_stage</code> field</td><td>Present in DB schema + TypeScript types on both <code>campaigns</code> and <code>tasks</code>. No service reads or advances it. No UI renders it. Typed but dormant.</td></tr>
+<tr><td><code>prompt.service.ts</code></td><td><code>buildSurgePrompt()</code> reads 3 <code>.canon</code> doctrine files at call time. Not called by the sessions route (sessions hardcode <code>/surge-generate &lt;id&gt;</code>). Wiring gap or intentional decoupling?</td></tr>
+<tr><td><code>AGENTS_CWD</code> in sessions route</td><td>Hardcoded to <code>D:\VFXellence-LTD\polymath\packages\agents</code> — not driven by <code>config.ts</code>. Breaks silently if repo moves.</td></tr>
+<tr><td>Buffer + Postiz API shape</td><td>Both distributors carry <code>// VERIFY current API</code> comments. Neither has been tested against live credentials.</td></tr>
+<tr><td>Brand registration (Intake tab 2)</td><td>Generates markdown, calls <code>saveToVault()</code> only. No <code>/api/brands</code> endpoint. Brand data in <code>brands</code> table is never queried by any service.</td></tr>
+<tr><td>FTC enforcement split</td><td><code>publish.service.ts</code> hard-blocks Affiliate on missing <code>affiliateDisclosure</code>. <code>validateDraft.ts</code> only soft-flags. Two enforcement levels for the same rule.</td></tr>
+<tr><td><code>task.status = "published"</code></td><td>Exists in <code>TasksService.TASK_STATUSES</code>, can be written. DB schema comment doesn't list it. Board has no "published" column. Service layer only.</td></tr>
+<tr><td>Save to Vault (Launch page)</td><td>Client calls <code>PUT /__vault/:filename</code>. Server mounts <code>POST /api/vault/launches/:filename</code>. Method mismatch (PUT vs POST) AND path prefix mismatch. Broken unless Vite proxy normalizes both.</td></tr>
+<tr><td>EntityPage vs platform_accounts</td><td>Two disjoint account registries. No API connects them. Accounts seeded in SQLite never appear in UI.</td></tr>
+</table></div>
+
+<!-- ===== CRITICAL PATH ===== -->
+<h2 id="critical-path">Critical Path to First Live End-to-End Loop</h2>
+
+<div class="callout ok"><strong>Three items gate the first real publish:</strong></div>
+
+<div class="table-wrap"><table>
+<tr><th>#</th><th>Task</th><th>What it unblocks</th></tr>
+<tr><td>1</td><td>Module 1 Tasks 4A + 4B: wire <code>RoutingService</code> into <code>publish.service.ts</code> + implement <code>last_posted_at</code> writeback + populate <code>BufferDistributor.profileIds</code> via <code>CredentialResolver</code></td><td>Multi-account rotation actually activates</td></tr>
+<tr><td>2</td><td>Phase B.2: install FFmpeg + headless Chrome + Node 22 + set <code>HYPERFRAMES_ENABLED=true</code></td><td>Real video rendered (not text placeholder)</td></tr>
+<tr><td>3</td><td>Set <code>BUFFER_TOKEN</code> + per-account <code>credential_ref</code> env vars (e.g. <code>BUFFER_PROFILE_ZRODINGER_TIKTOK</code>)</td><td>Distributor leaves dry-run mode</td></tr>
+</table></div>
+
+<p>Everything else (GitHub PM, Modules 2/3/4) is future scope. The generate → approve → render → approve → publish pipeline is structurally complete — only the above three gates prevent live execution.</p>
+
+<hr>
+<p style="font-size:12px;color:var(--muted);text-align:center;margin-top:40px;">Polymath Mission Control Operator Manual · Read-only inventory · 2026-06-22 · All file paths absolute under <code>D:\VFXellence-LTD\</code></p>
+
+</main>
+</div>
+</body>
+</html>

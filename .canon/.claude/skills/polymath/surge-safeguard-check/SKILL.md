@@ -17,7 +17,7 @@ ecosystems: [surge]
 
 ## Inputs
 
-- `D:\VFXellence-LTD\.canon\1_controller\standards\polymath-business\safeguards\viral-surge.md` — the policy this gate encodes (7 hard bans, quality floor, FTC + AI disclosure). Read it so you can explain any flag in plain language.
+- `D:\VFXellence-LTD\.canon\1_controller\standards\polymath-business\safeguards\viral-safeguards.md` — the policy this gate encodes (7 hard bans, quality floor, FTC + AI disclosure). Read it so you can explain any flag in plain language.
 
 ## Procedure
 
