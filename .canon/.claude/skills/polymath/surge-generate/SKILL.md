@@ -24,7 +24,7 @@ arguments:
 
 You run with `cwd = D:\VFXellence-LTD\polymath\packages\agents`. Read these before writing anything:
 
-1. `D:\VFXellence-LTD\.canon\2_architect\polymath-business\ecosystems\viral\shared\playbooks\surge-formula.md` — the SCRIPT step rules (hook first, no filler, escalate pacing, short sentences, end on payoff).
+1. `D:\VFXellence-LTD\.canon\2_architect\polymath-business\ecosystems\viral\shared\playbooks\viral-formula.md` — the SCRIPT step rules (hook first, no filler, escalate pacing, short sentences, end on payoff).
 2. `D:\VFXellence-LTD\.canon\2_architect\polymath-business\ecosystems\viral\verticals\tech\README.md` — the Zrodinger vertical spec (tone "informed insider", no face, dark UI, content formats, hook patterns, source material). This is the vertical you write for.
 3. `D:\VFXellence-LTD\.canon\2_architect\polymath-business\ecosystems\viral\shared\playbooks\hook-library.md` — pull from the "Tech / AI Tools (Zrodinger-specific)" hooks.
 4. `D:\VFXellence-LTD\.canon\2_architect\polymath-business\ecosystems\viral\shared\playbooks\title-formula.md` — apply [NUMBER][ADJECTIVE][TOPIC][ENFORCEMENT] + the "you" rule to the caption/title angle.

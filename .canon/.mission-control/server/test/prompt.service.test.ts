@@ -13,7 +13,7 @@ describe("buildSurgePrompt", () => {
     const safe = path.join(canon, "1_controller", "standards", "polymath-business", "safeguards");
     fs.mkdirSync(formula, { recursive: true });
     fs.mkdirSync(safe, { recursive: true });
-    fs.writeFileSync(path.join(formula, "surge-formula.md"), "# Surge Formula\nHOOK then SCRIPT.", "utf-8");
+    fs.writeFileSync(path.join(formula, "viral-formula.md"), "# Viral Formula\nHOOK then SCRIPT.", "utf-8");
     fs.writeFileSync(path.join(eco, "README.md"), "# Surge\nZrodinger clip spec here.", "utf-8");
     fs.writeFileSync(path.join(safe, "viral-surge.md"), "# Surge Safeguards\nNo medical claims.", "utf-8");
   });

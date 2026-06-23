@@ -20,7 +20,7 @@ Drop raw links here as you find them. One line of context. Process weekly into t
 - 2026-05-13 — https://www.instagram.com/reel/DSBQ1p6D8KV/ — TikTok clipping model: $17.5k/mo claimed. Scary story + gameplay + multi-account. Surge vertical research.
 - 2026-05-13 — https://www.instagram.com/reel/DXqCpYEDW-M/ — Claude Code creator tools: HyperFrames, Last 30 Days, Key AI, Claude Video Vision, Supadata. Tool discovery.
 - 2026-05-13 — https://www.instagram.com/reel/DVPa_PWAWfd/ — Canva + KDP coloring book model: low-effort digital product. Atelier vertical research (parked).
-- 2026-05-13 — (idea) Brainrot content repurposing pipeline — full system prompt for podcast→viral short-form. Integrated as Surge Formula in ecosystems/viral/shared/playbooks/surge-formula.md
+- 2026-05-13 — (idea) Brainrot content repurposing pipeline — full system prompt for podcast→viral short-form. Integrated as Viral Formula in ecosystems/viral/shared/playbooks/viral-formula.md
 
 ---
 

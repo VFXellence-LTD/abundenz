@@ -1284,7 +1284,7 @@ Prove the real `node-pty` ↔ `/ws/terminal` ↔ client-frame round-trip end to 
 - Create: `server/services/prompt.service.ts`
 - Create: `server/test/prompt.service.test.ts`
 
-Mirror CMC `prompt.service.ts`'s shape (a pure function that assembles a Claude prompt from context), but read **Polymath viral doctrine** off disk: the surge-formula playbook, the Surge ecosystem README (the "Zrodinger" clip spec lives in the viral docs), and the `viral-surge.md` safeguards POLICY. `buildSurgePrompt({ campaignId, canonPath })` returns a `/surge-generate <campaignId>`-led prompt embedding those sources. Missing files degrade gracefully to a labeled "(not found)" section (never throw). This seed text is what Plan 4's skill / a future smart-start writes into the session; Plan 3 only needs the builder + its test.
+Mirror CMC `prompt.service.ts`'s shape (a pure function that assembles a Claude prompt from context), but read **Polymath viral doctrine** off disk: the viral-formula playbook, the Surge ecosystem README (the "Zrodinger" clip spec lives in the viral docs), and the `viral-surge.md` safeguards POLICY. `buildSurgePrompt({ campaignId, canonPath })` returns a `/surge-generate <campaignId>`-led prompt embedding those sources. Missing files degrade gracefully to a labeled "(not found)" section (never throw). This seed text is what Plan 4's skill / a future smart-start writes into the session; Plan 3 only needs the builder + its test.
 
 - [ ] **Write failing test.** Create `server/test/prompt.service.test.ts`:
   ```ts
@@ -1303,7 +1303,7 @@ Mirror CMC `prompt.service.ts`'s shape (a pure function that assembles a Claude 
       const safe = path.join(canon, "1_controller", "standards", "polymath-business", "safeguards");
       fs.mkdirSync(formula, { recursive: true });
       fs.mkdirSync(safe, { recursive: true });
-      fs.writeFileSync(path.join(formula, "surge-formula.md"), "# Surge Formula\nHOOK then SCRIPT.", "utf-8");
+      fs.writeFileSync(path.join(formula, "viral-formula.md"), "# Surge Formula\nHOOK then SCRIPT.", "utf-8");
       fs.writeFileSync(path.join(eco, "README.md"), "# Surge\nZrodinger clip spec here.", "utf-8");
       fs.writeFileSync(path.join(safe, "viral-surge.md"), "# Surge Safeguards\nNo medical claims.", "utf-8");
     });
@@ -1348,14 +1348,14 @@ Mirror CMC `prompt.service.ts`'s shape (a pure function that assembles a Claude 
 
   /**
    * Assemble the Surge engine seed prompt from .canon viral doctrine.
-   * Sources: surge-formula playbook, the Surge ecosystem README (Zrodinger clip spec),
+   * Sources: viral-formula playbook, the Surge ecosystem README (Zrodinger clip spec),
    * and the viral-surge safeguards policy. Missing files degrade to a labeled section.
    */
   export function buildSurgePrompt(opts: BuildSurgePromptOpts): string {
     const { campaignId, canonPath } = opts;
     const formulaPath = path.join(
       canonPath, "2_architect", "polymath-business", "ecosystems", "viral",
-      "shared", "playbooks", "surge-formula.md",
+      "shared", "playbooks", "viral-formula.md",
     );
     const specPath = path.join(
       canonPath, "2_architect", "polymath-business", "ecosystems", "viral", "README.md",
@@ -1399,7 +1399,7 @@ Produce ONE Zrodinger clip DRAFT artifact for campaign ${campaignId}:
   git -C D:\VFXellence-LTD add .canon/.mission-control/server/services/prompt.service.ts .canon/.mission-control/server/test/prompt.service.test.ts
   git -C D:\VFXellence-LTD commit -m "Add buildSurgePrompt seeding from .canon viral doctrine
 
-  - Read surge-formula playbook, Surge README (Zrodinger spec), viral-surge safeguards
+  - Read viral-formula playbook, Surge README (Zrodinger spec), viral-surge safeguards
   - Lead with /surge-generate <campaignId>; embed the draft+halt contract instructions
   - Missing doctrine files degrade to a labeled '(not found)' section, never throw"
   ```
@@ -1991,7 +1991,7 @@ Plan 2 builds the Campaign Control Panel with a **Run** button whose `onRun` cur
 3. `POST /api/sessions/start {campaignId|taskId}` → `agent_runs` row + spawn PTY (powershell) that after a brief delay writes `claude "/surge-generate <campaignId>"\r`, cwd = `…\polymath\packages\agents`; plus list + stop → Task 6 (route) + Task 4 (the 800 ms delayed type, CMC-faithful: PTY spawns lazily on WS connect, which is where CMC types the command). ✔
 4. WS `/ws/terminal?sessionId=` PTY I/O bridge + `/ws` status broadcast (upgrade the Plan‑1 stub) → Tasks 4 + 9. ✔
 5. `claude-sessions.service.ts`: scan `~/.claude/projects/<encoded-cwd>/*.jsonl` for the UUID → persist `agent_runs.claude_session_id` for `--resume` → Task 5 (scan) + Task 6 (backfill UPDATE). ✔
-6. `prompt.service.buildSurgePrompt()` reading `.canon` viral doctrine + Surge/Zrodinger spec + safeguards → Task 8 (paths verified on disk: surge-formula playbook, viral README, viral-surge safeguards). ✔
+6. `prompt.service.buildSurgePrompt()` reading `.canon` viral doctrine + Surge/Zrodinger spec + safeguards → Task 8 (paths verified on disk: viral-formula playbook, viral README, viral-surge safeguards). ✔
 7. Client `EmbeddedTerminal` + a Session board surface; Plan‑2 Run button now hits `/api/sessions/start` → Tasks 10, 11, 12. ✔
 - **TDD:** `session.service` unit-tested (allowlist validation, lifecycle, agent_runs writes) with a **fake PTY** (Task 3); PTY/WS integration via a **scripted echo smoke**, gated, never a real claude call (Task 7). ✔
 - **Plan 4 boundary:** a real `/surge-generate` run is explicitly out of scope; Task 12's manual check notes the expected "unknown command" outcome — the driver is what's proven. ✔

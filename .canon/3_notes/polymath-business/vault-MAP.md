@@ -34,7 +34,7 @@ _passive_income/                       ← D:\dev\_passive_income (Obsidian vaul
 │   │   ├── shared/
 │   │   │   ├── agents/                ← 9 agents (source→score→script→visual→voice→assemble→caption→distribute→track)
 │   │   │   ├── workflows/             ← clip-factory, story-factory, trend-surf
-│   │   │   └── playbooks/             ← surge-formula, hook-library, platform-rpm
+│   │   │   └── playbooks/             ← viral-formula, hook-library, platform-rpm
 │   │   ├── verticals/                 ← content niches (each gets own anonymous brand)
 │   │   │   └── _template/             ← template for new verticals
 │   │   └── accounts/                  ← multi-account strategy + management

@@ -5,7 +5,7 @@
 **Goal:** Build the `/surge-generate` Claude Code skill plus a fully-tested `@polymath/agents` TypeScript package that closes the Polymath MVP loop: generate ONE Zrodinger (tech/AI-tools) clip DRAFT at SCRIPT LEVEL, run a hard safeguard gate against the viral-surge POLICY, write the artifact to disk (markdown + json), INSERT an `approval_queue` row (status `pending`) via the live Mission Control API, PATCH the originating task to `in-review`, then HALT. No video render, no ElevenLabs, no visual generation, no publishing, no social accounts.
 
 **Architecture:** The deliverable is two cooperating layers.
-1. **Skills (LLM instructions, not unit-testable):** `/surge-generate <campaignId>`, `/surge-safeguard-check`, `/surge-continue` live under `.canon/.claude/skills/polymath/`. The skill runs inside a Claude Code session spawned by Plan 3 with `cwd = D:\VFXellence-LTD\polymath\packages\agents`. It reads the read-only doctrine (surge-formula, Zrodinger vertical spec, hook-library, title-formula, viral-surge safeguards), generates the draft object, then invokes the supporting TS via `node --import tsx` to safeguard-check → writeDraft → recordApproval → halt.
+1. **Skills (LLM instructions, not unit-testable):** `/surge-generate <campaignId>`, `/surge-safeguard-check`, `/surge-continue` live under `.canon/.claude/skills/polymath/`. The skill runs inside a Claude Code session spawned by Plan 3 with `cwd = D:\VFXellence-LTD\polymath\packages\agents`. It reads the read-only doctrine (viral-formula, Zrodinger vertical spec, hook-library, title-formula, viral-surge safeguards), generates the draft object, then invokes the supporting TS via `node --import tsx` to safeguard-check → writeDraft → recordApproval → halt.
 2. **Supporting TS (`@polymath/agents`, fully TDD'd):** pure, deterministic functions the skill orchestrates — a `ClipDraft` schema/types + validator, a `runSafeguardCheck()` policy gate producing a `SafeguardReport {pass, flags}`, a `writeDraft()` artifact writer (markdown + json under a drafts dir), a `recordApproval()` that POSTs the `approval_queue` row and PATCHes the task to `in-review` via the MC API (the server is the single DB writer — the engine NEVER touches better-sqlite3 directly), and a `runGenerate()` driver that ties safeguard → write → record → halt. The LLM produces the creative `ClipDraft`; the TS deterministically validates, gates, persists, and records it.
 
 **Hard scope guards (enforced throughout):**
@@ -238,7 +238,7 @@ export interface ShotlistEntry {
   durationSeconds: number;
 }
 
-/** A source the draft draws on — for factual traceability (surge-formula constraint). */
+/** A source the draft draws on — for factual traceability (viral-formula constraint). */
 export interface SourceRef {
   label: string;
   url?: string;
@@ -1350,7 +1350,7 @@ arguments:
 
 You run with `cwd = D:\VFXellence-LTD\polymath\packages\agents`. Read these before writing anything:
 
-1. `D:\VFXellence-LTD\.canon\2_architect\polymath-business\ecosystems\viral\shared\playbooks\surge-formula.md` — the SCRIPT step rules (hook first, no filler, escalate pacing, short sentences, end on payoff).
+1. `D:\VFXellence-LTD\.canon\2_architect\polymath-business\ecosystems\viral\shared\playbooks\viral-formula.md` — the SCRIPT step rules (hook first, no filler, escalate pacing, short sentences, end on payoff).
 2. `D:\VFXellence-LTD\.canon\2_architect\polymath-business\ecosystems\viral\verticals\tech\README.md` — the Zrodinger vertical spec (tone "informed insider", no face, dark UI, content formats, hook patterns, source material). This is the vertical you write for.
 3. `D:\VFXellence-LTD\.canon\2_architect\polymath-business\ecosystems\viral\shared\playbooks\hook-library.md` — pull from the "Tech / AI Tools (Zrodinger-specific)" hooks.
 4. `D:\VFXellence-LTD\.canon\2_architect\polymath-business\ecosystems\viral\shared\playbooks\title-formula.md` — apply [NUMBER][ADJECTIVE][TOPIC][ENFORCEMENT] + the "you" rule to the caption/title angle.
@@ -1503,7 +1503,7 @@ ecosystems: [surge]
 
 ## Inputs
 
-- Same doctrine set as `/surge-generate` (surge-formula, Zrodinger spec, hook-library, title-formula, viral-surge policy).
+- Same doctrine set as `/surge-generate` (viral-formula, Zrodinger spec, hook-library, title-formula, viral-surge policy).
 - The prior decision: `GET http://localhost:4500/api/approvals?ecosystem=viral` — find the most recent terminal (`rejected` / `changes-requested`) row for this campaign and read its `reviewNotes` and `contentJson`.
 
 ## Procedure

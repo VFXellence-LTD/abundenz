@@ -14,7 +14,7 @@ export interface ShotlistEntry {
   durationSeconds: number;
 }
 
-/** A source the draft draws on — for factual traceability (surge-formula constraint). */
+/** A source the draft draws on — for factual traceability (viral-formula constraint). */
 export interface SourceRef {
   label: string;
   url?: string;

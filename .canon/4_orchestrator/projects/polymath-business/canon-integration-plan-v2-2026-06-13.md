@@ -421,7 +421,7 @@ The firm decision: the Surge engine is **driven by a spawned Claude Code session
 | `session.service.ts` (lifecycle state machine running→waiting→completed, idle detect 8s) | copy; **swap the command allowlist** |
 | `sessions.ws.ts` (`/ws` status + log broadcast) | copy verbatim |
 | `claude-sessions.service.ts` (`~/.claude/projects/<encoded-cwd>/*.jsonl` scan → resume UUID) | copy; swap match-key from ticket-key to `task_id`/`campaign_id` |
-| `prompt.service.ts` `buildCanonPrompt()` | replace with `buildSurgePrompt()` — reads vault surge-formula + Zrodinger spec + POLICY |
+| `prompt.service.ts` `buildCanonPrompt()` | replace with `buildSurgePrompt()` — reads vault viral-formula + Zrodinger spec + POLICY |
 
 **Command allowlist (replaces CMC's Canon skills):**
 ```
@@ -465,10 +465,10 @@ Three layers, one corrected topology. Governance is the `.canon` paradigms; the 
 │  2_architect   ecosystems/ specs, agent designs, surge playbooks, codebase docs │
 │  3_notes       research, inbox, app-ideas                                       │
 │  4_orchestrator changelogs, ecosystem-dashboard, launches, calendars            │
-│  5_knowledge   surge-formula, source-material corpus, prompts, tool evals       │
+│  5_knowledge   viral-formula, source-material corpus, prompts, tool evals       │
 │  .claude/skills/polymath  polymath-pitfalls, niche-locker, ...                  │
 └───────────────▲───────────────────────────────────────────────┬────────────────┘
-   reads: surge-formula, Zrodinger spec,    │                    │ writes back:
+   reads: viral-formula, Zrodinger spec,    │                    │ writes back:
    POLICY/safeguards, doctrine, board mirror │                    │ changelog entries,
                                              │                    │ launch records
 ┌────────────────────────────────────────────┴────────────────────▼──────────────┐
@@ -496,7 +496,7 @@ Three layers, one corrected topology. Governance is the `.canon` paradigms; the 
 │                                                                                  │
 │  Launched by MC's PTY driver:  claude "/surge-generate <campaignId>"             │
 │  cwd = packages/agents (optionally a per-campaign worktree)                      │
-│  reads surge-formula + Zrodinger spec + POLICY from .canon →                     │
+│  reads viral-formula + Zrodinger spec + POLICY from .canon →                     │
 │  generates clip DRAFT → runs safeguard check → writes artifact to disk →         │
 │  INSERT approval_queue(status=pending), task->in-review → HALTS, waits for human │
 └──────────────────────────────────────────────────────────────────────────────┘
@@ -508,7 +508,7 @@ Squarely at the **Mission Control ↔ Engine** boundary, materialised as the `ap
 
 ### backlog → running → review → done (across the three layers)
 
-1. **Backlog** (Intake surface + governance): Boss creates a campaign in the Intake/Launch wizard → `campaigns` row `planned`, child `tasks` at `backlog`. Run doctrine (surge-formula, Zrodinger spec, POLICY) lives in `.canon`; MC reads it.
+1. **Backlog** (Intake surface + governance): Boss creates a campaign in the Intake/Launch wizard → `campaigns` row `planned`, child `tasks` at `backlog`. Run doctrine (viral-formula, Zrodinger spec, POLICY) lives in `.canon`; MC reads it.
 2. **Running** (Board → PTY driver → Engine): Boss hits **Quick Start** / Campaign Control Panel "Run" → `campaigns.status=running`, task → `in-progress`, `agent_runs` row created, MC spawns the Claude-session PTY in `packages/agents`. The engine reads `.canon` doctrine and generates the draft + safeguard report.
 3. **Review** (Engine → MC → Boss): engine writes the artifact, inserts `approval_queue (pending)`, sets task → `in-review`, campaign → `review`. WS pushes it live to the Approval Queue. **Boss reviews each asset** and sets `approved` / `rejected` / `changes-requested`.
 4. **Done** (MC + governance): on `approved`, task → `done` (milestone-1 stops here as an approved *draft*); MC writes a changelog entry to `.canon/4_orchestrator/changelogs/` and a launch record to `4_orchestrator/projects/polymath-business/launches/`. On `rejected`/`changes-requested`, task → back to `in-progress` with notes; the engine session is `--resume`d (using `agent_runs.claude_session_id`).
@@ -524,7 +524,7 @@ Build only the **thin slice** of Mission Control needed to put one draft in fron
 **Phase 0 — Governance (populate `.canon`; do NOT re-stamp)**
 1. Create `1_controller/profiles/polymath/` + move `DEV-CLAUDE.md`/`README.md` in (Phase A above).
 2. Merge `vault/dev/` (Phase B). Defer the *full* business-vault merge (Phase C) if it blocks — milestone-1 only needs the Surge doctrine present:
-3. Confirm `.canon` has the doctrine the engine reads: **surge-formula**, **viral-surge safeguards POLICY**, **Zrodinger vertical spec**. These come from `ecosystems/viral/...` in the merge; copy just those three first if the full merge is deferred. Author stubs if any is missing.
+3. Confirm `.canon` has the doctrine the engine reads: **viral-formula**, **viral-surge safeguards POLICY**, **Zrodinger vertical spec**. These come from `ecosystems/viral/...` in the merge; copy just those three first if the full merge is deferred. Author stubs if any is missing.
 
 **Phase 1 — Move the dashboard + thin server**
 4. Move dashboard → `.canon/.mission-control/client` (Phase D); confirm it renders.
@@ -538,7 +538,7 @@ Build only the **thin slice** of Mission Control needed to put one draft in fron
 
 **Phase 3 — PTY engine driver + Surge engine (Stage 0/1)**
 10. Port the CMC PTY chain verbatim into `server/`: `pty.service.ts`, `terminal.ws.ts`, `sessions.ws.ts`, `session.service.ts` (swap allowlist to `/surge-generate`...), `claude-sessions.service.ts` (match on `campaignId`). Port `EmbeddedTerminal.tsx` into the client. Mount the Session Board.
-11. In `packages/agents`, build the minimal Surge/Zrodinger draft generator invoked as the `/surge-generate` skill/command: read `.canon` surge-formula + Zrodinger spec → produce ONE clip draft (script + asset) → run the safeguard check against viral-surge POLICY.
+11. In `packages/agents`, build the minimal Surge/Zrodinger draft generator invoked as the `/surge-generate` skill/command: read `.canon` viral-formula + Zrodinger spec → produce ONE clip draft (script + asset) → run the safeguard check against viral-surge POLICY.
 12. Wire engine output to state: write artifact to disk, `INSERT approval_queue(status=pending)`, task → `in-review`. **Engine HALTS.** Triggered manually from the Campaign Control Panel (Stage 0/1).
 
 **Phase 4 — Close the loop (review → done)**

@@ -20,7 +20,7 @@ Load when a pillar piece is complete and ready for distribution. One pillar → 
 Primary user: Signal (YouTube video or long-form article as pillar)
 Also applicable: Lullaby (episode as pillar), Conduit (review article as pillar), Surge (short-form viral content as pillar)
 
-> **Note:** Surge uses its own atomization system (surge-formula) optimized for short-form viral loops. The content-atomizer skill can still inform the Surge script engine — particularly for derivative scheduling and platform-specific formatting rules — but Surge's primary workflow runs through surge-formula, not this skill.
+> **Note:** Surge uses its own atomization system (viral-formula) optimized for short-form viral loops. The content-atomizer skill can still inform the Surge script engine — particularly for derivative scheduling and platform-specific formatting rules — but Surge's primary workflow runs through viral-formula, not this skill.
 
 ---
 

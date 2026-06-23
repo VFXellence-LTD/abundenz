@@ -4,7 +4,7 @@
 
 ## 2026-06-23 — Content-engine framework integrated into viral ecosystem
 
-- **surge-formula.md:** Added "Pre-Step: Angle Multiplication" — 1 topic × 5 fixed angles (`mistake | beginner_question | transformation | contrarian | step_by_step`) × 3 formats × 4 platforms = 30+ pieces from one idea. Includes worked @zrodinger quantum/science example showing all 5 angle variants.
+- **viral-formula.md:** Added "Pre-Step: Angle Multiplication" — 1 topic × 5 fixed angles (`mistake | beginner_question | transformation | contrarian | step_by_step`) × 3 formats × 4 platforms = 30+ pieces from one idea. Includes worked @zrodinger quantum/science example showing all 5 angle variants.
 - **first-hour-playbook.md (new):** Human post-publish SOP covering the three first-hour tactics: (a) seed a first comment, (b) reply to every comment immediately, (c) engage larger niche accounts. Explicitly states automation risks platform penalties — permanently manual task. Includes saves > shares > comments > likes hierarchy rationale.
 - **clip-factory.md:** Added Stage 12 — First-Hour Human Engagement, pointing to first-hour-playbook.md. Clearly marked as a human step, post-publish, not automated.
 - **platform-rpm.md:** Added "Engagement Signals That Matter" section — saves > shares > comments > likes as the primary data axis for deciding what to scale. Ties the angle set to save-optimized content design. States that saves/shares data — not taste — decides what scales.

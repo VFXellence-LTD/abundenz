@@ -40,11 +40,11 @@ Generate a [GENRE] story for a [DURATION]-second short-form video.
 
 Genre: [scary|historical|impossible-facts|motivational|absurdist]
 Topic constraint: [optional — "survival stories" or "ancient Rome" or "ocean facts"]
-Tone: [STYLE from surge-formula.md style options]
+Tone: [STYLE from viral-formula.md style options]
 Target audience: [vertical's audience description]
 
 Requirements:
-- Opening line must be a hook (see surge-formula.md hook templates)
+- Opening line must be a hook (see viral-formula.md hook templates)
 - Story must escalate every 5-10 seconds
 - Factual claims must be verifiable OR explicitly labeled as fiction
 - Total word count: [DURATION * 2.5] words (approx 2.5 words/second for narration)

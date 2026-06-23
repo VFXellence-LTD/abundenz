@@ -330,7 +330,7 @@ Output a ranked list of opportunities with full analysis.
 ## Related Documents
 
 - [[trend-scanner]] — real-time tactical trend detection (complementary)
-- [[../../viral/shared/playbooks/surge-formula]] — how Surge processes content opportunities
+- [[../../viral/shared/playbooks/viral-formula]] — how Surge processes content opportunities
 - [[../../viral/shared/playbooks/hook-library]] — hook taxonomy (updated by this agent's findings)
 - [[../../viral/safeguards/POLICY]] — content safeguards (applies to all opportunities)
 - [[../../../shared/skills/niche-locker/SKILL]] — niche evaluation matrix (for deeper niche commitment decisions)

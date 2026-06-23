@@ -17,14 +17,14 @@ function readOrMissing(filePath: string): string {
 
 /**
  * Assemble the Surge engine seed prompt from .canon viral doctrine.
- * Sources: surge-formula playbook, the Surge ecosystem README (Zrodinger clip spec),
+ * Sources: viral-formula playbook, the Surge ecosystem README (Zrodinger clip spec),
  * and the viral-surge safeguards policy. Missing files degrade to a labeled section.
  */
 export function buildSurgePrompt(opts: BuildSurgePromptOpts): string {
   const { campaignId, canonPath } = opts;
   const formulaPath = path.join(
     canonPath, "2_architect", "polymath-business", "ecosystems", "viral",
-    "shared", "playbooks", "surge-formula.md",
+    "shared", "playbooks", "viral-formula.md",
   );
   const specPath = path.join(
     canonPath, "2_architect", "polymath-business", "ecosystems", "viral", "README.md",

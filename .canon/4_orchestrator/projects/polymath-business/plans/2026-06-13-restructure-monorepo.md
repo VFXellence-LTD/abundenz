@@ -317,7 +317,7 @@ git -C D:\VFXellence-LTD mv "polymath\vault\ecosystems\affiliate" "$ab\ecosystem
 git -C D:\VFXellence-LTD mv "polymath\vault\ecosystems\shared\agents"    "$ab\shared-agents"
 git -C D:\VFXellence-LTD mv "polymath\vault\ecosystems\shared\workflows" "$ab\shared-workflows"
 ```
-(Surge `surge-formula` + Zrodinger spec land here under `ecosystems\viral\` — confirm present; these three are what the engine reads.)
+(Surge `viral-formula` + Zrodinger spec land here under `ecosystems\viral\` — confirm present; these three are what the engine reads.)
 
 - [ ] **Step 3: 3_notes, 4_orchestrator, 5_knowledge (research, dashboards, references, corpus)**
 

@@ -9,7 +9,7 @@ Copy this template to `verticals/{vertical-name}/README.md` when creating a new 
 **Content type:** [What kind of content — scary stories, historical facts, AI news, etc.]
 **Audience:** [Who watches this — demographics, interests, platform behavior]
 **Kid-friendly:** [true/false — if true, all content must follow kid-friendly rules in safeguards/POLICY.md §1]
-**Tone:** [Which style from surge-formula.md — deadpan documentary, ultra-dramatic, etc.]
+**Tone:** [Which style from viral-formula.md — deadpan documentary, ultra-dramatic, etc.]
 **Visual style:** [Which visual approach — dark/moody, cinematic, VHS, infographic, etc.]
 
 ## Brand

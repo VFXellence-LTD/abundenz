@@ -167,7 +167,7 @@ viral/
 │   │   ├── story-factory.md      ← AI story → narration → video pipeline
 │   │   └── trend-surf.md         ← trending topic → rapid content pipeline
 │   └── playbooks/
-│       ├── surge-formula.md      ← retention optimization system (adapted from brainrot pipeline)
+│       ├── viral-formula.md      ← retention optimization system (adapted from brainrot pipeline)
 │       ├── hook-library.md       ← proven hook templates by category
 │       └── platform-rpm.md       ← RPM rates + optimization per platform
 ├── verticals/

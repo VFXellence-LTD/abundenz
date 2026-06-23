@@ -97,7 +97,7 @@ Polymath (`_passive_income`) is an Obsidian vault governing Robin Dutta's AI-dri
 | `ecosystems/viral/README.md` | Overview, status, vertical ideas |
 | `ecosystems/viral/safeguards/POLICY.md` | Content standards — READ FIRST |
 | `ecosystems/viral/shared/agents/README.md` | 9-agent pipeline architecture + JSON schema |
-| `ecosystems/viral/shared/playbooks/surge-formula.md` | Retention optimization system |
+| `ecosystems/viral/shared/playbooks/viral-formula.md` | Retention optimization system |
 | `ecosystems/viral/shared/workflows/clip-factory.md` | End-to-end clip production workflow |
 | `ecosystems/viral/shared/playbooks/hook-library.md` | Hook templates by category |
 | `ecosystems/viral/shared/playbooks/platform-rpm.md` | RPM rates and monetization |

@@ -17,7 +17,7 @@ ecosystems: [surge]
 
 ## Inputs
 
-- Same doctrine set as `/surge-generate` (surge-formula, Zrodinger spec, hook-library, title-formula, viral-surge policy).
+- Same doctrine set as `/surge-generate` (viral-formula, Zrodinger spec, hook-library, title-formula, viral-surge policy).
 - The prior decision: `GET http://localhost:4500/api/approvals?ecosystem=viral` — find the most recent terminal (`rejected` / `changes-requested`) row for this campaign and read its `reviewNotes` and `contentJson`.
 
 ## Procedure

@@ -1,4 +1,4 @@
-# Surge Formula — Retention-Optimized Content Repurposing System
+# Viral Formula — Retention-Optimized Content Repurposing System
 
 The core content transformation engine for Surge. Takes source material (transcripts, stories, trending content, AI-generated narratives) and outputs retention-optimized short-form scripts with structured assets for downstream video generation.
 

@@ -255,7 +255,7 @@ Vite (client) on `5173`/`5174`, API server on `4500`, WS on the same server. Cli
 │      1_controller .. 5_knowledge   standards, hooks, profiles, CLAUDE.md)      │
 │  D:\...\polymath\vault\          ← business governance (ecosystem specs,        │
 │      ecosystems/ controller/       POLICY.md, safeguards, agent designs,        │
-│      references/                   surge-formula, brand registry)               │
+│      references/                   viral-formula, brand registry)               │
 └───────────────▲───────────────────────────────────────────────┬───────────────┘
                 │ read (file tree, search, changelog,             │ writes back:
                 │ Kanban mirror, doctrine/POLICY lookups)         │ changelog entries,
@@ -281,7 +281,7 @@ Vite (client) on `5173`/`5174`, API server on `4500`, WS on the same server. Cli
 │  SURGE GENERATION ENGINE  (runtime worker)                                     │
 │  packages\agents\  (engine for Surge/Zrodinger)                                │
 │                                                                                │
-│   reads surge-formula + POLICY.md from vault → generates clip draft →          │
+│   reads viral-formula + POLICY.md from vault → generates clip draft →          │
 │   runs safeguards check → writes draft artifact to disk →                      │
 │   creates approval_queue row (status=pending) → STOPS. Waits for human.        │
 └────────────────────────────────────────────────────────────────────────────┘
@@ -293,7 +293,7 @@ Squarely at the **Mission Control <-> Engine** boundary, materialised as the `ap
 
 ### Campaign / issue flow (backlog -> running -> review -> done) across the three layers
 
-1. **Backlog (MC + vault):** Boss creates a campaign in the Campaign Control Panel -> `campaigns` row `status=planned`, child `tasks` rows `status=backlog`. Doctrine for the run (surge-formula, POLICY) lives in the **vault**; MC reads it.
+1. **Backlog (MC + vault):** Boss creates a campaign in the Campaign Control Panel -> `campaigns` row `status=planned`, child `tasks` rows `status=backlog`. Doctrine for the run (viral-formula, POLICY) lives in the **vault**; MC reads it.
 2. **Running (MC -> Engine):** Boss starts the campaign -> `campaigns.status=running`, task -> `in-progress`. MC enqueues an `agent_runs` row. The **Engine** picks it up, reads vault doctrine, generates the draft, runs safeguards.
 3. **Review (Engine -> MC -> Boss):** Engine writes the artifact, inserts `approval_queue (status=pending)`, sets task -> `in-review`, campaign -> `review`. WS pushes it to the Approval Queue. **Boss reviews each asset** and sets `approved` / `rejected` / `changes-requested`.
 4. **Done (MC + vault):** On `approved` (milestone-1 stops here as an approved *draft*), task -> `done`, and MC writes a changelog entry to `.canon/4_orchestrator/changelogs/` and/or a launch record to `vault/`. Rejected -> task back to `in-progress` with review notes; the engine reruns. Later stages add the actual publish step downstream of `approved`.
@@ -309,7 +309,7 @@ Sequenced by sub-system. Milestone-1 deliberately needs **no social accounts and
 **Phase 0 — Governance (stamp + reconcile)**
 1. Stamp `.canon` at `D:\VFXellence-LTD\polymath\.canon\` from the factory with the Section-1 placeholder table; apply Jira teardown.
 2. Migrate real `vault/dev/` files into `.canon`; replace `DEV-CLAUDE.md` with a pointer; leave business `vault/` untouched.
-3. Confirm `vault/` has the Surge doctrine the engine will read: `surge-formula`, `POLICY.md`/safeguards, Zrodinger vertical spec. Author stubs if missing.
+3. Confirm `vault/` has the Surge doctrine the engine will read: `viral-formula`, `POLICY.md`/safeguards, Zrodinger vertical spec. Author stubs if missing.
 
 **Phase 1 — Control plane + state (scaffold MC)**
 4. Create `apps/mission-control/` package (client absorbs `apps/dashboard/src`; server is Node + better-sqlite3 + Hono).
@@ -322,7 +322,7 @@ Sequenced by sub-system. Milestone-1 deliberately needs **no social accounts and
 9. Build the **Campaign Control Panel** (create / start a campaign; show run status) reading `campaigns` + `agent_runs`.
 
 **Phase 3 — Engine (runtime, Stage 0/1)**
-10. In `packages/agents/`, build the minimal Surge/Zrodinger draft generator: read vault `surge-formula` + Zrodinger spec -> produce ONE clip draft (script + asset) -> run the safeguards check against `POLICY.md`.
+10. In `packages/agents/`, build the minimal Surge/Zrodinger draft generator: read vault `viral-formula` + Zrodinger spec -> produce ONE clip draft (script + asset) -> run the safeguards check against `POLICY.md`.
 11. Wire engine output to state: write the artifact to disk, insert an `approval_queue` row `status=pending`, advance task -> `in-review`. Engine HALTS here. Stage 0/1 only — triggered manually from the Campaign Control Panel.
 
 **Phase 4 — Close the loop (review -> done)**

@@ -16,8 +16,8 @@
   - **Affiliate / Conduit** — Parked. Real specs (5 agents). Blocked until Content or Viral reaches Phase 2.
 - **Build sequence:** Signal + Surge in parallel (Boss override 2026-05-13). All others parked. Month-9 checkpoint decides whether ONE parked ecosystem activates — gated behind the `polymath-pitfalls` skill.
 - **BUILT vs SPECCED:**
-  - **Specced (real, substantive):** All 13 Signal agents, both Signal workflows, Signal playbooks, Signal vertical brief (niche/personas/style/banned-topics/phase-0 plan). Surge surge-formula (13.6KB, effectively the combined spec for agents 01–08), 3 Surge workflows, 4 Surge playbooks, safeguards policy, accounts strategy, vertical research. Products (5 agents) and Affiliate (5 agents) full specs. 6 shared agents + shared workflows + compliance docs. Source Material Bible (sections 01–20).
-  - **MISSING:** Surge individual agent files `01-source-scanner.md`–`09-rpm-tracker.md` were never created (only the architecture README + surge-formula exist). Lullaby `brief/` and all sub-dirs are empty. `packages/agents/` and `packages/types/` are empty. No working agent code anywhere.
+  - **Specced (real, substantive):** All 13 Signal agents, both Signal workflows, Signal playbooks, Signal vertical brief (niche/personas/style/banned-topics/phase-0 plan). Surge viral-formula (13.6KB, effectively the combined spec for agents 01–08), 3 Surge workflows, 4 Surge playbooks, safeguards policy, accounts strategy, vertical research. Products (5 agents) and Affiliate (5 agents) full specs. 6 shared agents + shared workflows + compliance docs. Source Material Bible (sections 01–20).
+  - **MISSING:** Surge individual agent files `01-source-scanner.md`–`09-rpm-tracker.md` were never created (only the architecture README + viral-formula exist). Lullaby `brief/` and all sub-dirs are empty. `packages/agents/` and `packages/types/` are empty. No working agent code anywhere.
 - **Dashboard state:** Vite 8 + React 19 + TypeScript + Tailwind 4 + React Router 7 + Recharts. Working pages: Dashboard, Earnings, Transactions, Tax, Tools, Entity. Partial: Setup (Content real, Viral hardcoded stub, Products/Affiliate locked). Most complete: Launch page (Surge step templates, AI-generate, vault save). All runtime data is **localStorage only** — no backend, no SQLite in use (the `better-sqlite3` dep is wired to nothing).
 - **Dev port is 5174**, not 5173 as documented in CLAUDE.md (vite.config.ts line 46) — CLAUDE.md is stale on this point.
 - **Vault-write plugin** exists: dev-only Vite middleware intercepts `PUT /__vault/<filename>` and writes flat markdown to `vault/controller/launches/`. Guards against `..` / `/`, flat filenames only.
@@ -33,7 +33,7 @@
 ### Reusable building blocks (exist today)
 
 **Specs / doctrine (the "brain"):**
-- **Surge surge-formula.md** (13.6KB) — full 7-step transformation system (Source → Score → Script → Visual → Voice → Assemble → Caption → Distribute → Track) with JSON schemas, scoring dimensions, script rules, style/visual options, platform adaptation matrix. **This is the de-facto pipeline spec for an MVP engine.**
+- **Surge viral-formula.md** (13.6KB) — full 7-step transformation system (Source → Score → Script → Visual → Voice → Assemble → Caption → Distribute → Track) with JSON schemas, scoring dimensions, script rules, style/visual options, platform adaptation matrix. **This is the de-facto pipeline spec for an MVP engine.**
 - **Surge workflows** — `clip-factory.md` (stage map, parallel execution, 4 input variants, daily targets, batch schedule, error handling), `story-factory.md`, `trend-surf.md`.
 - **Surge playbooks** — `hook-library.md` (Tech/AI-specific Zrodinger hooks), `platform-rpm.md` (RPM by platform/niche), `title-formula.md`.
 - **Surge safeguards POLICY.md** — 7 hard bans + quality floor + FTC + escalation. Mandatory gate for any clip before distribution.
@@ -42,7 +42,7 @@
 
 **Agents (specs only, no code):**
 - 13 Signal agent specs, 5 Products specs, 5 Affiliate specs, 6 shared agent specs. **All are markdown specs — none are executable. `packages/agents/` is empty.**
-- Surge agents 01–09 exist **only as an architecture README + surge-formula** — individual implementation specs were never written.
+- Surge agents 01–09 exist **only as an architecture README + viral-formula** — individual implementation specs were never written.
 
 **Content / source material (the "raw fuel"):**
 - **Source Material Bible (sections 01–20)** — legally pre-cleared, machine-readable, DB-ingestible creative primitives. Locked frontmatter schema. Section 14 (Trending Categories) = demand signal; 08/09/13 = palette/symbol/motif; 02–05 = legal-cleared sources; 15 (Remix Engine) = on-demand novel collisions; 01 = legal filter that wins all conflicts. **Primary engine for Products/POD; strong secondary feed for Surge scripts (mythology, folklore, trending categories, quotes, archetypes).** Less central to Signal (owner-voice moat).
@@ -60,7 +60,7 @@
 ### What is MISSING (must be built or decided)
 
 - **Executable agent code.** Every agent is a markdown spec. `packages/agents/` and `packages/types/` are empty. No runtime.
-- **Surge agent implementation specs 01–09** — never written (only README + surge-formula).
+- **Surge agent implementation specs 01–09** — never written (only README + viral-formula).
 - **Durable storage.** localStorage is single-browser ephemeral. No server-side store, no append-only logs, no multi-record history. SQLite dep unused. A campaign engine needs durable records (a Vite plugin exposing SQLite, or a Hono+SQLite localhost backend).
 - **Job/task/queue data model.** No concept of "a campaign run", "a scheduled task", "a queue item", or "an execution log". `LaunchStep` is a checklist item, not a runnable unit of work.
 - **Agent identity model.** No types for agent name/version/capability/status/last-run/schedule/error. Shared `Agent`, `Campaign`, `RunLog`, `JobStatus`, `AgentOutput` types must be defined in `packages/types/` first.
@@ -114,7 +114,7 @@ Every hard rule that collides with "100% autonomous revenue generation," each st
 ## 5. Top Open Decisions (Boss must resolve before a spec can be written)
 
 1. **Which single campaign/ecosystem is the MVP — and why?**
-   Recommendation surfaced by the readers: **Surge / Zrodinger (Tech/AI Tools)**. It is the only target whose vertical is locked AND fully specced (surge-formula + workflows + playbooks + safeguards), its production pipeline needs no GPU/automation and runs ~40 min/video on free tools, and it is the natural home for the Source Material Bible feeds. It is also doctrine-compatible with autonomy (anonymous brand — no owner-voice conflict that blocks Signal/Lullaby). **Decision: confirm Surge as MVP, or pick Signal/another and accept its constraints.**
+   Recommendation surfaced by the readers: **Surge / Zrodinger (Tech/AI Tools)**. It is the only target whose vertical is locked AND fully specced (viral-formula + workflows + playbooks + safeguards), its production pipeline needs no GPU/automation and runs ~40 min/video on free tools, and it is the natural home for the Source Material Bible feeds. It is also doctrine-compatible with autonomy (anonymous brand — no owner-voice conflict that blocks Signal/Lullaby). **Decision: confirm Surge as MVP, or pick Signal/another and accept its constraints.**
 
 2. **Where does the human-approval gate sit?**
    Doctrine forbids autonomous publishing forever. **Decision: is the gate at "approve each piece before publish" (per-asset), "approve a batch/day's queue", or "approve the pipeline config once, then trust it within bounds"?** This single choice defines how "autonomous" the engine can ever be.
