@@ -102,6 +102,12 @@ Dry-run applies at the `CredentialResolver` level: absent credential ⇒ synthet
 
 ---
 
+## 2026-06-23 Refinements (content-engine framework integration)
+
+The following additions to Module 2 and Module 4 incorporate the content-engine framework worked into the viral ecosystem playbooks on 2026-06-23. They are additive — no existing decisions are reversed.
+
+---
+
 ## Module 2 — Closed Feedback Loop
 
 ### What It Does
@@ -145,8 +151,10 @@ Performance signals are populated by a lightweight post-import job: after each p
 | `views` | integer | |
 | `rpm` | real | revenue per mille (nullable) |
 | `engagement` | real | engagement rate 0–1 |
-| `hook_tag` | text | the hook category used in this post |
-| `style_tag` | text | the visual/edit style used |
+| `saves` | integer nullable | save count — primary scale indicator (saves > shares > comments > likes) |
+| `shares` | integer nullable | share count — second-highest weight signal |
+| `hook_tag` | text | the hook category used in this post — typed against hook-library.md categories (e.g. `impossibility`, `survival`, `revelation`, `escalation`, `challenge`, `numbers`, `universal`, `tech_ai`) |
+| `style_tag` | text | the visual/edit style used — typed against hook-library.md style categories |
 | `captured_at` | timestamp | when the metric was fetched |
 
 `content_params` table (new — versioned):
@@ -160,6 +168,7 @@ Performance signals are populated by a lightweight post-import job: after each p
 | `style_weights` | text | JSON object style_tag → weight |
 | `tone` | text | e.g. educational / energetic / calm |
 | `length_seconds_target` | integer | target video length |
+| `optimize_for` | text | maximization target: `rpm \| saves \| shares \| reach`. Default `saves` (leading indicator of reach — saves > shares > comments > likes hierarchy). **Tension note:** the viral ecosystem's revenue thesis is RPM-first (TikTok Creator Rewards); Boss may switch to `rpm` per ecosystem once monetization thresholds are cleared. StrategyAdjuster reads this field to choose its maximization axis. |
 | `created_by` | text | "system" or "boss" |
 | `rationale` | text | plain-text explanation of why this version was created |
 | `created_at` | timestamp | |
@@ -276,8 +285,12 @@ LoopOrchestrator
   constraint: DAILY_LOOP_ENABLED=true to run automatically; off = manual trigger only
 
   stages:
-    1. TopicPicker — reads StrategyAdjuster's current content_params, picks a topic from the
-       backlog or generates one. Output: TopicSpec {title, hook_tag, style_tag, platform_targets}.
+    1. TopicPicker — reads StrategyAdjuster's current content_params, picks ONE topic per run
+       and schedules all 5 angle-variants (mistake | beginner_question | transformation |
+       contrarian | step_by_step) as separate TopicSpecs into the approval queue — not a single
+       draft. Output per variant: TopicSpec {title, angle, hook_tag, style_tag, platform_targets}.
+       This is the angle-multiplication principle: 1 topic × 5 angles → 5 drafts from one
+       research session, all entering the approval queue for Boss review.
     2. DraftGenerator — spawns a Claude generation call with the TopicSpec + current content_params.
        Output: DraftContent {script, shotlist, metadata}.
     3. RenderJob — invokes AssemblyAdapter (existing) to produce a render. Dry-run if
@@ -314,8 +327,8 @@ The loop has **no publish authority**. Even if accidentally misconfigured, it ca
 |---|---|---|
 | `platform_accounts` | Extended | `active`, `rotation_order`, `last_posted_at`, `stagger_hours`, `credential_ref` |
 | `publish_log` | Extended | `account_id` (nullable, FK to platform_accounts) |
-| `performance_signal` | New | `id`, `post_id`, `account_id`, `platform`, `views`, `rpm`, `engagement`, `hook_tag`, `style_tag`, `captured_at` |
-| `content_params` | New | `id`, `ecosystem_id`, `version`, `hook_weights`, `style_weights`, `tone`, `length_seconds_target`, `created_by`, `rationale`, `created_at` |
+| `performance_signal` | New | `id`, `post_id`, `account_id`, `platform`, `views`, `rpm`, `engagement`, `saves` (nullable), `shares` (nullable), `hook_tag`, `style_tag`, `captured_at` |
+| `content_params` | New | `id`, `ecosystem_id`, `version`, `hook_weights`, `style_weights`, `tone`, `length_seconds_target`, `optimize_for` (rpm\|saves\|shares\|reach, default saves), `created_by`, `rationale`, `created_at` |
 | `ad_campaigns` | New | `id`, `post_id`, `account_id`, `platform`, `budget_usd`, `audience_spec`, `status`, `dry_run`, `campaign_id_external`, `spend_actual_usd`, `created_at`, `approved_at`, `rationale` |
 | `loop_run_log` | New | `id`, `ecosystem_id`, `run_at`, `status`, `stage_reached`, `draft_id_created`, `error_text` |
 
@@ -408,6 +421,8 @@ Each module ships with its own test file following the vitest patterns in `serve
 ---
 
 ## Deferred / YAGNI
+
+- **`ClipDraft.angle` field:** `ClipDraft` (in `packages/agents/src/types.ts`) will gain an `angle` enum field (`mistake | beginner_question | transformation | contrarian | step_by_step`) when angle-generation is built into `DraftGenerator`. NOT added to code now (YAGNI — the `TopicSpec` carries the angle through the current loop; `ClipDraft` does not need it until the generation step reads it from the draft record). Track as a follow-up when Module 4 `DraftGenerator` is implemented.
 
 - **Viral text stream (Threads / X for @zrodinger):** the text publishing pipeline for short-form written content is deferred to backlog. The routing and loop machinery built here will accommodate it, but the text-specific generation and formatting steps are out of scope for this spec.
 - **Other ecosystems inheriting the machinery:** `content`, `products`, `affiliate` will inherit all four modules after the `viral` / @zrodinger cycle proves the design. No ecosystem-specific modifications are anticipated — the schema and service interfaces are ecosystem-agnostic from the start.

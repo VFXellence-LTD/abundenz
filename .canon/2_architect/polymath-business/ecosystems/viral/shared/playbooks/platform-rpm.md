@@ -122,6 +122,27 @@ Weekly digest surfaces:
 
 ---
 
+## Engagement Signals That Matter
+
+Not all engagement is equal. The algorithm reads signal type as a proxy for content quality. Optimizing for the wrong signal produces views without reach.
+
+**Hierarchy (descending importance as a scale indicator):**
+
+| Signal | Why it matters | What it means |
+|--------|---------------|---------------|
+| **Saves** | Highest-weight signal on most platforms | "I want this later" — the viewer found it useful enough to retrieve again. Saves on Instagram and TikTok directly boost distribution. |
+| **Shares** | Second-highest weight | "Someone else needs this" — the viewer is doing the platform's distribution job for free. Share = reach multiplier. |
+| **Comments** | Strong engagement signal, drives dwell time | Generates reply loops, which extend session time on the post. Also a quality signal to the algorithm. |
+| **Likes** | Weakest reach signal | Easy to tap, easy to ignore. Useful for A/B hook testing but a lagging indicator of reach. |
+
+**Primary optimization axis:** saves and shares — not likes. These are **leading indicators of reach**, not vanity metrics. A post with 200 saves and 50 shares will outperform a post with 2,000 likes and 5 saves in algorithmic distribution.
+
+**Practical implication — make keepable reference content:** content that delivers a reusable framework, a checklist, a step-by-step, or a contrarian insight the viewer will want back gets saved. Content that is merely entertaining gets liked and forgotten. The `viral` ecosystem's angle set (`mistake | beginner_question | transformation | contrarian | step_by_step`) is calibrated for saves because all five frames produce content the viewer wants to return to.
+
+**Data rule:** let saves and shares data — not taste — decide what scales. When the feedback loop (Module 2 `performance_signal`) accumulates signal data, `saves` and `shares` are the primary columns the StrategyAdjuster should weight. If saves are rising on a particular hook category, double down. If a hook is generating likes but no saves, it is entertaining but not sticky.
+
+---
+
 ## Monetization Threshold Strategy
 
 For new accounts that haven't met monetization requirements:

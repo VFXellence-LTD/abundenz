@@ -192,6 +192,20 @@ _clips/
 
 ---
 
+## Stage 12 — First-Hour Human Engagement
+
+**Human step. Post-publish. Not automated.**
+
+After Stage 10 (Distribute) confirms the post is live, the pipeline stops. Stage 12 is the Boss's manual task, run within the first 30-60 minutes of each post going live.
+
+This step is permanently manual. Automating post-publish engagement (auto-comments, bot replies, bulk-follow scripts) risks platform penalties and account flags, especially during the 30-day manual validation phase. No agent, cron job, or loop orchestrator may substitute for this step.
+
+See [`first-hour-playbook.md`](./first-hour-playbook.md) for the full checklist.
+
+**Why it matters:** the first 30-60 minutes of engagement heavily influences how far a post travels. The algorithm reads early signal density as a proxy for content quality and decides initial distribution from it. A post that clears the first hour with strong engagement enters a wider distribution pool than one that sits cold.
+
+---
+
 ## Quality Gates
 
 | Gate | Check | Action on failure |

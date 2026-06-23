@@ -6,6 +6,36 @@ This playbook operationalizes the full agent pipeline. Each step maps to one or 
 
 ---
 
+## Pre-Step: Angle Multiplication
+
+Before the pipeline runs, one decision eliminates the blank-page problem: **you don't need endless topic ideas — you need one topic run through the fixed angle set.**
+
+The five angles are an exhaustive frame set. Every educational or informational topic can be entered from all five:
+
+| Angle | Machine enum | Frame |
+|-------|-------------|-------|
+| The mistake people make with it | `mistake` | What everyone gets wrong |
+| The question beginners are scared to ask | `beginner_question` | The thing nobody admits they don't understand |
+| The transformation (before/after) | `transformation` | What changes when you actually do this right |
+| A contrarian take on common advice | `contrarian` | Why the standard advice is wrong or incomplete |
+| The step-by-step | `step_by_step` | Exactly how to do it, in order |
+
+**The multiplication:** 1 topic × 5 angles × 3 formats (talking video, text post, carousel) × 4 platforms (TikTok, Reels, Shorts, X — minor tweaks each) = **30+ pieces from one idea.**
+
+### Worked example — @zrodinger (viral), quantum/science topic: "quantum entanglement"
+
+| Angle | Draft premise |
+|-------|---------------|
+| `mistake` | "Everyone describes entanglement as 'spooky action at a distance' — that framing is why nobody actually understands it." |
+| `beginner_question` | "Is quantum entanglement just a coincidence between particles? (The answer is embarrassing for most physics explainers.)" |
+| `transformation` | "Before: entanglement sounds like magic. After: it's a constraint on information — and once you see it that way, quantum computing stops being mystical." |
+| `contrarian` | "Pop-science says entanglement lets you communicate faster than light. It doesn't. Here's why every viral explainer gets this wrong." |
+| `step_by_step` | "How to actually understand quantum entanglement in 5 steps — without the word 'spooky.'" |
+
+Each angle becomes an independent `TopicSpec` passed into the pipeline. The same source material (research, a transcript, a reference video) seeds all five drafts. Five drafts. One research session.
+
+---
+
 ## Pipeline Overview
 
 ```

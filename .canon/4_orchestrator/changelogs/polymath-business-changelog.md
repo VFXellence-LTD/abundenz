@@ -2,6 +2,17 @@
 
 ---
 
+## 2026-06-23 — Content-engine framework integrated into viral ecosystem
+
+- **surge-formula.md:** Added "Pre-Step: Angle Multiplication" — 1 topic × 5 fixed angles (`mistake | beginner_question | transformation | contrarian | step_by_step`) × 3 formats × 4 platforms = 30+ pieces from one idea. Includes worked @zrodinger quantum/science example showing all 5 angle variants.
+- **first-hour-playbook.md (new):** Human post-publish SOP covering the three first-hour tactics: (a) seed a first comment, (b) reply to every comment immediately, (c) engage larger niche accounts. Explicitly states automation risks platform penalties — permanently manual task. Includes saves > shares > comments > likes hierarchy rationale.
+- **clip-factory.md:** Added Stage 12 — First-Hour Human Engagement, pointing to first-hour-playbook.md. Clearly marked as a human step, post-publish, not automated.
+- **platform-rpm.md:** Added "Engagement Signals That Matter" section — saves > shares > comments > likes as the primary data axis for deciding what to scale. Ties the angle set to save-optimized content design. States that saves/shares data — not taste — decides what scales.
+- **hook-library.md:** Named "The Loop Principle" in Hook Construction Rules (open a loop, don't describe the topic; ≈2s gate). Added note that hook categories in this file are the source for `hook_tag` values in Module 2 `performance_signal`.
+- **growth-operator-design-2026-06-21.md:** 2026-06-23 refinements — `performance_signal` gains `saves integer nullable` and `shares integer nullable`; `content_params` gains `optimize_for text` (rpm|saves|shares|reach, default saves, tension with RPM thesis noted); `hook_tag`/`style_tag` typed against hook-library.md categories; Module 4 `TopicPicker` documented as picking ONE topic and scheduling all 5 angle-variants into the approval queue; deferred `ClipDraft.angle` enum field (`mistake|beginner_question|transformation|contrarian|step_by_step`) noted as YAGNI until DraftGenerator is built. Data Model Summary table updated accordingly.
+
+---
+
 ## 2026-06-21 — Module 1 routing-layer complete + ship-ready
 
 - Module 1 (multi-account routing layer) COMPLETE + ship-ready — 5 TDD tasks: schema (platform_accounts routing fields + publish_log.account_id), CredentialResolver (per-account Buffer profileId, dry-run safe), RoutingService (pure; LRU sort, stagger, no-identical default cap 1, ecosystem scope), publish.service wiring + BufferDistributor profileId injection, route-level integration test. Commits 5783da5..4d25a2e. All gates intact: publish stays human-gated, dry-run by default, no-identical-cross-account default, RoutingService pure read-only. Full suites green (server 120 pass/1 skip; publish 16 pass).

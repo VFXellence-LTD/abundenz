@@ -101,6 +101,13 @@ The hook is the first 1-3 seconds. If it doesn't stop the scroll, nothing else m
 
 ## Hook Construction Rules
 
+**The Loop Principle:** Open a loop — don't describe the topic. The opening is the gate (≈2 seconds on short-form, first line on text). A loop the brain must close buys the watch-time the algorithm rewards. Describing what the video is about closes the loop before it opens. Posing an unanswered question or incomplete statement forces the brain to stay to resolve it.
+
+> Bad: "Today I'm going to explain quantum entanglement."
+> Good: "Everyone describing quantum entanglement is accidentally lying to you."
+
+The categories in this library are the source for `hook_tag` values used by the Module 2 `performance_signal` table in the feedback loop. When logging a post's performance, set `hook_tag` to the category name that best matches the hook used (e.g. `impossibility`, `survival`, `revelation`, `escalation`, `challenge`, `numbers`, `universal`, `tech_ai`). The StrategyAdjuster weights future drafts toward the categories that correlate with the strongest saves and shares.
+
 1. **Specificity beats vagueness.** "This man survived 14 assassination attempts" > "This man survived a lot."
 2. **Numbers create credibility.** Include a number when possible.
 3. **Tension creates curiosity.** The hook should create an unanswered question.
