@@ -18,7 +18,7 @@ async function main(): Promise<void> {
   const apiBase = arg("api") ?? "http://localhost:4500/api";
 
   if (!draftPath || !taskId || !campaignId) {
-    console.error("Usage: surge-run --draft <draft.json> --task <taskId> --campaign <campaignId> [--slug <slug>] [--api <base>]");
+    console.error("Usage: viral-run --draft <draft.json> --task <taskId> --campaign <campaignId> [--slug <slug>] [--api <base>]");
     process.exit(2);
   }
 
@@ -32,6 +32,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  console.error(`surge-run failed: ${err instanceof Error ? err.message : String(err)}`);
+  console.error(`viral-run failed: ${err instanceof Error ? err.message : String(err)}`);
   process.exit(1);
 });

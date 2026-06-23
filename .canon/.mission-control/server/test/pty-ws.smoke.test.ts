@@ -22,11 +22,11 @@ d("PTY <-> /ws/terminal smoke (harmless echo, no claude)", () => {
     sessions.setPtyService(pty);
     const wss = setupTerminalWebSocket(pty, sessions);
 
-    // Register a session record (so the WS accepts the connection) WITHOUT a surge command:
+    // Register a session record (so the WS accepts the connection) WITHOUT a viral command:
     // we pre-spawn the PTY ourselves with a harmless echo so the bridge reattaches & streams.
     const id = "smoke-session";
     (sessions as unknown as { sessions: Map<string, unknown> }).sessions.set(id, {
-      id, command: "/surge-continue", cwd: process.cwd(),
+      id, command: "/viral-continue", cwd: process.cwd(),
       campaignId: null, taskId: null, status: "running",
       startedAt: new Date().toISOString(), endedAt: null,
     });

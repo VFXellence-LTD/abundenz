@@ -19,14 +19,14 @@ describe("ClaudeSessionsService.findSessionForCampaign", () => {
 
   it("returns the UUID of the jsonl whose message references the campaignId", async () => {
     const uuid = "123e4567-e89b-42d3-a456-426614174000";
-    const line = JSON.stringify({ message: { role: "user", content: 'claude "/surge-generate camp-007"' } });
+    const line = JSON.stringify({ message: { role: "user", content: 'claude "/viral-generate camp-007"' } });
     fs.writeFileSync(path.join(projectsDir, `${uuid}.jsonl`), `${line}\n`, "utf-8");
     const svc = new ClaudeSessionsService(path.join(tmp, "projects"));
     expect(await svc.findSessionForCampaign("camp-007", CWD)).toBe(uuid);
   });
 
   it("returns null when no transcript references the campaignId", async () => {
-    const line = JSON.stringify({ message: { content: "/surge-generate camp-OTHER" } });
+    const line = JSON.stringify({ message: { content: "/viral-generate camp-OTHER" } });
     fs.writeFileSync(path.join(projectsDir, "deadbeef.jsonl"), `${line}\n`, "utf-8");
     const svc = new ClaudeSessionsService(path.join(tmp, "projects"));
     expect(await svc.findSessionForCampaign("camp-007", CWD)).toBeNull();

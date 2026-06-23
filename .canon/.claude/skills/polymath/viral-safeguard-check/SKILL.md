@@ -1,12 +1,12 @@
-# Skill: Surge Safeguard Check
+# Skill: Viral Safeguard Check
 
 ```yaml
-name: surge-safeguard-check
-description: Re-run the viral-surge safeguard policy gate against an existing Zrodinger clip draft json and report pass/flags. Read-only — does not write artifacts, records nothing, publishes nothing.
+name: viral-safeguard-check
+description: Re-run the viral-safeguards policy gate against an existing Zrodinger clip draft json and report pass/flags. Read-only — does not write artifacts, records nothing, publishes nothing.
 triggers:
-  - "/surge-safeguard-check <draftJsonPath>"
+  - "/viral-safeguard-check <draftJsonPath>"
   - Re-validating a draft during review or after edits
-ecosystems: [surge]
+ecosystems: [viral]
 ```
 
 ---
@@ -35,4 +35,4 @@ Run against a clean sample draft → `pass:true, flags:[]`. Run against a draft 
 ## Related
 
 - `src/safeguard.ts` — the tested gate this skill calls
-- `surge-generate` — full generation loop that runs this gate inline
+- `viral-generate` — full generation loop that runs this gate inline

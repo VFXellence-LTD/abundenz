@@ -1,11 +1,11 @@
 ---
-name: surge-publish
-description: Documents the human-gated publish flow for Surge (viral) ecosystem social distribution.
+name: viral-publish
+description: Documents the human-gated publish flow for the Viral ecosystem social distribution.
 trigger: when Boss asks to publish a clip, go live, distribute to social, or asks about publishing status
 halt: Boss-clicked button only
 ---
 
-# Surge Publish Skill
+# Viral Publish Skill
 
 ## Stage: HALT (Boss-gated)
 
@@ -13,7 +13,7 @@ halt: Boss-clicked button only
 
 ## What this covers
 
-Publishing a rendered, Boss-approved video clip from the Surge ecosystem to social platforms (TikTok, YouTube, Instagram) via the Mission Control Approval Queue.
+Publishing a rendered, Boss-approved video clip from the Viral ecosystem to social platforms (TikTok, YouTube, Instagram) via the Mission Control Approval Queue.
 
 ## Gate (enforced server-side)
 
@@ -46,5 +46,5 @@ See GO-LIVE-HANDOFF.md for the steps to go from dry-run to live distribution.
 
 - NEVER autonomous: no scheduler, cron, agent, or WS event may trigger /api/publish
 - Per-asset: one click per approval, no bulk publish
-- Brand isolation: Surge (viral) credentials are separate from Signal (content)
+- Brand isolation: Viral credentials are separate from Content
 - FTC disclosure required on affiliate ecosystem captions before publish is allowed

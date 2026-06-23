@@ -37,7 +37,7 @@ export function buildViralPrompt(opts: BuildViralPromptOpts): string {
   const spec = readOrMissing(specPath);
   const safeguards = readOrMissing(safeguardsPath);
 
-  return `/surge-generate ${campaignId}
+  return `/viral-generate ${campaignId}
 
 Context pre-loaded for this Viral session (read-only doctrine):
 

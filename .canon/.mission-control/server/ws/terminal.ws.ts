@@ -66,7 +66,7 @@ export function setupTerminalWebSocket(
     }
 
     // After the shell initializes, type the full claude command as a single CLI invocation.
-    // Accepts: `claude "/surge-generate <id>"`, `claude --resume <uuid>`, `claude --resume <uuid> "<directive>"`.
+    // Accepts: `claude "/viral-generate <id>"`, `claude --resume <uuid>`, `claude --resume <uuid> "<directive>"`.
     if (isNewPty && session.command) {
       const command = session.command;
       let fullCmd: string;

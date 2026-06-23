@@ -19,9 +19,9 @@ describe("buildViralPrompt", () => {
   });
   afterEach(() => { fs.rmSync(canon, { recursive: true, force: true }); });
 
-  it("leads with /surge-generate <campaignId> and embeds the three doctrine sources", () => {
+  it("leads with /viral-generate <campaignId> and embeds the three doctrine sources", () => {
     const prompt = buildViralPrompt({ campaignId: "camp-9", canonPath: canon });
-    expect(prompt.startsWith("/surge-generate camp-9")).toBe(true);
+    expect(prompt.startsWith("/viral-generate camp-9")).toBe(true);
     expect(prompt).toContain("HOOK then SCRIPT");
     expect(prompt).toContain("Zrodinger clip spec");
     expect(prompt).toContain("No medical claims");

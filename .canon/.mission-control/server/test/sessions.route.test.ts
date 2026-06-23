@@ -41,14 +41,14 @@ describe("POST/GET/STOP /api/sessions", () => {
     await request(app).post("/api/sessions/start").send({ campaignId: "camp-1" }).expect(409);
   });
 
-  it("201 + agent_runs row + surge command when the campaign is approved", async () => {
+  it("201 + agent_runs row + viral command when the campaign is approved", async () => {
     const camps = new CampaignsService(db);
     camps.create({ id: "camp-2", name: "C2", ecosystemId: "viral" });
     camps.approve("camp-2", "Boss");
     const { app, runs } = makeApp(db);
     const res = await request(app).post("/api/sessions/start").send({ campaignId: "camp-2" }).expect(201);
     expect(res.body.status).toBe("running");
-    expect(res.body.command).toBe("/surge-generate camp-2");
+    expect(res.body.command).toBe("/viral-generate camp-2");
     expect(res.body.campaignId).toBe("camp-2");
     expect(res.body.cwd).toBe("D:\\VFXellence-LTD\\polymath\\packages\\agents");
     const run = runs.get(res.body.id);

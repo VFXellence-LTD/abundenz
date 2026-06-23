@@ -14,12 +14,12 @@ class FakePtyService {
 }
 
 describe("validateCommand (allowlist)", () => {
-  it("accepts the four surge skills, bare or with an argument", () => {
-    expect(() => validateCommand("/surge-generate")).not.toThrow();
-    expect(() => validateCommand("/surge-generate camp-001")).not.toThrow();
-    expect(() => validateCommand("/surge-safeguard-check camp-001")).not.toThrow();
-    expect(() => validateCommand("/surge-continue")).not.toThrow();
-    expect(() => validateCommand("/surge-render aq_abc_123")).not.toThrow();
+  it("accepts the four viral skills, bare or with an argument", () => {
+    expect(() => validateCommand("/viral-generate")).not.toThrow();
+    expect(() => validateCommand("/viral-generate camp-001")).not.toThrow();
+    expect(() => validateCommand("/viral-safeguard-check camp-001")).not.toThrow();
+    expect(() => validateCommand("/viral-continue")).not.toThrow();
+    expect(() => validateCommand("/viral-render aq_abc_123")).not.toThrow();
   });
   it("accepts --resume <uuid> with optional trailing directive", () => {
     expect(() => validateCommand("--resume 123e4567-e89b-42d3-a456-426614174000")).not.toThrow();
@@ -28,7 +28,7 @@ describe("validateCommand (allowlist)", () => {
   it("rejects anything else, including Canon skills", () => {
     expect(() => validateCommand("/start ENG-1")).toThrow(/not allowed/i);
     expect(() => validateCommand("rm -rf /")).toThrow(/not allowed/i);
-    expect(() => validateCommand("/surge-evil")).toThrow(/not allowed/i);
+    expect(() => validateCommand("/viral-evil")).toThrow(/not allowed/i);
   });
 });
 
@@ -51,13 +51,13 @@ describe("SessionService lifecycle + agent_runs", () => {
   afterEach(() => { svc.stopIdleDetection(); vi.useRealTimers(); db.close(); });
 
   it("startSession creates an agent_runs row at status running and returns it", () => {
-    const s = svc.startSession({ command: "/surge-generate camp-1", cwd: "C:\\x", campaignId: "camp-1" });
+    const s = svc.startSession({ command: "/viral-generate camp-1", cwd: "C:\\x", campaignId: "camp-1" });
     expect(s.status).toBe("running");
     const row = runs.get(s.id);
     expect(row).toBeDefined();
     expect(row!.status).toBe("running");
     expect(row!.campaignId).toBe("camp-1");
-    expect(row!.command).toBe("/surge-generate camp-1");
+    expect(row!.command).toBe("/viral-generate camp-1");
     expect(row!.cwd).toBe("C:\\x");
   });
 
@@ -69,7 +69,7 @@ describe("SessionService lifecycle + agent_runs", () => {
   it("idle detector flips running -> waiting after the threshold; output flips it back", () => {
     const events: Array<{ sessionId: string; status: string }> = [];
     svc.on("status", (e) => events.push(e as { sessionId: string; status: string }));
-    const s = svc.startSession({ command: "/surge-continue" });
+    const s = svc.startSession({ command: "/viral-continue" });
     vi.advanceTimersByTime(11_000);
     expect(svc.getSession(s.id)!.status).toBe("waiting");
     pty.emit("data", { sessionId: s.id });
@@ -79,7 +79,7 @@ describe("SessionService lifecycle + agent_runs", () => {
   });
 
   it("stopSession kills the PTY, marks the run done, emits status", () => {
-    const s = svc.startSession({ command: "/surge-generate camp-2", campaignId: "camp-2" });
+    const s = svc.startSession({ command: "/viral-generate camp-2", campaignId: "camp-2" });
     const events: Array<{ sessionId: string; status: string }> = [];
     svc.on("status", (e) => events.push(e as { sessionId: string; status: string }));
     svc.stopSession(s.id);
@@ -90,7 +90,7 @@ describe("SessionService lifecycle + agent_runs", () => {
   });
 
   it("markError sets the run to error", () => {
-    const s = svc.startSession({ command: "/surge-generate camp-3", campaignId: "camp-3" });
+    const s = svc.startSession({ command: "/viral-generate camp-3", campaignId: "camp-3" });
     svc.markError(s.id, "boom");
     expect(svc.getSession(s.id)!.status).toBe("error");
     expect(runs.get(s.id)!.status).toBe("error");

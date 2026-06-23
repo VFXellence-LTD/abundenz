@@ -34,7 +34,7 @@ export function createSessionsRouter(deps: SessionsRouterDeps): Router {
       if (!camp) { res.status(404).json({ error: `Campaign not found: ${b.campaignId}` }); return; }
       if (!camp.approvedBy) { res.status(409).json({ error: "Campaign must be approved before running" }); return; }
     }
-    const command = b.campaignId ? `/surge-generate ${b.campaignId}` : "/surge-continue";
+    const command = b.campaignId ? `/viral-generate ${b.campaignId}` : "/viral-continue";
     try {
       const session = deps.sessions.startSession({
         command,

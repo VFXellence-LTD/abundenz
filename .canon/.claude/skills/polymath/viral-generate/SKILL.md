@@ -1,12 +1,12 @@
-# Skill: Surge Generate
+# Skill: Viral Generate
 
 ```yaml
-name: surge-generate
+name: viral-generate
 description: Generate ONE script-level Zrodinger (tech/AI-tools) viral clip DRAFT, safeguard-check it, write the artifact, record a pending approval, move the task to in-review, then HALT. No video render, no voiceover, no publishing, no social accounts.
 triggers:
-  - "/surge-generate <campaignId>"
-  - Spawned by Mission Control session start for a Surge campaign
-ecosystems: [surge]
+  - "/viral-generate <campaignId>"
+  - Spawned by Mission Control session start for a Viral campaign
+ecosystems: [viral]
 arguments:
   - campaignId (required): the campaign this draft belongs to
 ```
@@ -17,7 +17,7 @@ arguments:
 
 - Produce exactly ONE clip draft at SCRIPT LEVEL: `{hook, script, shotlist, caption, hashtags, sourceRefs}`. NO `.mp4`, NO voiceover, NO image/video generation, NO CapCut. Those are later autonomy stages — not this skill.
 - NEVER publish. NEVER log into or touch any social account. The skill ends at "pending approval + task in-review".
-- BRAND ISOLATION: Surge is anonymous. Use only the `zrodinger` sub-brand (Abundenz parent). Never reference the operator, "Robin", VFXellence, Halon, Polymath, or any other ecosystem in the draft text.
+- BRAND ISOLATION: Viral is anonymous. Use only the `zrodinger` sub-brand (Abundenz parent). Never reference the operator, "Robin", VFXellence, Halon, Polymath, or any other ecosystem in the draft text.
 - The safeguard check is a HARD GATE handled by the supporting TS. A blocked draft is still written + recorded for human review — you do NOT discard it and you do NOT try to "fix and republish".
 
 ## Inputs to load (read-only doctrine)
@@ -32,7 +32,7 @@ You run with `cwd = D:\VFXellence-LTD\polymath\packages\agents`. Read these befo
 
 ## Procedure
 
-1. **Resolve the campaign.** Call `GET http://localhost:4500/api/campaigns?ecosystem=viral`, find the row whose `id` matches `<campaignId>`. Capture its `verticalId` and the associated task id (the campaign's task; if absent, query `GET /api/tasks?ecosystem=viral` for the in-progress Surge task tied to this campaign). You need `taskId` and `campaignId` for the recording step. If you cannot resolve them, STOP and report — do not invent ids.
+1. **Resolve the campaign.** Call `GET http://localhost:4500/api/campaigns?ecosystem=viral`, find the row whose `id` matches `<campaignId>`. Capture its `verticalId` and the associated task id (the campaign's task; if absent, query `GET /api/tasks?ecosystem=viral` for the in-progress Viral task tied to this campaign). You need `taskId` and `campaignId` for the recording step. If you cannot resolve them, STOP and report — do not invent ids.
 2. **Pick a topic.** From the Zrodinger source-material types (Product Hunt / HN / TikTok Shop trending) choose ONE concrete tool/comparison. Keep it real and current; if you are not certain a claim is true, mark its sourceRef `confidence: "unverified"` and use qualifying language ("reportedly", "the listing claims").
 3. **Generate the draft** as a `ClipDraft` object (the shape is defined in `src/types.ts`):
    - `brand`: `"zrodinger"`.
@@ -46,7 +46,7 @@ You run with `cwd = D:\VFXellence-LTD\polymath\packages\agents`. Read these befo
 4. **Write the draft to a temp json**, e.g. `./.tmp-draft.json` in the package dir (use the Write tool).
 5. **Invoke the driver** (this does safeguard → write artifact → record approval → PATCH task → halt):
    ```
-   pnpm -C D:\VFXellence-LTD\polymath\packages\agents run surge:run -- --draft ./.tmp-draft.json --task <taskId> --campaign <campaignId> --slug <kebab-topic>
+   pnpm -C D:\VFXellence-LTD\polymath\packages\agents run viral:run -- --draft ./.tmp-draft.json --task <taskId> --campaign <campaignId> --slug <kebab-topic>
    ```
 6. **Read the printed JSON result.** Report to the operator (one line): the safeguard verdict (PASS/BLOCKED + flag count), the `artifactPath`, the `approvalId`, and that the task is now `in-review`.
 7. **HALT. No publish, no social accounts, no render.**
@@ -57,6 +57,6 @@ Hand-author a sample `ClipDraft` json and run step 5 against a running MC server
 
 ## Related
 
-- `src/driver.ts` / `bin/surge-run.ts` — the tested engine this skill drives
-- `surge-safeguard-check` skill — standalone re-check of a draft
-- `surge-continue` skill — resume / re-run after changes-requested
+- `src/driver.ts` / `bin/viral-run.ts` — the tested engine this skill drives
+- `viral-safeguard-check` skill — standalone re-check of a draft
+- `viral-continue` skill — resume / re-run after changes-requested

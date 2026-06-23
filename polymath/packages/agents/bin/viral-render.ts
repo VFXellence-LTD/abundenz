@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * bin/surge-render.ts — CLI entry for the /surge-render skill.
- * Usage: node --import tsx bin/surge-render.ts --approval <id> --api <base> [--force-dry-run]
+ * bin/viral-render.ts — CLI entry for the /viral-render skill.
+ * Usage: node --import tsx bin/viral-render.ts --approval <id> --api <base> [--force-dry-run]
  */
 import { runRender } from "../src/renderDriver.js";
 
@@ -18,7 +18,7 @@ const artifactsRoot = arg("--artifacts-root") ?? new URL("../artifacts", import.
 const forceDryRun = args.includes("--force-dry-run");
 
 if (!approvalId) {
-  console.error("Usage: surge-render --approval <id> --api <base> [--force-dry-run]");
+  console.error("Usage: viral-render --approval <id> --api <base> [--force-dry-run]");
   process.exit(1);
 }
 
@@ -28,6 +28,6 @@ runRender(approvalId, { apiBase, artifactsRoot, forceDryRun })
     process.exit(0);
   })
   .catch((err) => {
-    console.error("surge-render failed:", err instanceof Error ? err.message : err);
+    console.error("viral-render failed:", err instanceof Error ? err.message : err);
     process.exit(1);
   });

@@ -3,13 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "Polymath agent engines — Surge clip draft generator (script-level MVP)",
+  "description": "Polymath agent engines — Viral clip draft generator (script-level MVP)",
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "surge:run": "node --import tsx bin/surge-run.ts",
-    "surge:render": "node --import tsx bin/surge-render.ts"
+    "viral:run": "node --import tsx bin/viral-run.ts",
+    "viral:render": "node --import tsx bin/viral-render.ts"
   },
   "engines": { "node": ">=22" },
   "devDependencies": {

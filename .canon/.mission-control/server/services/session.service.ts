@@ -6,7 +6,7 @@ import type { AgentRunsService } from "./agentRuns.service.js";
 
 export type SessionStatus = "running" | "waiting" | "done" | "error";
 
-const ALLOWED_SKILLS = ["/surge-generate", "/surge-safeguard-check", "/surge-continue", "/surge-render"] as const;
+const ALLOWED_SKILLS = ["/viral-generate", "/viral-safeguard-check", "/viral-continue", "/viral-render"] as const;
 // UUID v4-ish: --resume <uuid> with optional trailing -- <directive>
 const RESUME_PATTERN =
   /^--resume [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}(\s+--\s+.*)?$/i;
