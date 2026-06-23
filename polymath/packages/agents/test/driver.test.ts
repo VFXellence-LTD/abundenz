@@ -28,7 +28,7 @@ function good(): ClipDraft {
 }
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), "surge-drv-"));
+  dir = mkdtempSync(join(tmpdir(), "viral-drv-"));
   calls.length = 0;
   globalThis.fetch = vi.fn(async (url: string | URL | Request, init?: RequestInit) => {
     calls.push({ url: String(url), init: init ?? {} });

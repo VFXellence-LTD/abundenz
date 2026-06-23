@@ -26,7 +26,7 @@ function draft(report = true): ClipDraft {
 
 describe("writeDraft", () => {
   it("writes json + markdown and returns the json artifactPath", () => {
-    dir = mkdtempSync(join(tmpdir(), "surge-"));
+    dir = mkdtempSync(join(tmpdir(), "viral-"));
     const res = writeDraft(draft(), { draftsDir: dir, campaignId: "camp-1", slug: "free-ai-tool" });
     expect(res.artifactPath.endsWith(".json")).toBe(true);
     expect(existsSync(res.artifactPath)).toBe(true);
@@ -40,7 +40,7 @@ describe("writeDraft", () => {
   });
 
   it("prefixes the dir with BLOCKED- when the report fails", () => {
-    dir = mkdtempSync(join(tmpdir(), "surge-"));
+    dir = mkdtempSync(join(tmpdir(), "viral-"));
     const d = draft(false);
     d.hook = "Hey guys welcome back";
     d.safeguardReport = runSafeguardCheck(d);
@@ -49,7 +49,7 @@ describe("writeDraft", () => {
   });
 
   it("throws if the draft has no safeguardReport (must check before write)", () => {
-    dir = mkdtempSync(join(tmpdir(), "surge-"));
+    dir = mkdtempSync(join(tmpdir(), "viral-"));
     expect(() => writeDraft(draft(false), { draftsDir: dir, campaignId: "c", slug: "x" })).toThrow(/safeguard/i);
   });
 });
