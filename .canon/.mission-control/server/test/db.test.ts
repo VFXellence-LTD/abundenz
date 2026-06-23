@@ -37,20 +37,20 @@ describe("db schema + migration", () => {
          VALUES (@id, @title, @type, @ecosystem_id, @source, @status, @priority, @linked_ids, @checklist, @autonomy_stage)`,
       )
       .run({
-        id: "SURGE-001",
+        id: "VIRAL-001",
         title: "First clip",
         type: "content-piece",
         ecosystem_id: "viral",
         source: "agent",
         status: "todo",
         priority: "high",
-        linked_ids: JSON.stringify(["SURGE-000"]),
+        linked_ids: JSON.stringify(["VIRAL-000"]),
         checklist: JSON.stringify([{ label: "draft", done: false }]),
         autonomy_stage: 1,
       });
-    const row: any = db.raw.prepare("SELECT * FROM tasks WHERE id=?").get("SURGE-001");
+    const row: any = db.raw.prepare("SELECT * FROM tasks WHERE id=?").get("VIRAL-001");
     expect(row.ecosystem_id).toBe("viral");
-    expect(JSON.parse(row.linked_ids)).toEqual(["SURGE-000"]);
+    expect(JSON.parse(row.linked_ids)).toEqual(["VIRAL-000"]);
     expect(row.autonomy_stage).toBe(1);
   });
 

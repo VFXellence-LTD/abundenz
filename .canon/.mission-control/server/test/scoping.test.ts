@@ -22,18 +22,20 @@ describe("ecosystem scoping", () => {
       .prepare("SELECT name FROM sqlite_master WHERE type='view'")
       .all()
       .map((r: any) => r.name);
-    expect(views).toContain("v_surge_tasks");      // viral
-    expect(views).toContain("v_signal_tasks");     // content
-    expect(views).toContain("v_surge_approval_queue");
+    expect(views).toContain("v_viral_tasks");        // viral
+    expect(views).toContain("v_content_tasks");      // content
+    expect(views).toContain("v_viral_approval_queue");
+    expect(views).toContain("v_products_tasks");     // products
+    expect(views).toContain("v_affiliate_tasks");    // affiliate
   });
 
   it("a scoped view cannot read another ecosystem's rows", () => {
     db = createDb(":memory:");
     createScopedViews(db.raw);
     seedTwoEcosystems(db);
-    const surge: any[] = db.raw.prepare(`SELECT * FROM ${ECOSYSTEM_VIEW("viral", "tasks")}`).all();
-    expect(surge.map((r) => r.id)).toEqual(["VIRAL-1"]);
-    expect(surge.find((r) => r.id === "CONTENT-1")).toBeUndefined();
+    const viral: any[] = db.raw.prepare(`SELECT * FROM ${ECOSYSTEM_VIEW("viral", "tasks")}`).all();
+    expect(viral.map((r) => r.id)).toEqual(["VIRAL-1"]);
+    expect(viral.find((r) => r.id === "CONTENT-1")).toBeUndefined();
   });
 
   it("scopedSelect injects WHERE ecosystem_id and blocks leakage", () => {

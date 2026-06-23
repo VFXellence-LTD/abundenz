@@ -20,34 +20,34 @@ beforeEach(() => {
 });
 afterEach(() => db.close());
 
-const TASK = { id: "SURGE-001", title: "First Zrodinger clip", type: "content-piece", ecosystemId: "viral", source: "agent", priority: "high" };
+const TASK = { id: "VIRAL-001", title: "First Zrodinger clip", type: "content-piece", ecosystemId: "viral", source: "agent", priority: "high" };
 
 describe("tasks", () => {
   it("POST creates a task in backlog by default", async () => {
     const res = await request(app).post("/api/tasks").send(TASK);
     expect(res.status).toBe(201);
-    expect(res.body.id).toBe("SURGE-001");
+    expect(res.body.id).toBe("VIRAL-001");
     expect(res.body.status).toBe("backlog");
     expect(res.body.ecosystemId).toBe("viral");
   });
 
   it("GET scoped to viral excludes content tasks", async () => {
     await request(app).post("/api/tasks").send(TASK);
-    await request(app).post("/api/tasks").send({ ...TASK, id: "SIGNAL-1", ecosystemId: "content" });
+    await request(app).post("/api/tasks").send({ ...TASK, id: "CONTENT-1", ecosystemId: "content" });
     const res = await request(app).get("/api/tasks?ecosystem=viral");
-    expect(res.body.map((t: any) => t.id)).toEqual(["SURGE-001"]);
+    expect(res.body.map((t: any) => t.id)).toEqual(["VIRAL-001"]);
   });
 
   it("PATCH transitions status", async () => {
     await request(app).post("/api/tasks").send(TASK);
-    const res = await request(app).patch("/api/tasks/SURGE-001/status").send({ status: "in-progress" });
+    const res = await request(app).patch("/api/tasks/VIRAL-001/status").send({ status: "in-progress" });
     expect(res.body.status).toBe("in-progress");
   });
 
   it("cannot mark done while a pending approval exists -> 409", async () => {
     await request(app).post("/api/tasks").send(TASK);
-    await request(app).post("/api/approvals").send({ taskId: "SURGE-001", ecosystemId: "viral", contentType: "clip" });
-    const res = await request(app).patch("/api/tasks/SURGE-001/status").send({ status: "done" });
+    await request(app).post("/api/approvals").send({ taskId: "VIRAL-001", ecosystemId: "viral", contentType: "clip" });
+    const res = await request(app).patch("/api/tasks/VIRAL-001/status").send({ status: "done" });
     expect(res.status).toBe(409);
   });
 });
@@ -80,19 +80,19 @@ describe("approval_queue (the per-asset gate)", () => {
   });
 
   it("POST creates a pending approval", async () => {
-    const res = await request(app).post("/api/approvals").send({ taskId: "SURGE-001", ecosystemId: "viral", contentType: "clip", artifactPath: "/drafts/zrod-001.mp4" });
+    const res = await request(app).post("/api/approvals").send({ taskId: "VIRAL-001", ecosystemId: "viral", contentType: "clip", artifactPath: "/drafts/zrod-001.mp4" });
     expect(res.status).toBe(201);
     expect(res.body.status).toBe("pending");
   });
 
   it("GET ?status=pending lists the gate queue", async () => {
-    await request(app).post("/api/approvals").send({ taskId: "SURGE-001", ecosystemId: "viral", contentType: "clip" });
+    await request(app).post("/api/approvals").send({ taskId: "VIRAL-001", ecosystemId: "viral", contentType: "clip" });
     const res = await request(app).get("/api/approvals?status=pending");
     expect(res.body).toHaveLength(1);
   });
 
   it("PATCH approve sets reviewer + timestamp", async () => {
-    const created = await request(app).post("/api/approvals").send({ taskId: "SURGE-001", ecosystemId: "viral", contentType: "clip" });
+    const created = await request(app).post("/api/approvals").send({ taskId: "VIRAL-001", ecosystemId: "viral", contentType: "clip" });
     const res = await request(app).patch(`/api/approvals/${created.body.id}/status`).send({ status: "approved", reviewedBy: "Robin" });
     expect(res.status).toBe(200);
     expect(res.body.status).toBe("approved");
@@ -101,7 +101,7 @@ describe("approval_queue (the per-asset gate)", () => {
   });
 
   it("approved is terminal -> re-transition 409", async () => {
-    const created = await request(app).post("/api/approvals").send({ taskId: "SURGE-001", ecosystemId: "viral", contentType: "clip" });
+    const created = await request(app).post("/api/approvals").send({ taskId: "VIRAL-001", ecosystemId: "viral", contentType: "clip" });
     await request(app).patch(`/api/approvals/${created.body.id}/status`).send({ status: "approved", reviewedBy: "Robin" });
     const res = await request(app).patch(`/api/approvals/${created.body.id}/status`).send({ status: "rejected", reviewedBy: "Robin" });
     expect(res.status).toBe(409);

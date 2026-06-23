@@ -47,7 +47,7 @@ class MissionControlDb implements Db {
       );
 
       CREATE TABLE IF NOT EXISTS tasks (
-        id TEXT PRIMARY KEY,                          -- e.g. 'SURGE-001'
+        id TEXT PRIMARY KEY,                          -- e.g. 'VIRAL-001'
         title TEXT NOT NULL,
         description TEXT,
         type TEXT NOT NULL,                           -- task|campaign|agent-run|content-piece|research|setup|infra

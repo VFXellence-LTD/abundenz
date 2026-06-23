@@ -1,7 +1,7 @@
 // ─── Taxonomy Hierarchy ─────────────────────────────────────────────
 // Empire > Ecosystem > Vertical > Band > Listing > Stream
 //
-// ECOSYSTEM  = business model         (Surge, Signal, Atelier, Conduit)
+// ECOSYSTEM  = business model         (Viral, Content, Products, Affiliate)
 // VERTICAL   = topic niche            (Tech, Kitchen, Finance)
 // BAND       = price tier             (Impulse, Recurring, Premium)
 // LISTING    = individual product     (Notion, MagSafe Mount, Shopify)

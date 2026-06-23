@@ -8,12 +8,12 @@ export interface Scope {
   crossEcosystem: boolean;
 }
 
-/** Codename per ecosystem — view names read better as the brand (Surge = viral). */
+/** Codename per ecosystem — now literal ecosystem id (no separate brand alias). */
 const CODENAME: Record<EcosystemId, string> = {
-  content: "signal",
-  viral: "surge",
-  products: "atelier",
-  affiliate: "conduit",
+  content: "content",
+  viral: "viral",
+  products: "products",
+  affiliate: "affiliate",
 };
 
 /** Tables that carry ecosystem_id and therefore get per-ecosystem views. */
@@ -22,13 +22,28 @@ type ScopedTable = (typeof SCOPED_TABLES)[number];
 
 const VALID_ECOSYSTEMS = Object.keys(CODENAME) as EcosystemId[];
 
-/** View name for an (ecosystem, table) pair, e.g. v_surge_tasks. */
+/** View name for an (ecosystem, table) pair, e.g. v_viral_tasks. */
 export function ECOSYSTEM_VIEW(eco: EcosystemId, table: ScopedTable): string {
   return `v_${CODENAME[eco]}_${table}`;
 }
 
+/**
+ * Old codename-based view names, dropped on every init so live DBs shed orphans
+ * after the rename to literal ecosystem ids (SQLite has no wildcard DROP VIEW).
+ */
+const LEGACY_VIEWS = [
+  "v_surge_tasks", "v_surge_approval_queue", "v_surge_transactions", "v_surge_agent_runs",
+  "v_signal_tasks", "v_signal_approval_queue", "v_signal_transactions", "v_signal_agent_runs",
+  "v_atelier_tasks", "v_atelier_approval_queue", "v_atelier_transactions", "v_atelier_agent_runs",
+  "v_conduit_tasks", "v_conduit_approval_queue", "v_conduit_transactions", "v_conduit_agent_runs",
+] as const;
+
 /** Create one read-only view per (ecosystem, scoped table). Idempotent. */
 export function createScopedViews(raw: Database.Database): void {
+  // Shed the pre-rename codename views before (re)creating the literal-id views.
+  for (const view of LEGACY_VIEWS) {
+    raw.exec(`DROP VIEW IF EXISTS ${view}`);
+  }
   for (const eco of VALID_ECOSYSTEMS) {
     for (const table of SCOPED_TABLES) {
       const view = ECOSYSTEM_VIEW(eco, table);
