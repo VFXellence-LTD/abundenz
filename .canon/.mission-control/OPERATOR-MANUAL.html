@@ -469,8 +469,8 @@ node-pty spawns:
 <tr><td>POST</td><td><code>/api/sessions/start</code></td><td>Spawn PTY with whitelisted command. Gate: campaign must have <code>approvedBy</code>. Claude UUID backfill: 6s after start scans <code>~/.claude/projects/</code> JSONL files.</td></tr>
 <tr><td>POST</td><td><code>/api/sessions/:id/stop</code></td><td>Kill PTY process</td></tr>
 </table></div>
-<p>Allowed commands whitelist: <code>/surge-generate</code>, <code>/surge-safeguard-check</code>, <code>/surge-continue</code>, <code>/surge-render</code>, <code>--resume &lt;uuid&gt;</code>.</p>
-<div class="callout warn"><strong>Missing binary:</strong> <code>/surge-safeguard-check</code> is whitelisted but <code>bin/surge-safeguard-check.ts</code> does not exist. PTY would accept the command but fail at runtime.</div>
+<p>Allowed commands whitelist: <code>/viral-generate</code>, <code>/viral-safeguard-check</code>, <code>/viral-continue</code>, <code>/viral-render</code>, <code>--resume &lt;uuid&gt;</code>.</p>
+<div class="callout warn"><strong>Missing binary:</strong> <code>/viral-safeguard-check</code> is whitelisted but <code>bin/viral-safeguard-check.ts</code> does not exist. PTY would accept the command but fail at runtime.</div>
 
 <h3>Vault</h3>
 <div class="table-wrap"><table>
@@ -624,11 +624,11 @@ node-pty spawns:
 </table></div>
 
 <h2 id="views">Read-Only Database Views (16)</h2>
-<p>Scoped views for each of the 4 active ecosystems (signal / surge / atelier / conduit) × 4 tables (tasks / approval_queue / transactions / agent_runs):</p>
-<pre>v_signal_tasks            v_surge_tasks            v_atelier_tasks           v_conduit_tasks
-v_signal_approval_queue   v_surge_approval_queue   v_atelier_approval_queue  v_conduit_approval_queue
-v_signal_transactions     v_surge_transactions     v_atelier_transactions    v_conduit_transactions
-v_signal_agent_runs       v_surge_agent_runs       v_atelier_agent_runs      v_conduit_agent_runs</pre>
+<p>Scoped views for each of the 4 active ecosystems (content / viral / products / affiliate) × 4 tables (tasks / approval_queue / transactions / agent_runs):</p>
+<pre>v_content_tasks            v_viral_tasks            v_products_tasks           v_affiliate_tasks
+v_content_approval_queue   v_viral_approval_queue   v_products_approval_queue  v_affiliate_approval_queue
+v_content_transactions     v_viral_transactions     v_products_transactions    v_affiliate_transactions
+v_content_agent_runs       v_viral_agent_runs       v_products_agent_runs      v_affiliate_agent_runs</pre>
 
 <!-- ===== ENGINE ===== -->
 <h2 id="generate-pipeline">Generate Pipeline (<code>driver.ts</code>)</h2>
@@ -822,7 +822,7 @@ Create PROJECT_PAT secret on repo</pre>
 <tr><td>Module 2 — Feedback Loop</td><td><span class="badge badge-muted">Not built</span> — <code>performance_signal</code>, <code>content_params</code>, <code>PerformanceStore</code>, <code>StrategyAdjuster</code>, MC Strategy view all absent</td><td>growth-operator-design</td></tr>
 <tr><td>Module 3 — Meta Ads</td><td><span class="badge badge-muted">Not built</span> — <code>ad_campaigns</code>, <code>AdProposer</code>, <code>MetaAdBuyer</code>, Ad Approval Queue absent</td><td>growth-operator-design</td></tr>
 <tr><td>Module 4 — Daily Loop</td><td><span class="badge badge-muted">Not built</span> — <code>LoopOrchestrator</code> (topic → draft → render → enqueue) absent. Structurally cannot reach publish.</td><td>growth-operator-design</td></tr>
-<tr><td><code>/surge-safeguard-check</code> binary</td><td><span class="badge badge-red">Missing</span> — whitelisted in sessions but <code>bin/surge-safeguard-check.ts</code> does not exist</td><td>server sessions route</td></tr>
+<tr><td><code>/viral-safeguard-check</code> binary</td><td><span class="badge badge-red">Missing</span> — whitelisted in sessions but <code>bin/viral-safeguard-check.ts</code> does not exist</td><td>server sessions route</td></tr>
 </table></div>
 
 <!-- ===== AMBIGUITIES ===== -->
@@ -833,7 +833,7 @@ Create PROJECT_PAT secret on repo</pre>
 <tr><td>Dashboard revenue</td><td><code>DashboardPage</code> passes <code>revenueThisMonth={0}</code> hardcoded to every <code>EcosystemCard</code>. No live aggregation from <code>useTransactions</code>. Possibly intentional placeholder.</td></tr>
 <tr><td>Earnings sparklines</td><td>Static placeholder zeros throughout — no time-series query wired.</td></tr>
 <tr><td><code>autonomy_stage</code> field</td><td>Present in DB schema + TypeScript types on both <code>campaigns</code> and <code>tasks</code>. No service reads or advances it. No UI renders it. Typed but dormant.</td></tr>
-<tr><td><code>prompt.service.ts</code></td><td><code>buildSurgePrompt()</code> reads 3 <code>.canon</code> doctrine files at call time. Not called by the sessions route (sessions hardcode <code>/surge-generate &lt;id&gt;</code>). Wiring gap or intentional decoupling?</td></tr>
+<tr><td><code>prompt.service.ts</code></td><td><code>buildViralPrompt()</code> reads 3 <code>.canon</code> doctrine files at call time. Not called by the sessions route (sessions hardcode <code>/viral-generate &lt;id&gt;</code>). Wiring gap or intentional decoupling?</td></tr>
 <tr><td><code>AGENTS_CWD</code> in sessions route</td><td>Hardcoded to <code>D:\VFXellence-LTD\polymath\packages\agents</code> — not driven by <code>config.ts</code>. Breaks silently if repo moves.</td></tr>
 <tr><td>Buffer + Postiz API shape</td><td>Both distributors carry <code>// VERIFY current API</code> comments. Neither has been tested against live credentials.</td></tr>
 <tr><td>Brand registration (Intake tab 2)</td><td>Generates markdown, calls <code>saveToVault()</code> only. No <code>/api/brands</code> endpoint. Brand data in <code>brands</code> table is never queried by any service.</td></tr>
