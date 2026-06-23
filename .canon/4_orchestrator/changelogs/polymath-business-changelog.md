@@ -2,6 +2,15 @@
 
 ---
 
+## 2026-06-23 — Codename sweep tier 3: surge→viral skill chain + scoping views→literal ids
+
+- **Part A (commit `e201f1f`):** Renamed the `surge` skill chain to `viral`. `git mv`'d the 5 skill dirs (`surge-generate|continue|render|safeguard-check|publish` → `viral-*`) under `.canon/.claude/skills/polymath/`. Updated `session.service.ts` ALLOWED_SKILLS, `routes/sessions.ts` start command, `prompt.service.ts` seed prompt, and `terminal.ws.ts` comment to `/viral-*`. Renamed npm scripts `surge:run`/`surge:render` → `viral:run`/`viral:render` and `bin/surge-*.ts` → `bin/viral-*.ts` (with internal usage/error strings + agents package description). Updated all 5 SKILL.md bodies and the affected server tests (session.service, sessions.route, prompt.service, pty-ws.smoke, claude-sessions). Deliberately left `ELEVENLABS_SURGE_VOICE_ID`, `agentName: "surge-writer"`, the `@surge` handle fixture, and agents tmpdir prefixes untouched (out of scope). Server 120 pass/1 skip; agents 54 pass.
+- **Part B (commit `c681dc6`):** Collapsed the `scoping.ts` CODENAME map to literal ecosystem ids (`content/viral/products/affiliate`), so scoped views are now `v_content/v_viral/v_products/v_affiliate_*`. Added a `LEGACY_VIEWS` list and `DROP VIEW IF EXISTS` for the 16 old `v_surge/v_signal/v_atelier/v_conduit_*` views, run on every `createScopedViews()` init (db.ts L230 in `migrate()`) so live DBs shed orphan views. Updated `scoping.test.ts` view-name assertions (+ added products/affiliate checks), the client `types/index.ts` taxonomy header comment, the `db.ts` DDL example comment, and the `SURGE-001`/`SIGNAL-1`/`SURGE-000` test fixtures in `engine-tables.test.ts` and `db.test.ts` → `VIRAL-*`/`CONTENT-*`. Full server suite green (120 pass/1 skip).
+- **Pushed:** `7e5e541..c681dc6` → origin/develop.
+- **Known remainder (judgment call, not changed):** Client test/UI fixture *display strings* still contain free-text "Surge" (e.g. campaign name `"Surge Tech Sprint"`, task title `"Render Surge clip draft"`) — these are human-readable sample values, not code identifiers/slugs/view-names; their `ecosystemId` is already `"viral"`. The `OPERATOR-MANUAL.html` view-name table still lists old `v_surge_*` names (human-facing doc prose, out of scope).
+
+---
+
 ## 2026-06-23 — Content-engine framework integrated into viral ecosystem
 
 - **viral-formula.md:** Added "Pre-Step: Angle Multiplication" — 1 topic × 5 fixed angles (`mistake | beginner_question | transformation | contrarian | step_by_step`) × 3 formats × 4 platforms = 30+ pieces from one idea. Includes worked @zrodinger quantum/science example showing all 5 angle variants.
