@@ -6,10 +6,10 @@ import { BoardColumn } from "./BoardColumn";
 
 const SCOPES: { id: string; label: string }[] = [
   { id: "all", label: "All ecosystems" },
-  { id: "content", label: "Content (Signal)" },
-  { id: "viral", label: "Viral (Surge)" },
-  { id: "products", label: "Products (Atelier)" },
-  { id: "affiliate", label: "Affiliate (Conduit)" },
+  { id: "content", label: "Content" },
+  { id: "viral", label: "Viral" },
+  { id: "products", label: "Products" },
+  { id: "affiliate", label: "Affiliate" },
 ];
 
 export function Board({

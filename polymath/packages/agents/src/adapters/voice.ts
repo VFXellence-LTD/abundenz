@@ -26,10 +26,10 @@ export function makeVoiceAdapter(): VoiceAdapter {
     name: "elevenlabs-voice",
     async render(draft: ClipDraft, ctx: RenderContext): Promise<VoiceResult> {
       const apiKey = process.env.ELEVENLABS_API_KEY;
-      const voiceId = process.env.ELEVENLABS_SURGE_VOICE_ID;
+      const voiceId = process.env.ELEVENLABS_VIRAL_VOICE_ID;
       const missing: string[] = [];
       if (!apiKey) missing.push("ELEVENLABS_API_KEY");
-      if (!voiceId) missing.push("ELEVENLABS_SURGE_VOICE_ID");
+      if (!voiceId) missing.push("ELEVENLABS_VIRAL_VOICE_ID");
 
       const mode = selectMode({ present: missing.length === 0, forceDryRun: ctx.forceDryRun });
 

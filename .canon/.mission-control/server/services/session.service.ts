@@ -118,7 +118,7 @@ export class SessionService extends EventEmitter {
       id,
       campaignId: opts.campaignId,
       taskId: opts.taskId ?? null,
-      agentName: opts.agentName ?? "surge-engine",
+      agentName: opts.agentName ?? "viral-engine",
       cwd: opts.cwd,
       command: opts.command,
     });

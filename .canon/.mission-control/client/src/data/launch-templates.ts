@@ -28,7 +28,7 @@ export interface LaunchTemplate {
   steps: LaunchStep[];
 }
 
-const SURGE_STEPS: LaunchStep[] = [
+const VIRAL_STEPS: LaunchStep[] = [
   {
     id: "email",
     title: "Create anonymous email",
@@ -50,7 +50,7 @@ const SURGE_STEPS: LaunchStep[] = [
   {
     id: "brand-name",
     title: "Select brand name",
-    description: "Pick from ecosystem category (Scientists for Surge). Apply z-rule. Check trademark + handle availability.",
+    description: "Pick from ecosystem category (Scientists for Viral). Apply z-rule. Check trademark + handle availability.",
     instructions: [
       "Open vault/shared/brand-naming.md for the name pool",
       "Pick a name from the Scientists sub-category",
@@ -463,11 +463,11 @@ const SURGE_STEPS: LaunchStep[] = [
   },
 ];
 
-const SIGNAL_STEPS: LaunchStep[] = [
+const CONTENT_STEPS: LaunchStep[] = [
   {
     id: "email",
     title: "Create brand email",
-    description: "Dedicated email for Signal brand.",
+    description: "Dedicated email for Content brand.",
     instructions: ["Create [brandname]@abundenz.com via Cloudflare Email Routing"],
     category: "brand",
     fields: [
@@ -594,8 +594,8 @@ const SIGNAL_STEPS: LaunchStep[] = [
   },
 ];
 
-const ATELIER_STEPS: LaunchStep[] = [
-  { id: "email", title: "Create brand email", description: "Dedicated email for Atelier brand.", instructions: ["Create [color]@abundenz.com"], category: "brand", fields: [{ key: "email", label: "Email", type: "email", placeholder: "" }] },
+const PRODUCTS_STEPS: LaunchStep[] = [
+  { id: "email", title: "Create brand email", description: "Dedicated email for Products brand.", instructions: ["Create [color]@abundenz.com"], category: "brand", fields: [{ key: "email", label: "Email", type: "email", placeholder: "" }] },
   { id: "brand-name", title: "Select brand name", description: "Pick from Colors category.", instructions: ["Pick from Pantone/Crayola pool"], category: "brand", fields: [{ key: "brand_name", label: "Brand name", type: "text", placeholder: "" }, { key: "platform_handles", label: "Platform handles", type: "platform-handles" as const, defaultPlatforms: ["Instagram", "Pinterest", "TikTok", "YouTube", "Blog", "X / Twitter", "Etsy", "Newsletter"] }] },
   { id: "etsy", title: "Set up Etsy storefront", description: "Digital downloads first.", instructions: ["Sign up at etsy.com/sell"], category: "accounts", urls: ["https://www.etsy.com/sell"], dependsOn: ["email", "brand-name"], fields: [{ key: "etsy_url", label: "Shop URL", type: "url", placeholder: "" }] },
   { id: "gumroad", title: "Set up Gumroad", description: "Free + 10% fee.", instructions: ["Sign up at gumroad.com"], category: "accounts", urls: ["https://gumroad.com"], dependsOn: ["email"], fields: [{ key: "gumroad_url", label: "Gumroad URL", type: "url", placeholder: "" }] },
@@ -604,8 +604,8 @@ const ATELIER_STEPS: LaunchStep[] = [
   { id: "evaluate", title: "30-day evaluation", description: "Review sales data.", instructions: ["Compile data", "Scale winners"], category: "tracking", dependsOn: ["daily-30"], fields: [{ key: "total_sales", label: "Total sales", type: "text", placeholder: "$0" }, { key: "decision", label: "Decision", type: "select", options: ["Scale", "Pivot", "Pause"] }] },
 ];
 
-const CONDUIT_STEPS: LaunchStep[] = [
-  { id: "email", title: "Create brand email", description: "Dedicated email for Conduit brand.", instructions: ["Create [cartography]@abundenz.com"], category: "brand", fields: [{ key: "email", label: "Email", type: "email", placeholder: "" }] },
+const AFFILIATE_STEPS: LaunchStep[] = [
+  { id: "email", title: "Create brand email", description: "Dedicated email for Affiliate brand.", instructions: ["Create [cartography]@abundenz.com"], category: "brand", fields: [{ key: "email", label: "Email", type: "email", placeholder: "" }] },
   { id: "brand-name", title: "Select brand name", description: "Pick from Cartography category.", instructions: ["Pick from Cartography pool"], category: "brand", fields: [{ key: "brand_name", label: "Brand name", type: "text", placeholder: "" }, { key: "platform_handles", label: "Platform handles", type: "platform-handles" as const, defaultPlatforms: ["Blog", "YouTube", "Instagram", "X / Twitter", "Pinterest", "Newsletter", "Reddit", "TikTok"] }] },
   { id: "domain", title: "Register domain", description: "SEO-focused domain.", instructions: ["Register via Cloudflare"], category: "brand", dependsOn: ["brand-name"], fields: [{ key: "domain", label: "Domain", type: "url", placeholder: "" }] },
   { id: "blog", title: "Set up blog", description: "Ghost or WordPress. SEO-optimized.", instructions: ["Set up and connect domain"], category: "accounts", dependsOn: ["domain"], fields: [{ key: "blog_url", label: "Blog URL", type: "url", placeholder: "" }] },
@@ -616,7 +616,7 @@ const CONDUIT_STEPS: LaunchStep[] = [
 ];
 
 /*
- * Lullaby demoted to vertical under Surge. Steps kept for future use as vertical-specific launch checklist.
+ * Lullaby demoted to vertical under Viral. Steps kept for future use as vertical-specific launch checklist.
  *
  * const LULLABY_STEPS: LaunchStep[] = [
  *   { id: "safeguards", title: "Complete safeguards review", ... },
@@ -629,10 +629,10 @@ const CONDUIT_STEPS: LaunchStep[] = [
  */
 
 export const LAUNCH_TEMPLATES: Record<EcosystemId, LaunchStep[]> = {
-  viral: SURGE_STEPS,
-  content: SIGNAL_STEPS,
-  products: ATELIER_STEPS,
-  affiliate: CONDUIT_STEPS,
+  viral: VIRAL_STEPS,
+  content: CONTENT_STEPS,
+  products: PRODUCTS_STEPS,
+  affiliate: AFFILIATE_STEPS,
 };
 
 export const CATEGORY_LABELS: Record<LaunchStep["category"], string> = {

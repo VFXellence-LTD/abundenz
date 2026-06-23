@@ -44,10 +44,10 @@ export function SetupPage() {
   );
 
   const tabs: { id: EcosystemId; label: string }[] = [
-    { id: "content", label: "Content (Signal)" },
-    { id: "viral", label: "Viral (Surge)" },
-    { id: "products", label: "Products (Atelier)" },
-    { id: "affiliate", label: "Affiliate (Conduit)" },
+    { id: "content", label: "Content" },
+    { id: "viral", label: "Viral" },
+    { id: "products", label: "Products" },
+    { id: "affiliate", label: "Affiliate" },
   ];
 
   return (

@@ -58,7 +58,7 @@ const CHORE_TASKS: ChoreTask[] = [
     id: "GOLIVE-003",
     title: "Set Mission Control env vars (creds, never in vault)",
     description:
-      "ELEVENLABS_API_KEY, ELEVENLABS_SURGE_VOICE_ID, BUFFER_TOKEN__VIRAL (and/or POSTIZ_API_KEY__VIRAL). Set in shell/.env outside the repo, then restart server. Until set, render+publish run dry-run.",
+      "ELEVENLABS_API_KEY, ELEVENLABS_VIRAL_VOICE_ID, BUFFER_TOKEN__VIRAL (and/or POSTIZ_API_KEY__VIRAL). Set in shell/.env outside the repo, then restart server. Until set, render+publish run dry-run.",
     type: "setup",
     ecosystemId: "viral",
     priority: "high",

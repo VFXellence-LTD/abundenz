@@ -2,9 +2,9 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { buildSurgePrompt } from "../services/prompt.service.js";
+import { buildViralPrompt } from "../services/prompt.service.js";
 
-describe("buildSurgePrompt", () => {
+describe("buildViralPrompt", () => {
   let canon: string;
   beforeEach(() => {
     canon = fs.mkdtempSync(path.join(os.tmpdir(), "canon-doctrine-"));
@@ -14,13 +14,13 @@ describe("buildSurgePrompt", () => {
     fs.mkdirSync(formula, { recursive: true });
     fs.mkdirSync(safe, { recursive: true });
     fs.writeFileSync(path.join(formula, "viral-formula.md"), "# Viral Formula\nHOOK then SCRIPT.", "utf-8");
-    fs.writeFileSync(path.join(eco, "README.md"), "# Surge\nZrodinger clip spec here.", "utf-8");
-    fs.writeFileSync(path.join(safe, "viral-surge.md"), "# Surge Safeguards\nNo medical claims.", "utf-8");
+    fs.writeFileSync(path.join(eco, "README.md"), "# Viral\nZrodinger clip spec here.", "utf-8");
+    fs.writeFileSync(path.join(safe, "viral-safeguards.md"), "# Viral Safeguards\nNo medical claims.", "utf-8");
   });
   afterEach(() => { fs.rmSync(canon, { recursive: true, force: true }); });
 
   it("leads with /surge-generate <campaignId> and embeds the three doctrine sources", () => {
-    const prompt = buildSurgePrompt({ campaignId: "camp-9", canonPath: canon });
+    const prompt = buildViralPrompt({ campaignId: "camp-9", canonPath: canon });
     expect(prompt.startsWith("/surge-generate camp-9")).toBe(true);
     expect(prompt).toContain("HOOK then SCRIPT");
     expect(prompt).toContain("Zrodinger clip spec");
@@ -29,7 +29,7 @@ describe("buildSurgePrompt", () => {
 
   it("degrades gracefully when a doctrine file is missing (no throw)", () => {
     fs.rmSync(path.join(canon, "1_controller"), { recursive: true, force: true });
-    const prompt = buildSurgePrompt({ campaignId: "camp-9", canonPath: canon });
+    const prompt = buildViralPrompt({ campaignId: "camp-9", canonPath: canon });
     expect(prompt).toContain("(not found)");
     expect(prompt).toContain("HOOK then SCRIPT");
   });

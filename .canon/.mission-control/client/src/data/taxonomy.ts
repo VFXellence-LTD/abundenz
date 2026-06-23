@@ -12,10 +12,10 @@ export interface LegendEntry {
 }
 
 export const ECOSYSTEM_LEGEND: LegendEntry[] = [
-  { code: "SUR", name: "Surge (Viral)", description: "Anonymous short-form video — volume × RPM + affiliate" },
-  { code: "SIG", name: "Signal (Content)", description: "Voice-driven pillar content — audience × trust × monetization" },
-  { code: "ATE", name: "Atelier (Products)", description: "AI-generated products on marketplaces — design × listings × margin" },
-  { code: "CON", name: "Conduit (Affiliate)", description: "SEO content driving affiliate traffic — search × conversion × commission" },
+  { code: "SUR", name: "Viral", description: "Anonymous short-form video — volume × RPM + affiliate" },
+  { code: "SIG", name: "Content", description: "Voice-driven pillar content — audience × trust × monetization" },
+  { code: "ATE", name: "Products", description: "AI-generated products on marketplaces — design × listings × margin" },
+  { code: "CON", name: "Affiliate", description: "SEO content driving affiliate traffic — search × conversion × commission" },
 ];
 
 export const BAND_LEGEND: LegendEntry[] = BANDS.map((b) => ({
@@ -47,7 +47,7 @@ export const EXPENSE_LEGEND: LegendEntry[] = [
 // TAXONOMY HIERARCHY
 // ──────────────────────────────────────────────────────────────────
 //
-// ECOSYSTEM    Business model         Surge, Signal, Atelier, Conduit
+// ECOSYSTEM    Business model         Viral, Content, Products, Affiliate
 //  └─ VERTICAL    Topic niche         Tech, Kitchen, Finance, VFX Pipeline
 //      └─ BAND       Price tier       Impulse ($1-30), Recurring ($5-50/mo), Premium ($100-500+)
 //          └─ LISTING    Product      Notion, MagSafe Mount, Shopify
@@ -74,10 +74,10 @@ export const EXPENSE_LEGEND: LegendEntry[] = [
 //
 // ECOSYSTEM ↔ STREAM MAPPING
 // ──────────────────────────────────────────────────────────────────
-// Surge    → RPM + COM + REC + SPO
-// Signal   → RPM + SUB + SPO + LIC
-// Atelier  → MAR + LIC
-// Conduit  → COM + REC
+// Viral     → RPM + COM + REC + SPO
+// Content   → RPM + SUB + SPO + LIC
+// Products  → MAR + LIC
+// Affiliate → COM + REC
 // ──────────────────────────────────────────────────────────────────
 
 export { BANDS, VERTICALS, REVENUE_STREAMS };

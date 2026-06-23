@@ -6,7 +6,7 @@ export const ECOSYSTEMS: Ecosystem[] = [
   {
     id: "content",
     name: "Content",
-    codename: "Signal",
+    codename: "Content",
     status: "Active",
     phase: "Phase 0 — Foundation",
     nextAction: "Register domain and stand up core accounts",
@@ -16,7 +16,7 @@ export const ECOSYSTEMS: Ecosystem[] = [
   {
     id: "viral",
     name: "Viral",
-    codename: "Surge",
+    codename: "Viral",
     status: "Active",
     phase: "Phase 0 — Vertical Selection",
     nextAction: "Pick first vertical and create anonymous brand",
@@ -26,7 +26,7 @@ export const ECOSYSTEMS: Ecosystem[] = [
   {
     id: "products",
     name: "Products",
-    codename: "Atelier",
+    codename: "Products",
     status: "Parked",
     phase: "Phase 0 — Not Started",
     nextAction: "Complete Content or Viral Phase 2 first",
@@ -36,7 +36,7 @@ export const ECOSYSTEMS: Ecosystem[] = [
   {
     id: "affiliate",
     name: "Affiliate",
-    codename: "Conduit",
+    codename: "Affiliate",
     status: "Parked",
     phase: "Phase 0 — Not Started",
     nextAction: "Complete Content or Viral Phase 2 first",
@@ -110,10 +110,10 @@ export const BANDS: Band[] = [
 //   Content   → LIC (royalties from published works)
 //
 // Ecosystem ↔ Stream mapping (primary streams per ecosystem):
-//   Surge   → RPM + COM + REC + SPO
-//   Signal  → RPM + SUB + SPO + LIC
-//   Atelier → MAR + LIC
-//   Conduit → COM + REC
+//   Viral     → RPM + COM + REC + SPO
+//   Content   → RPM + SUB + SPO + LIC
+//   Products  → MAR + LIC
+//   Affiliate → COM + REC
 // ──────────────────────────────────────────────────────────────────
 
 export const REVENUE_STREAMS: { id: RevenueStreamId; code: string; label: string; description: string }[] = [

@@ -5,7 +5,7 @@ export interface ValidationResult {
   errors: string[];
 }
 
-/** Identity tokens that must never appear (brand isolation: Surge is anonymous). */
+/** Identity tokens that must never appear (brand isolation: Viral is anonymous). */
 const OWNER_IDENTITY_PATTERNS: RegExp[] = [
   /robin\s+dutta/i,
   /\bvfxellence\b/i,

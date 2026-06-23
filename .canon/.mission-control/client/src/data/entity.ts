@@ -39,27 +39,27 @@ export const ENTITY: Entity = {
       ],
     },
     {
-      id: "signal",
-      name: "[Signal TBD]",
+      id: "content",
+      name: "[Content TBD]",
       ecosystemId: "content",
-      email: "[signal]@abundenz.com",
+      email: "[content]@abundenz.com",
       accounts: [
-        { platform: "YouTube", handle: "[TBD]", email: "[signal]@abundenz.com", status: "not-started", notes: "Primary platform — long-form" },
-        { platform: "Blog / Newsletter", handle: "", email: "[signal]@abundenz.com", status: "not-started", notes: "Ghost or beehiiv" },
-        { platform: "GitHub", handle: "[TBD]", email: "[signal]@abundenz.com", status: "not-started", notes: "Open-source pipeline tools" },
-        { platform: "X / Twitter", handle: "[TBD]", email: "[signal]@abundenz.com", status: "not-started", notes: "Industry presence" },
-        { platform: "LinkedIn", handle: "[TBD]", email: "[signal]@abundenz.com", status: "not-started", notes: "Professional audience" },
-        { platform: "Instagram", handle: "[TBD]", email: "[signal]@abundenz.com", status: "not-started", notes: "Account 3/5 on device" },
-        { platform: "Gumroad", handle: "[TBD]", email: "[signal]@abundenz.com", status: "not-started", notes: "Digital products" },
+        { platform: "YouTube", handle: "[TBD]", email: "[content]@abundenz.com", status: "not-started", notes: "Primary platform — long-form" },
+        { platform: "Blog / Newsletter", handle: "", email: "[content]@abundenz.com", status: "not-started", notes: "Ghost or beehiiv" },
+        { platform: "GitHub", handle: "[TBD]", email: "[content]@abundenz.com", status: "not-started", notes: "Open-source pipeline tools" },
+        { platform: "X / Twitter", handle: "[TBD]", email: "[content]@abundenz.com", status: "not-started", notes: "Industry presence" },
+        { platform: "LinkedIn", handle: "[TBD]", email: "[content]@abundenz.com", status: "not-started", notes: "Professional audience" },
+        { platform: "Instagram", handle: "[TBD]", email: "[content]@abundenz.com", status: "not-started", notes: "Account 3/5 on device" },
+        { platform: "Gumroad", handle: "[TBD]", email: "[content]@abundenz.com", status: "not-started", notes: "Digital products" },
       ],
     },
-    // Lullaby is a vertical under Zrodinger/Surge, not a separate brand.
+    // Lullaby is a vertical under Zrodinger/Viral, not a separate brand.
     // Lullaby content uses Zrodinger's YouTube + Spotify accounts.
     // Safeguards (child involvement, COPPA) are content rules, not entity separation.
     // See: _passive_income/ecosystems/lullaby/safeguards/POLICY.md
   ],
   sharedAccounts: [
-    { platform: "Amazon Associates", handle: "", email: "(VFXellence Ltd)", status: "active", trackingId: "zrodinger-20", notes: "1 account, multiple Store IDs: zrodinger-20, ateliez-20, [signal]-20" },
+    { platform: "Amazon Associates", handle: "", email: "(VFXellence Ltd)", status: "active", trackingId: "zrodinger-20", notes: "1 account, multiple Store IDs: zrodinger-20, ateliez-20, [content]-20" },
     { platform: "Stripe", handle: "", email: "(VFXellence Ltd)", status: "not-started", notes: "1 account until LLC split. Tag products by brand." },
     { platform: "Cloudflare", handle: "", email: "(VFXellence Ltd)", status: "active", notes: "Routes all abundenz.com emails + DNS" },
     { platform: "Google Analytics", handle: "", email: "(VFXellence Ltd)", status: "not-started", notes: "1 GA4 property, separate data streams per brand domain" },

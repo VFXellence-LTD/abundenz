@@ -15,7 +15,7 @@ export type EcosystemId =
   | "products"
   | "affiliate";
 
-export type EcosystemCodename = "Signal" | "Surge" | "Atelier" | "Conduit";
+export type EcosystemCodename = "Content" | "Viral" | "Products" | "Affiliate";
 
 export type EcosystemStatus = "Active" | "Parked" | "Design";
 
