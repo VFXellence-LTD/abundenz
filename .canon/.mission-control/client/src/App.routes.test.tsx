@@ -2,6 +2,8 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { describe, it, expect, vi } from "vitest";
 import { Layout } from "@/components/Layout";
+import { TourProvider } from "@/tour/TourProvider";
+import { FeedbackProvider } from "@/feedback/FeedbackProvider";
 import { ApprovalsPage } from "@/pages/ApprovalsPage";
 import { IntakePage } from "@/pages/IntakePage";
 
@@ -16,11 +18,15 @@ vi.mock("@/lib/api", () => ({
 function renderAt(path: string, element: React.ReactNode) {
   return render(
     <MemoryRouter initialEntries={[path]}>
-      <Layout>
-        <Routes>
-          <Route path={path} element={element} />
-        </Routes>
-      </Layout>
+      <FeedbackProvider>
+        <TourProvider>
+          <Layout>
+            <Routes>
+              <Route path={path} element={element} />
+            </Routes>
+          </Layout>
+        </TourProvider>
+      </FeedbackProvider>
     </MemoryRouter>,
   );
 }

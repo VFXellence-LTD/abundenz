@@ -1,5 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "@/components/Layout";
+import { TourProvider } from "@/tour/TourProvider";
+import { TourOverlay } from "@/tour/TourOverlay";
+import { FeedbackProvider } from "@/feedback/FeedbackProvider";
+import { FeedbackPanel } from "@/feedback/FeedbackPanel";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { SetupPage } from "@/pages/SetupPage";
 import { EarningsPage } from "@/pages/EarningsPage";
@@ -18,26 +22,32 @@ import SessionsPage from "@/pages/SessionsPage";
 export default function App() {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<DashboardPage />} />
-          <Route path="/board" element={<BoardPage />} />
-          <Route path="/intake" element={<IntakePage />} />
-          <Route path="/approvals" element={<ApprovalsPage />} />
-          <Route path="/campaigns" element={<CampaignsPage />} />
-          <Route path="/agents" element={<AgentsPage />} />
-          <Route path="/sessions" element={<SessionsPage />} />
-          <Route path="/setup" element={<Navigate to="/setup/content" replace />} />
-          <Route path="/setup/:ecosystem" element={<SetupPage />} />
-          <Route path="/launch" element={<Navigate to="/launch/viral/tech" replace />} />
-          <Route path="/launch/:ecosystem/:vertical" element={<LaunchPage />} />
-          <Route path="/earnings" element={<EarningsPage />} />
-          <Route path="/transactions" element={<TransactionsPage />} />
-          <Route path="/tax" element={<TaxCenterPage />} />
-          <Route path="/tools" element={<ToolsPage />} />
-          <Route path="/entity" element={<EntityPage />} />
-        </Routes>
-      </Layout>
+      <FeedbackProvider>
+        <TourProvider>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<DashboardPage />} />
+              <Route path="/board" element={<BoardPage />} />
+              <Route path="/intake" element={<IntakePage />} />
+              <Route path="/approvals" element={<ApprovalsPage />} />
+              <Route path="/campaigns" element={<CampaignsPage />} />
+              <Route path="/agents" element={<AgentsPage />} />
+              <Route path="/sessions" element={<SessionsPage />} />
+              <Route path="/setup" element={<Navigate to="/setup/content" replace />} />
+              <Route path="/setup/:ecosystem" element={<SetupPage />} />
+              <Route path="/launch" element={<Navigate to="/launch/viral/tech" replace />} />
+              <Route path="/launch/:ecosystem/:vertical" element={<LaunchPage />} />
+              <Route path="/earnings" element={<EarningsPage />} />
+              <Route path="/transactions" element={<TransactionsPage />} />
+              <Route path="/tax" element={<TaxCenterPage />} />
+              <Route path="/tools" element={<ToolsPage />} />
+              <Route path="/entity" element={<EntityPage />} />
+            </Routes>
+          </Layout>
+          <TourOverlay />
+          <FeedbackPanel />
+        </TourProvider>
+      </FeedbackProvider>
     </BrowserRouter>
   );
 }
