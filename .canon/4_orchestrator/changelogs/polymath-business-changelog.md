@@ -2,6 +2,16 @@
 
 ---
 
+## 2026-06-24 — Mission Control — sidebar reorg, interactive walkthrough, feedback capture
+
+- **Sidebar reorg:** Regrouped sidebar nav into labeled workflow sections — Overview / Build (Setup, Launch, Intake) / Operate (Campaigns, Agents, Sessions, Approvals, Board) / Money (Earnings, Transactions, Tax Center) / Admin (Tools, Entity). Section labels visually distinguish workflow stages.
+- **Interactive walkthrough:** Custom spotlight + tooltip tour driven off sidebar `data-tour-id` anchors. Auto-launches on first visit (localStorage `mc_tour_seen`), replayable via a sidebar "Walkthrough" button. Final step hands off to the feedback panel. Pure `tourReducer` unit-tested.
+- **Feedback capture:** Accumulating in-session list (`FeedbackProvider`) + floating `FeedbackPanel`. "Submit all" POSTs to new `POST /api/feedback` → `feedback.service.ts`, which files GitHub issues via `gh` (labels feedback+enhancement). Env-gated `MC_FEEDBACK_ENABLED`, dry-run by default. Pure `feedbackReducer` unit-tested.
+- **Security:** Feedback + bug-report issue filing switched from shell-string `execSync` to `execFileSync` array args (no shell injection from user text). Bug-report repo target updated to renamed `abundenz` repo.
+- **Tests:** Server 126 passed / 1 skipped; client build clean + reducer tests green. Branch `worktree-mc-walkthrough-feedback`.
+
+---
+
 ## 2026-06-23 — Codename sweep tier 3: surge→viral skill chain + scoping views→literal ids
 
 - **Part A (commit `e201f1f`):** Renamed the `surge` skill chain to `viral`. `git mv`'d the 5 skill dirs (`surge-generate|continue|render|safeguard-check|publish` → `viral-*`) under `.canon/.claude/skills/polymath/`. Updated `session.service.ts` ALLOWED_SKILLS, `routes/sessions.ts` start command, `prompt.service.ts` seed prompt, and `terminal.ws.ts` comment to `/viral-*`. Renamed npm scripts `surge:run`/`surge:render` → `viral:run`/`viral:render` and `bin/surge-*.ts` → `bin/viral-*.ts` (with internal usage/error strings + agents package description). Updated all 5 SKILL.md bodies and the affected server tests (session.service, sessions.route, prompt.service, pty-ws.smoke, claude-sessions). Deliberately left `ELEVENLABS_SURGE_VOICE_ID`, `agentName: "surge-writer"`, the `@surge` handle fixture, and agents tmpdir prefixes untouched (out of scope). Server 120 pass/1 skip; agents 54 pass.
