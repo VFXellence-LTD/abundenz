@@ -1,4 +1,4 @@
-import type { Entity } from "@/types";
+﻿import type { Entity } from "@/types";
 
 export const ENTITY: Entity = {
   llc: "VFXellence Ltd",
@@ -46,7 +46,7 @@ export const ENTITY: Entity = {
       accounts: [
         { platform: "YouTube", handle: "[TBD]", email: "[content]@abundenz.com", status: "not-started", notes: "Primary platform — long-form" },
         { platform: "Blog / Newsletter", handle: "", email: "[content]@abundenz.com", status: "not-started", notes: "Ghost or beehiiv" },
-        { platform: "GitHub", handle: "[TBD]", email: "[content]@abundenz.com", status: "not-started", notes: "Open-source pipeline tools" },
+        { platform: "GitHub", handle: "[TBD]", email: "[content]@abundenz.com", status: "not-started", notes: "Open-source projects" },
         { platform: "X / Twitter", handle: "[TBD]", email: "[content]@abundenz.com", status: "not-started", notes: "Industry presence" },
         { platform: "LinkedIn", handle: "[TBD]", email: "[content]@abundenz.com", status: "not-started", notes: "Professional audience" },
         { platform: "Instagram", handle: "[TBD]", email: "[content]@abundenz.com", status: "not-started", notes: "Account 3/5 on device" },

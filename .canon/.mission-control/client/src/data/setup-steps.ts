@@ -1,4 +1,4 @@
-import type { SetupStep } from "@/types";
+﻿import type { SetupStep } from "@/types";
 
 export const SETUP_STEPS: SetupStep[] = [
   {
@@ -8,7 +8,7 @@ export const SETUP_STEPS: SetupStep[] = [
     title: "Register Domain",
     description: "Secure the brand domain for your content empire.",
     instructions:
-      "Pick a name that reflects pipeline engineering / VFX tooling — something you can own long-term. Register on Cloudflare Registrar (best pricing, no markup). Point DNS to your Ghost blog once it's live.",
+      "Pick a name that reflects your brand and niche — short, memorable, something you can own long-term. Register on Cloudflare Registrar (best pricing, no markup). Point DNS to your Ghost blog once it's live.",
     copyBlocks: [],
     externalLinks: [
       { label: "Cloudflare Registrar", url: "https://www.cloudflare.com/products/registrar/" },
@@ -36,12 +36,12 @@ export const SETUP_STEPS: SetupStep[] = [
     title: "Create YouTube Channel",
     description: "Stand up the primary video distribution channel.",
     instructions:
-      "Create a Brand Account on YouTube (separate from personal Google). Use the channel description below verbatim — it's keyword-optimized for pipeline engineering searches. Upload a minimal channel art (1280×720 minimum) and set a consistent profile icon.",
+      "Create a Brand Account on YouTube (separate from personal Google). Use the channel description below verbatim — it's keyword-optimized for your niche's search terms. Upload a minimal channel art (1280×720 minimum) and set a consistent profile icon.",
     copyBlocks: [
       {
         label: "Channel Description",
         content:
-          "Practical VFX pipeline engineering for studios that ship real frames. Python tooling, Ayon/ShotGrid workflows, cross-DCC integration, and studio automation — from a working Pipeline TD.\n\nNew videos weekly. Subscribe for pipeline tips that actually work in production.",
+          "[What you cover] for [your audience]. [Your format/angle] — [your credibility or unique perspective].",
       },
     ],
     externalLinks: [
@@ -61,7 +61,7 @@ export const SETUP_STEPS: SetupStep[] = [
       {
         label: "Newsletter Signup Page Copy",
         content:
-          "Pipeline engineering insights delivered weekly. Tool reviews, workflow breakdowns, and the stuff they don't teach in tutorials — straight from production.\n\nFree. No spam. Unsubscribe anytime.",
+          "[Your niche] insights delivered weekly. [What subscribers get] — [your angle].\n\nFree. No spam. Unsubscribe anytime.",
       },
     ],
     externalLinks: [
@@ -94,22 +94,22 @@ export const SETUP_STEPS: SetupStep[] = [
       {
         label: "Universal Bio (YouTube, Ghost, beehiiv)",
         content:
-          "Pipeline TD | VFX tools & automation | Python, Ayon, Maya, Houdini, Nuke | Building the tools artists actually use",
+          "[Your role/identity] | [What you create] | [Your tools/topics] | [Your hook]",
       },
       {
         label: "X / Twitter Bio",
         content:
-          "Pipeline TD building VFX tools that ship frames. Python, Ayon, cross-DCC automation. Opinions are production-tested.",
+          "[Your role/identity] | [What you create] | [Your tools/topics] | [Your hook]",
       },
       {
         label: "LinkedIn Headline",
         content:
-          "Pipeline Engineer | VFX Automation & Tooling | Building infrastructure for studios that ship",
+          "[Your role/identity] | [What you create] | [Your tools/topics] | [Your hook]",
       },
       {
         label: "Instagram / TikTok Bio",
         content:
-          "Pipeline TD | VFX tools that ship frames 🎬 | Python, Ayon, Maya, Houdini | Tips for studio automation",
+          "[Your role/identity] | [What you create] | [Your tools/topics] | [Your hook]",
       },
     ],
     externalLinks: [
@@ -126,12 +126,12 @@ export const SETUP_STEPS: SetupStep[] = [
     title: "Record First Pillar Episode",
     description: "Get reps in. Audio quality matters more than visuals early on.",
     instructions:
-      "Pick a topic you can talk about for 10–20 minutes without a script. Good options: 'Why your studio needs a Pipeline TD', 'Ayon in 10 minutes', 'The Maya rig that broke our pipeline'. Record audio-first — use OBS or Riverside. Don't wait for perfect gear. Ship it.",
+      "Pick a topic you can talk about for 10–20 minutes without a script. Good options: an intro to your niche, a 'how I got started', or a breakdown of a tool/method you use. Record audio-first — use OBS or Riverside. Don't wait for perfect gear. Ship it.",
     copyBlocks: [
       {
         label: "Episode Title Formula",
         content:
-          "[Result] with [Tool/Technique] — [Specific Context]\n\nExamples:\n• 'Automated Render Submission with Deadline — No More Babysitting'\n• 'Build a Maya Asset Manager in 30 Minutes with Python'\n• 'Why We Switched from ShotGrid to Ayon (and What Broke)'",
+          "[Result] with [Tool/Technique] — [Specific Context]\n\nExamples:\n• '[Task] in [Time] — No More [Old Pain]'\n• 'Build a [Thing] in 30 Minutes with [Tool]'\n• 'Why I Switched from [Old Way] to [New Way] (and What I Learned)'",
       },
     ],
     externalLinks: [
@@ -146,12 +146,12 @@ export const SETUP_STEPS: SetupStep[] = [
     title: "Build Agent 01 — Trend Scout",
     description: "Automate content ideation with an AI trend monitor.",
     instructions:
-      "Agent 01 watches Reddit (r/vfx, r/pipeline, r/houdini, r/maya), Hacker News, and industry job boards for emerging topics, tool announcements, and pain points. Weekly digest → content ideas. Build with n8n (self-host) or Make.com. Output to a Notion table or Google Sheet you review each Monday.",
+      "Agent 01 watches the subreddits, forums, news sources, and job boards relevant to your niche (configured per vertical), plus Hacker News, for emerging topics, tool announcements, and pain points. Weekly digest → content ideas. Build with n8n (self-host) or Make.com. Output to a Notion table or Google Sheet you review each Monday.",
     copyBlocks: [
       {
         label: "Agent 01 System Prompt",
         content:
-          "You are a VFX pipeline content scout. Review the following sources and identify: (1) emerging tools or workflows being discussed, (2) common pain points studios are posting about, (3) job listings mentioning new tech requirements. Output a ranked list of 5 content ideas with: title, angle, why it's timely, estimated search demand (high/med/low). Be specific. No fluff.",
+          "You are a content scout for the operator's niche. Review the following sources and identify: (1) emerging tools or topics being discussed, (2) common pain points your audience is posting about, (3) job listings mentioning new tech requirements. Output a ranked list of 5 content ideas with: title, angle, why it's timely, estimated search demand (high/med/low). Be specific. No fluff.",
       },
     ],
     externalLinks: [

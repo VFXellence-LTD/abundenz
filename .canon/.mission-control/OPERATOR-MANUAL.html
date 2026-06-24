@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -201,7 +201,7 @@
   <a href="#views">Read-Only Views</a>
   <div class="nav-section">Engine</div>
   <a href="#generate-pipeline">Generate Pipeline</a>
-  <a href="#render-pipeline">Render Pipeline</a>
+  <a href="#render-pipeline">content production pipeline</a>
   <a href="#distributors">Distributors</a>
   <a href="#safeguard">Safeguard Rules</a>
   <div class="nav-section">Operations</div>
@@ -639,7 +639,7 @@ v_content_agent_runs       v_viral_agent_runs       v_products_agent_runs      v
   <li>Never publishes — always halts for human review</li>
 </ul>
 
-<h2 id="render-pipeline">Render Pipeline (<code>renderDriver.ts</code> + <code>renderClip.ts</code>)</h2>
+<h2 id="render-pipeline">content production pipeline (<code>renderDriver.ts</code> + <code>renderClip.ts</code>)</h2>
 <pre>fetch approval (guards: contentType=clip, status=approved) → read draft → renderClip() → recordVideoApproval() → HALT</pre>
 
 <div class="table-wrap"><table>

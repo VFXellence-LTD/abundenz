@@ -1,4 +1,4 @@
-import { BANDS, VERTICALS, REVENUE_STREAMS } from "@/data/ecosystems";
+﻿import { BANDS, VERTICALS, REVENUE_STREAMS } from "@/data/ecosystems";
 
 // ─── Legend Reference ───────────────────────────────────────────────
 //
@@ -48,7 +48,7 @@ export const EXPENSE_LEGEND: LegendEntry[] = [
 // ──────────────────────────────────────────────────────────────────
 //
 // ECOSYSTEM    Business model         Viral, Content, Products, Affiliate
-//  └─ VERTICAL    Topic niche         Tech, Kitchen, Finance, VFX Pipeline
+//  └─ VERTICAL    Topic niche         Tech, Kitchen, Finance, Wellness
 //      └─ BAND       Price tier       Impulse ($1-30), Recurring ($5-50/mo), Premium ($100-500+)
 //          └─ LISTING    Product      Notion, MagSafe Mount, Shopify
 //              └─ STREAM     Revenue  COM, REC, RPM, MAR, SPO, SUB, LIC

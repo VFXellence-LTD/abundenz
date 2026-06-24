@@ -1,4 +1,4 @@
-import type { Ecosystem, Band, Vertical, RevenueStreamId, ExpenseStreamId } from "@/types";
+﻿import type { Ecosystem, Band, Vertical, RevenueStreamId, ExpenseStreamId } from "@/types";
 
 // ─── Ecosystems ─────────────────────────────────────────────────────
 
@@ -48,7 +48,7 @@ export const ECOSYSTEMS: Ecosystem[] = [
 // ─── Verticals ──────────────────────────────────────────────────────
 
 export const VERTICALS: Vertical[] = [
-  { id: "vfx-pipeline", name: "VFX Pipeline", ecosystems: ["content"], status: "active" },
+  { id: "primary", name: "Your Niche", ecosystems: ["content"], status: "active" },
   { id: "tech", name: "Tech / AI Tools", ecosystems: ["viral", "affiliate"], status: "active" },
   { id: "kitchen", name: "Kitchen / Home Gadgets", ecosystems: ["viral", "products", "affiliate"], status: "planned" },
   { id: "finance", name: "Finance / Money Math", ecosystems: ["viral", "affiliate"], status: "planned" },
@@ -141,7 +141,7 @@ export const EXPENSE_STREAMS: { id: ExpenseStreamId; label: string }[] = [
 // ─── Today Actions ──────────────────────────────────────────────────
 
 export const TODAY_ACTIONS = [
-  "Register a domain (polymathpipeline.com or similar)",
+  "Register a domain (yourbrand.com or similar)",
   "Create a dedicated Gmail for the brand",
   "Set up YouTube channel with keyword-rich description",
   "Sign up for beehiiv newsletter — free tier",

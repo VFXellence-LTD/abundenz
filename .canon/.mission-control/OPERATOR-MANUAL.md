@@ -1,7 +1,7 @@
-# Mission Control — Operator Manual
+﻿# Mission Control — Operator Manual
 
 **Version:** June 2026  
-**Scope:** Mission Control v1 — client, server, render pipeline, multi-account routing  
+**Scope:** Mission Control v1 — client, server, content production pipeline, multi-account routing  
 
 ---
 
@@ -13,7 +13,7 @@
 4. [The Content Workflow](#4-the-content-workflow)
 5. [Feature Reference](#5-feature-reference)
    - 5.1 Approval Queue
-   - 5.2 Render Pipeline
+   - 5.2 content production pipeline
    - 5.3 Multi-Account Routing
    - 5.4 Bug Report → GitHub Bridge
    - 5.5 GitHub PM Integration
@@ -42,7 +42,7 @@ Mission Control runs as three tiers:
 | **Server** | Express + SQLite + WebSocket | 4500 |
 | **Engine** | `polymath/packages/` — shared agent and render logic | (library) |
 
-The server persists state in a SQLite database at `server/.data/mission-control.db` (WAL mode). The client talks to the server over REST and WebSocket. The render pipeline lives in the engine packages and is invoked by the server's session runner.
+The server persists state in a SQLite database at `server/.data/mission-control.db` (WAL mode). The client talks to the server over REST and WebSocket. The content production pipeline lives in the engine packages and is invoked by the server's session runner.
 
 ---
 
@@ -291,9 +291,9 @@ The server spawns an agent subprocess. The terminal embedded in the Campaigns pa
 
 The campaign status changes to `running`.
 
-### Step 4: Artifact Production — The Render Pipeline Runs
+### Step 4: Artifact Production — The content production pipeline Runs
 
-The agent processes its assigned tasks. When it produces a content artifact (a script, draft, or clip), it hands it to the render pipeline in `packages/agents/src/`.
+The agent processes its assigned tasks. When it produces a content artifact (a script, draft, or clip), it hands it to the content production pipeline in `packages/agents/src/`.
 
 The pipeline runs three stages:
 1. **Voice** — generates an audio track (ElevenLabs, or an mp3 placeholder if credentials are absent)
@@ -302,7 +302,7 @@ The pipeline runs three stages:
 
 If any capability is missing — no API key, no binary, `HYPERFRAMES_ENABLED` not set — that stage produces a placeholder file and the pipeline continues. It does not fail hard.
 
-The render pipeline only accepts `content_type=clip` with `status=approved`. Other types are rejected at the driver level.
+The content production pipeline only accepts `content_type=clip` with `status=approved`. Other types are rejected at the driver level.
 
 ### Step 5: First Approval Gate — Content Review
 
@@ -364,7 +364,7 @@ The `approval_queue` table tracks each item through these states:
 
 ---
 
-### 5.2 Render Pipeline
+### 5.2 content production pipeline
 
 The pipeline lives in `packages/agents/src/adapters/` and has three stages. All stages are fully implemented — this is not a stub.
 
@@ -541,7 +541,7 @@ Each row in `platform_accounts` has a `credential_ref` column. The routing servi
 
 The rotation algorithm does not currently update `last_posted_at` after posting (known gap, Section 5.3). Until this is fixed, manually update this column if rotation accuracy matters for your go-live timeline.
 
-**Step 5 — Enable the render pipeline**
+**Step 5 — Enable the content production pipeline**
 
 Set `HYPERFRAMES_ENABLED=true` and configure ElevenLabs and Higgsfield credentials if you want real rendered video. These can be enabled independently — the pipeline degrades gracefully and uses placeholders for any missing capability.
 
