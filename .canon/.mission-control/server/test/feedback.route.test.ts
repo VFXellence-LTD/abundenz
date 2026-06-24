@@ -5,6 +5,9 @@ vi.mock("node:child_process", () => ({
   execSync: vi.fn(() => {
     throw new Error("execSync must not be called in tests");
   }),
+  execFileSync: vi.fn(() => {
+    throw new Error("execFileSync must not be called in tests");
+  }),
 }));
 
 import { execSync } from "node:child_process";

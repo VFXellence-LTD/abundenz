@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 
 export interface FeedbackItem {
   text: string;
@@ -49,19 +49,11 @@ export class FeedbackService {
       return { url: DRY_RUN_URL, dryRun: true };
     }
 
-    const labelArgs = ["feedback", "enhancement"]
-      .map((l) => `--label ${JSON.stringify(l)}`)
-      .join(" ");
-
-    const cmd = [
-      "gh issue create",
-      `--repo ${REPO}`,
-      `--title ${JSON.stringify(title)}`,
-      `--body ${JSON.stringify(body)}`,
-      labelArgs,
-    ].join(" ");
-
-    const url = execSync(cmd, { encoding: "utf-8" }).trim();
+    const url = execFileSync(
+      "gh",
+      ["issue", "create", "--repo", REPO, "--title", title, "--body", body, "--label", "feedback", "--label", "enhancement"],
+      { encoding: "utf-8" },
+    ).trim();
     return { url, dryRun: false };
   }
 

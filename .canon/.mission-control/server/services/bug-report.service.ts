@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 
 export type BugReportArea =
   | "mission-control"
@@ -65,19 +65,11 @@ export class BugReportService {
     }
 
     // Live path: shell out to gh.
-    const labelArgs = ["type/bug", areaLabel]
-      .map((l) => `--label ${JSON.stringify(l)}`)
-      .join(" ");
-
-    const cmd = [
-      "gh issue create",
-      `--repo VFXellence-LTD/abundenz`,
-      `--title ${JSON.stringify(title)}`,
-      body ? `--body ${JSON.stringify(body)}` : "--body ''",
-      labelArgs,
-    ].join(" ");
-
-    const url = execSync(cmd, { encoding: "utf-8" }).trim();
+    const url = execFileSync(
+      "gh",
+      ["issue", "create", "--repo", "VFXellence-LTD/abundenz", "--title", title, "--body", body || "", "--label", "type/bug", "--label", areaLabel],
+      { encoding: "utf-8" },
+    ).trim();
     return { url, dryRun: false };
   }
 }

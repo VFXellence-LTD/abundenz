@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MessageSquarePlus } from "lucide-react";
 import { useFeedback } from "@/feedback/FeedbackProvider";
 
@@ -12,6 +12,13 @@ export function FeedbackPanel() {
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<FeedbackItemResult[] | null>(null);
 
+  useEffect(() => {
+    if (!panelOpen) {
+      setError(null);
+      setResults(null);
+    }
+  }, [panelOpen]);
+
   const inputCls =
     "w-full rounded border border-zinc-700 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500";
 
@@ -20,6 +27,7 @@ export function FeedbackPanel() {
     add({ text: text.trim() });
     setText("");
     setResults(null);
+    setError(null);
   }
 
   async function handleSubmitAll() {

@@ -58,10 +58,10 @@ export function TourOverlay() {
 
   const pad = 8;
   const tooltipTop = rect
-    ? Math.min(rect.bottom + pad, window.innerHeight - 220)
+    ? Math.max(pad, Math.min(rect.bottom + pad, window.innerHeight - 220))
     : window.innerHeight / 2 - 100;
   const tooltipLeft = rect
-    ? Math.min(rect.left, window.innerWidth - 340)
+    ? Math.max(pad, Math.min(rect.left, window.innerWidth - 340))
     : window.innerWidth / 2 - 160;
 
   return (
