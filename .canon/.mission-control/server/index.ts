@@ -15,6 +15,7 @@ import { createAgentRunsRouter } from "./routes/agentRuns.js";
 import { createVaultRouter } from "./routes/vault.js";
 import { createPublishRouter } from "./routes/publish.js";
 import { createBugReportRouter } from "./routes/bug-report.js";
+import { createFeedbackRouter } from "./routes/feedback.js";
 import { VaultService } from "./services/vault.service.js";
 import { PtyService } from "./services/pty.service.js";
 import { SessionService } from "./services/session.service.js";
@@ -52,6 +53,7 @@ export function createApp(deps: AppDeps): Express {
   app.use("/api/sessions", createSessionsRouter({ db: deps.db, sessions: deps.sessions }));
   app.use("/api/publish", createPublishRouter(deps.db));
   app.use("/api/bug-report", createBugReportRouter());
+  app.use("/api/feedback", createFeedbackRouter());
 
   return app;
 }

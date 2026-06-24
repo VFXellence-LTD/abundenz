@@ -42,3 +42,41 @@ describe("FeedbackService — dry-run (MC_FEEDBACK_ENABLED unset)", () => {
     expect(long.endsWith("...")).toBe(true);
   });
 });
+
+import request from "supertest";
+import { createApp } from "../index.js";
+import { createDb, type Db } from "../db.js";
+import { SessionService } from "../services/session.service.js";
+import { AgentRunsService } from "../services/agentRuns.service.js";
+
+let db: Db;
+function makeApp() {
+  db = createDb(":memory:");
+  const sessions = new SessionService(new AgentRunsService(db));
+  return createApp({ db, vaultLaunchesDir: "/tmp", sessions });
+}
+afterEach(() => { db?.close(); });
+
+describe("POST /api/feedback — validation", () => {
+  it("400 when items is missing", async () => {
+    await request(makeApp()).post("/api/feedback").send({}).expect(400);
+  });
+  it("400 when items is empty array", async () => {
+    await request(makeApp()).post("/api/feedback").send({ items: [] }).expect(400);
+  });
+  it("400 when no item has non-empty text", async () => {
+    await request(makeApp()).post("/api/feedback").send({ items: [{ text: "   " }] }).expect(400);
+  });
+});
+
+describe("POST /api/feedback — dry-run", () => {
+  it("returns 200 with one dryRun result per valid item", async () => {
+    const res = await request(makeApp())
+      .post("/api/feedback")
+      .send({ items: [{ text: "Idea one" }, { text: "Idea two", area: "server" }, { text: "  " }] })
+      .expect(200);
+    expect(res.body.results).toHaveLength(2);
+    expect(res.body.results[0].dryRun).toBe(true);
+    expect(execSync).not.toHaveBeenCalled();
+  });
+});
