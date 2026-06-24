@@ -20,7 +20,7 @@ export interface BugReportResult {
   dryRun: boolean;
 }
 
-const DRY_RUN_URL = "https://github.com/VFXellence-LTD/vfxellence/issues/DRY-RUN";
+const DRY_RUN_URL = "https://github.com/VFXellence-LTD/abundenz/issues/DRY-RUN";
 
 const AREA_LABEL_MAP: Record<BugReportArea, string> = {
   "mission-control": "area/mission-control",
@@ -71,7 +71,7 @@ export class BugReportService {
 
     const cmd = [
       "gh issue create",
-      `--repo VFXellence-LTD/vfxellence`,
+      `--repo VFXellence-LTD/abundenz`,
       `--title ${JSON.stringify(title)}`,
       body ? `--body ${JSON.stringify(body)}` : "--body ''",
       labelArgs,

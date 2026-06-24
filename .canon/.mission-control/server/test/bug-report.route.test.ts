@@ -65,7 +65,7 @@ describe("POST /api/bug-report — dry-run (MC_BUG_REPORT_ENABLED unset)", () =>
       .expect(200);
 
     expect(res.body.dryRun).toBe(true);
-    expect(res.body.url).toBe("https://github.com/VFXellence-LTD/vfxellence/issues/DRY-RUN");
+    expect(res.body.url).toBe("https://github.com/VFXellence-LTD/abundenz/issues/DRY-RUN");
   });
 
   it("never invokes execSync in dry-run mode", async () => {
