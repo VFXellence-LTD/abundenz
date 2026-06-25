@@ -12,6 +12,8 @@ export const ECOSYSTEMS: Ecosystem[] = [
     nextAction: "Register domain and stand up core accounts",
     accentColor: "emerald",
     dotColor: "bg-emerald-400",
+    subdomain: "content.abundenz.com",
+    email: "content@abundenz.com",
   },
   {
     id: "viral",
@@ -22,6 +24,9 @@ export const ECOSYSTEMS: Ecosystem[] = [
     nextAction: "Pick first vertical and create anonymous brand",
     accentColor: "orange",
     dotColor: "bg-orange-400",
+    // Public face = the tech vertical (Zrodinger persona) per brand-umbrella.md.
+    subdomain: "tech.abundenz.com",
+    email: "zrodinger@abundenz.com",
   },
   {
     id: "products",
@@ -32,6 +37,8 @@ export const ECOSYSTEMS: Ecosystem[] = [
     nextAction: "Complete Content or Viral Phase 2 first",
     accentColor: "blue",
     dotColor: "bg-zinc-600",
+    subdomain: "store.abundenz.com",
+    email: "store@abundenz.com",
   },
   {
     id: "affiliate",
@@ -42,6 +49,8 @@ export const ECOSYSTEMS: Ecosystem[] = [
     nextAction: "Complete Content or Viral Phase 2 first",
     accentColor: "purple",
     dotColor: "bg-zinc-600",
+    subdomain: "go.abundenz.com",
+    email: "go@abundenz.com",
   },
 ];
 
