@@ -1,3 +1,4 @@
+import { Globe, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Ecosystem } from "@/types";
 
@@ -55,6 +56,16 @@ export function EcosystemCard({ ecosystem, revenueThisMonth = 0, className }: Ec
         <div>
           <span className="text-xs text-zinc-500">Next action</span>
           <p className="text-sm text-zinc-300 mt-0.5">{ecosystem.nextAction}</p>
+        </div>
+        <div className="pt-2 border-t border-zinc-800 space-y-1.5">
+          <div className="flex items-center gap-1.5 text-sm text-zinc-400">
+            <Globe className="w-3.5 h-3.5 text-zinc-600 flex-shrink-0" />
+            <span className="truncate">{ecosystem.subdomain}</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-sm text-zinc-400">
+            <Mail className="w-3.5 h-3.5 text-zinc-600 flex-shrink-0" />
+            <span className="truncate">{ecosystem.email}</span>
+          </div>
         </div>
         <div className="pt-2 border-t border-zinc-800">
           <span className="text-xs text-zinc-500">Revenue this month</span>

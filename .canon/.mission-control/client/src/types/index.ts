@@ -28,6 +28,10 @@ export interface Ecosystem {
   nextAction: string;
   accentColor: string;
   dotColor: string;
+  // Public face under the Abundenz umbrella (see brand-umbrella.md).
+  // One shared apex domain (abundenz.com); each ecosystem gets a subdomain + email alias.
+  subdomain: string;
+  email: string;
 }
 
 // ─── Verticals ──────────────────────────────────────────────────────
