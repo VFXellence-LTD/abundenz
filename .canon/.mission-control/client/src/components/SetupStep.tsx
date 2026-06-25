@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { ChevronDown, ChevronRight, Check, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "@/components/CopyButton";
@@ -9,10 +9,15 @@ interface SetupStepProps {
   isComplete: boolean;
   onToggleComplete: () => void;
   index: number;
+  getFieldValue?: (stepId: string, fieldKey: string) => string;
+  saveFieldValue?: (stepId: string, fieldKey: string, value: string) => void;
+  isSaved?: (stepId: string, fieldKey: string) => boolean;
 }
 
-export function SetupStep({ step, isComplete, onToggleComplete, index }: SetupStepProps) {
+export function SetupStep({ step, isComplete, onToggleComplete, index, getFieldValue, saveFieldValue, isSaved }: SetupStepProps) {
   const [expanded, setExpanded] = useState(false);
+  const [localValues, setLocalValues] = useState<Record<string, string>>({});
+  const fieldValue = (key: string) => localValues[key] ?? getFieldValue?.(step.id, key) ?? "";
 
   return (
     <div
@@ -66,6 +71,44 @@ export function SetupStep({ step, isComplete, onToggleComplete, index }: SetupSt
       {expanded && (
         <div className="px-4 pb-4 border-t border-zinc-800 pt-4 ml-10 space-y-4">
           <p className="text-sm text-zinc-400 leading-relaxed">{step.instructions}</p>
+
+          {step.fields && step.fields.length > 0 && getFieldValue && saveFieldValue && (
+            <div className="space-y-3">
+              {step.fields.map((field) => {
+                const inputCls =
+                  "w-full rounded border border-zinc-700 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500";
+                return (
+                  <div key={field.key}>
+                    <div className="mb-1 flex items-center justify-between">
+                      <label className="text-xs text-zinc-500">{field.label}</label>
+                      {isSaved?.(step.id, field.key) && (
+                        <span className="text-xs text-emerald-500">saved ✓</span>
+                      )}
+                    </div>
+                    {field.type === "textarea" ? (
+                      <textarea
+                        rows={2}
+                        className={cn(inputCls, "resize-y")}
+                        value={fieldValue(field.key)}
+                        placeholder={field.placeholder}
+                        onChange={(e) => setLocalValues((p) => ({ ...p, [field.key]: e.target.value }))}
+                        onBlur={(e) => saveFieldValue(step.id, field.key, e.target.value)}
+                      />
+                    ) : (
+                      <input
+                        type={field.type === "url" ? "url" : field.type === "email" ? "email" : "text"}
+                        className={inputCls}
+                        value={fieldValue(field.key)}
+                        placeholder={field.placeholder}
+                        onChange={(e) => setLocalValues((p) => ({ ...p, [field.key]: e.target.value }))}
+                        onBlur={(e) => saveFieldValue(step.id, field.key, e.target.value)}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
           {step.copyBlocks && step.copyBlocks.length > 0 && (
             <div className="space-y-3">

@@ -1,4 +1,4 @@
-import { SetupStep } from "@/components/SetupStep";
+﻿import { SetupStep } from "@/components/SetupStep";
 import type { SetupStep as SetupStepType } from "@/types";
 
 interface SetupStepperProps {
@@ -7,6 +7,9 @@ interface SetupStepperProps {
   onToggleStep: (stepId: string) => void;
   locked?: boolean;
   lockedLabel?: string;
+  getFieldValue?: (stepId: string, fieldKey: string) => string;
+  saveFieldValue?: (stepId: string, fieldKey: string, value: string) => void;
+  isSaved?: (stepId: string, fieldKey: string) => boolean;
 }
 
 export function SetupStepper({
@@ -15,6 +18,9 @@ export function SetupStepper({
   onToggleStep,
   locked = false,
   lockedLabel = "Parked",
+  getFieldValue,
+  saveFieldValue,
+  isSaved,
 }: SetupStepperProps) {
   if (locked) {
     return (
@@ -56,6 +62,9 @@ export function SetupStepper({
             isComplete={isComplete(step.id)}
             onToggleComplete={() => onToggleStep(step.id)}
             index={i}
+            getFieldValue={getFieldValue}
+            saveFieldValue={saveFieldValue}
+            isSaved={isSaved}
           />
         ))}
     </div>
