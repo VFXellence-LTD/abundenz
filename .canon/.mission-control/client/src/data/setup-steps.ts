@@ -14,6 +14,7 @@ export const SETUP_STEPS: SetupStep[] = [
       { label: "Cloudflare Registrar", url: "https://www.cloudflare.com/products/registrar/" },
       { label: "Namecheap", url: "https://www.namecheap.com" },
     ],
+    fields: [{ key: "domain", label: "Registered domain", type: "url", placeholder: "yourbrand.com" }],
   },
   {
     id: "email",
@@ -28,6 +29,7 @@ export const SETUP_STEPS: SetupStep[] = [
       { label: "Cloudflare Email Routing", url: "https://developers.cloudflare.com/email-routing/" },
       { label: "Google Workspace", url: "https://workspace.google.com" },
     ],
+    fields: [{ key: "address", label: "Brand email address", type: "email", placeholder: "you@yourbrand.com" }],
   },
   {
     id: "youtube",
@@ -48,6 +50,10 @@ export const SETUP_STEPS: SetupStep[] = [
       { label: "YouTube Studio", url: "https://studio.youtube.com" },
       { label: "Create Brand Account", url: "https://www.youtube.com/account_advanced" },
     ],
+    fields: [
+      { key: "channelUrl", label: "Channel URL", type: "url", placeholder: "https://youtube.com/@yourchannel" },
+      { key: "channelName", label: "Channel name", type: "text" },
+    ],
   },
   {
     id: "beehiiv",
@@ -67,6 +73,7 @@ export const SETUP_STEPS: SetupStep[] = [
     externalLinks: [
       { label: "beehiiv", url: "https://www.beehiiv.com" },
     ],
+    fields: [{ key: "newsletterUrl", label: "Newsletter URL", type: "url", placeholder: "https://yourbrand.beehiiv.com" }],
   },
   {
     id: "ghost",
@@ -81,6 +88,7 @@ export const SETUP_STEPS: SetupStep[] = [
       { label: "Ghost.org", url: "https://ghost.org" },
       { label: "Ghost on Railway", url: "https://railway.app/template/ghost" },
     ],
+    fields: [{ key: "blogUrl", label: "Blog URL", type: "url", placeholder: "https://blog.yourbrand.com" }],
   },
   {
     id: "socials",
@@ -118,6 +126,12 @@ export const SETUP_STEPS: SetupStep[] = [
       { label: "Instagram", url: "https://instagram.com" },
       { label: "TikTok", url: "https://tiktok.com" },
     ],
+    fields: [
+      { key: "x", label: "X / Twitter handle", type: "text", placeholder: "@yourbrand" },
+      { key: "linkedin", label: "LinkedIn", type: "text" },
+      { key: "tiktok", label: "TikTok handle", type: "text", placeholder: "@yourbrand" },
+      { key: "instagram", label: "Instagram handle", type: "text", placeholder: "@yourbrand" },
+    ],
   },
   {
     id: "first_episode",
@@ -138,6 +152,10 @@ export const SETUP_STEPS: SetupStep[] = [
       { label: "OBS Studio", url: "https://obsproject.com" },
       { label: "Riverside.fm", url: "https://riverside.fm" },
     ],
+    fields: [
+      { key: "url", label: "First post/episode URL", type: "url" },
+      { key: "title", label: "Title", type: "text" },
+    ],
   },
   {
     id: "agent_01",
@@ -157,6 +175,10 @@ export const SETUP_STEPS: SetupStep[] = [
     externalLinks: [
       { label: "n8n.io", url: "https://n8n.io" },
       { label: "Make.com", url: "https://www.make.com" },
+    ],
+    fields: [
+      { key: "niche", label: "Niche / topic", type: "text" },
+      { key: "sources", label: "Sources to monitor (comma-separated)", type: "textarea", placeholder: "r/yourniche, a news site, a forum…" },
     ],
   },
 ];

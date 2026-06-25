@@ -1,4 +1,4 @@
-// ─── Taxonomy Hierarchy ─────────────────────────────────────────────
+﻿// â”€â”€â”€ Taxonomy Hierarchy â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Empire > Ecosystem > Vertical > Band > Listing > Stream
 //
 // ECOSYSTEM  = business model         (Viral, Content, Products, Affiliate)
@@ -7,7 +7,7 @@
 // LISTING    = individual product     (Notion, MagSafe Mount, Shopify)
 // STREAM     = revenue mechanism      (COM, REC, RPM, MAR, SPO, SUB, LIC)
 
-// ─── Ecosystems ─────────────────────────────────────────────────────
+// â”€â”€â”€ Ecosystems â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export type EcosystemId =
   | "content"
@@ -30,9 +30,9 @@ export interface Ecosystem {
   dotColor: string;
 }
 
-// ─── Verticals ──────────────────────────────────────────────────────
+// â”€â”€â”€ Verticals â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-export type VerticalId = string; // extensible — new verticals added without type changes
+export type VerticalId = string; // extensible â€” new verticals added without type changes
 
 export interface Vertical {
   id: VerticalId;
@@ -41,7 +41,7 @@ export interface Vertical {
   status: "active" | "planned" | "parked";
 }
 
-// ─── Bands ──────────────────────────────────────────────────────────
+// â”€â”€â”€ Bands â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export type BandId = "impulse" | "recurring" | "premium";
 
@@ -53,7 +53,7 @@ export interface Band {
   description: string;
 }
 
-// ─── Listings ───────────────────────────────────────────────────────
+// â”€â”€â”€ Listings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export type ListingStatus = "active" | "testing" | "retired";
 
@@ -73,16 +73,16 @@ export interface Listing {
   notes?: string;
 }
 
-// ─── Streams (Revenue Types) ────────────────────────────────────────
+// â”€â”€â”€ Streams (Revenue Types) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export type RevenueStreamId =
-  | "com"   // Commission — one-time affiliate payout per sale
-  | "rec"   // Recurring — monthly/annual affiliate payout that repeats
-  | "rpm"   // RPM — platform ad revenue per 1000 views
-  | "mar"   // Margin — profit on products you sell (price - COGS)
-  | "spo"   // Sponsorship — flat fee for featuring a brand
-  | "sub"   // Subscription — recurring payment from audience to you
-  | "lic";  // Licensing — ongoing royalty from created content/products
+  | "com"   // Commission â€” one-time affiliate payout per sale
+  | "rec"   // Recurring â€” monthly/annual affiliate payout that repeats
+  | "rpm"   // RPM â€” platform ad revenue per 1000 views
+  | "mar"   // Margin â€” profit on products you sell (price - COGS)
+  | "spo"   // Sponsorship â€” flat fee for featuring a brand
+  | "sub"   // Subscription â€” recurring payment from audience to you
+  | "lic";  // Licensing â€” ongoing royalty from created content/products
 
 export type ExpenseStreamId =
   | "subscriptions"
@@ -97,7 +97,7 @@ export type ExpenseStreamId =
 
 export type StreamId = RevenueStreamId | ExpenseStreamId;
 
-// ─── Transactions ───────────────────────────────────────────────────
+// â”€â”€â”€ Transactions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export type TransactionType = "income" | "expense";
 
@@ -114,7 +114,7 @@ export interface Transaction {
   type: TransactionType;
 }
 
-// ─── Setup ──────────────────────────────────────────────────────────
+// â”€â”€â”€ Setup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export type StepStatus = "pending" | "complete" | "locked";
 
@@ -128,6 +128,15 @@ export interface ExternalLink {
   url: string;
 }
 
+export type SetupFieldType = "text" | "url" | "email" | "textarea";
+
+export interface SetupField {
+  key: string;
+  label: string;
+  type: SetupFieldType;
+  placeholder?: string;
+}
+
 export interface SetupStep {
   id: string;
   ecosystemId: EcosystemId;
@@ -137,9 +146,10 @@ export interface SetupStep {
   instructions: string;
   copyBlocks?: CopyBlock[];
   externalLinks?: ExternalLink[];
+  fields?: SetupField[];
 }
 
-// ─── Tools ──────────────────────────────────────────────────────────
+// â”€â”€â”€ Tools â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export type ToolStatus = "active" | "candidate" | "rejected";
 
@@ -153,13 +163,13 @@ export interface Tool {
   notes?: string;
 }
 
-// ─── Progress ───────────────────────────────────────────────────────
+// â”€â”€â”€ Progress â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export interface SetupProgress {
   [stepId: string]: boolean;
 }
 
-// ─── Entity Registry ───────────────────────────────────────────────
+// â”€â”€â”€ Entity Registry â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export type PlatformId = string;
 
