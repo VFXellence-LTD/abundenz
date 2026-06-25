@@ -27,5 +27,34 @@ export function createSetupRouter(db: Db): Router {
     }
   });
 
+  router.get("/data/:ecosystemId", (req: Request, res: Response) => {
+    try {
+      res.json(svc.getData(req.params.ecosystemId));
+    } catch (err) {
+      res.status(500).json({ error: err instanceof Error ? err.message : "Unknown error" });
+    }
+  });
+
+  router.put("/data", (req: Request, res: Response) => {
+    const { ecosystemId, stepId, fieldKey, value } = req.body as {
+      ecosystemId?: string; stepId?: string; fieldKey?: string; value?: string;
+    };
+    if (
+      typeof ecosystemId !== "string" || !ecosystemId ||
+      typeof stepId !== "string" || !stepId ||
+      typeof fieldKey !== "string" || !fieldKey ||
+      typeof value !== "string"
+    ) {
+      res.status(400).json({ error: "Missing/invalid fields: ecosystemId, stepId, fieldKey, value" });
+      return;
+    }
+    try {
+      svc.setField(ecosystemId, stepId, fieldKey, value);
+      res.json({ ok: true });
+    } catch (err) {
+      res.status(500).json({ error: err instanceof Error ? err.message : "Unknown error" });
+    }
+  });
+
   return router;
 }
