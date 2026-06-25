@@ -1,4 +1,4 @@
-﻿import { useParams, NavLink } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import { SetupStepper } from "@/components/SetupStepper";
 import { useSetupProgress } from "@/hooks/useSetupProgress";
 import { useSetupData } from "@/hooks/useSetupData";
@@ -37,7 +37,7 @@ const AFFILIATE_PLACEHOLDER = [
 export function SetupPage() {
   const { ecosystem = "content" } = useParams<{ ecosystem: string }>();
   const { isComplete, toggleStep, getEcosystemProgress } = useSetupProgress();
-  const { getFieldValue, saveFieldValue, isSaved } = useSetupData("content");
+  const { getFieldValue, saveFieldValue, setLocal, isSaved } = useSetupData(ecosystem as EcosystemId);
 
   const contentSteps = SETUP_STEPS.filter((s) => s.ecosystemId === "content");
   const contentProgress = getEcosystemProgress(
@@ -106,6 +106,7 @@ export function SetupPage() {
             locked={false}
             getFieldValue={getFieldValue}
             saveFieldValue={saveFieldValue}
+            setLocal={setLocal}
             isSaved={isSaved}
           />
         </div>

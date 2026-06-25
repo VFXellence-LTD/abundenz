@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { ChevronDown, ChevronRight, Check, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "@/components/CopyButton";
@@ -11,13 +11,12 @@ interface SetupStepProps {
   index: number;
   getFieldValue?: (stepId: string, fieldKey: string) => string;
   saveFieldValue?: (stepId: string, fieldKey: string, value: string) => void;
+  setLocal?: (stepId: string, fieldKey: string, value: string) => void;
   isSaved?: (stepId: string, fieldKey: string) => boolean;
 }
 
-export function SetupStep({ step, isComplete, onToggleComplete, index, getFieldValue, saveFieldValue, isSaved }: SetupStepProps) {
+export function SetupStep({ step, isComplete, onToggleComplete, index, getFieldValue, saveFieldValue, setLocal, isSaved }: SetupStepProps) {
   const [expanded, setExpanded] = useState(false);
-  const [localValues, setLocalValues] = useState<Record<string, string>>({});
-  const fieldValue = (key: string) => localValues[key] ?? getFieldValue?.(step.id, key) ?? "";
 
   return (
     <div
@@ -72,7 +71,7 @@ export function SetupStep({ step, isComplete, onToggleComplete, index, getFieldV
         <div className="px-4 pb-4 border-t border-zinc-800 pt-4 ml-10 space-y-4">
           <p className="text-sm text-zinc-400 leading-relaxed">{step.instructions}</p>
 
-          {step.fields && step.fields.length > 0 && getFieldValue && saveFieldValue && (
+          {step.fields && step.fields.length > 0 && getFieldValue && saveFieldValue && setLocal && (
             <div className="space-y-3">
               {step.fields.map((field) => {
                 const inputCls =
@@ -89,18 +88,18 @@ export function SetupStep({ step, isComplete, onToggleComplete, index, getFieldV
                       <textarea
                         rows={2}
                         className={cn(inputCls, "resize-y")}
-                        value={fieldValue(field.key)}
+                        value={getFieldValue(step.id, field.key)}
                         placeholder={field.placeholder}
-                        onChange={(e) => setLocalValues((p) => ({ ...p, [field.key]: e.target.value }))}
+                        onChange={(e) => setLocal(step.id, field.key, e.target.value)}
                         onBlur={(e) => saveFieldValue(step.id, field.key, e.target.value)}
                       />
                     ) : (
                       <input
                         type={field.type === "url" ? "url" : field.type === "email" ? "email" : "text"}
                         className={inputCls}
-                        value={fieldValue(field.key)}
+                        value={getFieldValue(step.id, field.key)}
                         placeholder={field.placeholder}
-                        onChange={(e) => setLocalValues((p) => ({ ...p, [field.key]: e.target.value }))}
+                        onChange={(e) => setLocal(step.id, field.key, e.target.value)}
                         onBlur={(e) => saveFieldValue(step.id, field.key, e.target.value)}
                       />
                     )}

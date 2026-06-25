@@ -1,4 +1,4 @@
-﻿import { SetupStep } from "@/components/SetupStep";
+import { SetupStep } from "@/components/SetupStep";
 import type { SetupStep as SetupStepType } from "@/types";
 
 interface SetupStepperProps {
@@ -9,6 +9,7 @@ interface SetupStepperProps {
   lockedLabel?: string;
   getFieldValue?: (stepId: string, fieldKey: string) => string;
   saveFieldValue?: (stepId: string, fieldKey: string, value: string) => void;
+  setLocal?: (stepId: string, fieldKey: string, value: string) => void;
   isSaved?: (stepId: string, fieldKey: string) => boolean;
 }
 
@@ -20,6 +21,7 @@ export function SetupStepper({
   lockedLabel = "Parked",
   getFieldValue,
   saveFieldValue,
+  setLocal,
   isSaved,
 }: SetupStepperProps) {
   if (locked) {
@@ -64,6 +66,7 @@ export function SetupStepper({
             index={i}
             getFieldValue={getFieldValue}
             saveFieldValue={saveFieldValue}
+            setLocal={setLocal}
             isSaved={isSaved}
           />
         ))}

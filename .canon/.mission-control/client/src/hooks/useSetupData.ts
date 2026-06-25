@@ -1,4 +1,4 @@
-﻿import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "@/lib/api";
 import { debounce } from "@/lib/debounce";
 import type { EcosystemId } from "@/types";
@@ -51,10 +51,16 @@ export function useSetupData(ecosystemId: EcosystemId) {
     [getPersister],
   );
 
+  const setLocal = useCallback((stepId: string, fieldKey: string, value: string) => {
+    const k = `${stepId}.${fieldKey}`;
+    setData((prev) => ({ ...prev, [stepId]: { ...prev[stepId], [fieldKey]: value } }));
+    setSaved((s) => ({ ...s, [k]: false }));
+  }, []);
+
   const isSaved = useCallback(
     (stepId: string, fieldKey: string) => !!saved[`${stepId}.${fieldKey}`],
     [saved],
   );
 
-  return { getFieldValue, saveFieldValue, isSaved };
+  return { getFieldValue, saveFieldValue, setLocal, isSaved };
 }
