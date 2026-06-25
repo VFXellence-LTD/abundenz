@@ -1,3 +1,5 @@
+> ⚠️ **SUPERSEDED 2026-06-25 by [[brand-umbrella.md]].** Polymath now operates all ecosystems under a single public Abundenz umbrella (shared `abundenz.com`, differentiated by subdomain/email). The isolation model below is retained for historical context and in case a brand later needs to split out. Do not follow this policy for new work — see `brand-umbrella.md`.
+
 # Brand Isolation Policy
 
 The single most important shared document. Defines why and how all four ecosystems remain entirely separate identities.
