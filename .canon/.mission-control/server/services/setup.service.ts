@@ -2,6 +2,8 @@ import type { Db } from "../db.js";
 
 export type SetupProgress = Record<string, boolean>;
 
+export type SetupData = Record<string, Record<string, string>>;
+
 export class SetupService {
   constructor(private db: Db) {}
 
@@ -27,5 +29,25 @@ export class SetupService {
       )
       .run(stepId, next);
     return this.getProgress();
+  }
+
+  getData(ecosystemId: string): SetupData {
+    const rows = this.db.raw
+      .prepare("SELECT step_id, field_key, value FROM setup_data WHERE ecosystem_id=?")
+      .all(ecosystemId) as Array<{ step_id: string; field_key: string; value: string }>;
+    const out: SetupData = {};
+    for (const r of rows) {
+      (out[r.step_id] ??= {})[r.field_key] = r.value;
+    }
+    return out;
+  }
+
+  setField(ecosystemId: string, stepId: string, fieldKey: string, value: string): void {
+    this.db.raw
+      .prepare(
+        `INSERT INTO setup_data (ecosystem_id, step_id, field_key, value) VALUES (?, ?, ?, ?)
+         ON CONFLICT(ecosystem_id, step_id, field_key) DO UPDATE SET value=excluded.value`,
+      )
+      .run(ecosystemId, stepId, fieldKey, value);
   }
 }

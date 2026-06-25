@@ -142,6 +142,14 @@ class MissionControlDb implements Db {
         done INTEGER NOT NULL DEFAULT 0
       );
 
+      CREATE TABLE IF NOT EXISTS setup_data (
+        ecosystem_id TEXT NOT NULL,
+        step_id TEXT NOT NULL,
+        field_key TEXT NOT NULL,
+        value TEXT NOT NULL DEFAULT '',
+        PRIMARY KEY (ecosystem_id, step_id, field_key)
+      );
+
       CREATE TABLE IF NOT EXISTS launch_state (
         vertical_key TEXT NOT NULL,                   -- '\${ecosystemId}:\${verticalId}'
         step_id TEXT NOT NULL,
