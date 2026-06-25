@@ -2,6 +2,22 @@
 
 ---
 
+## 2026-06-25 — Mission Control — persistent setup fields
+
+- Setup steps now have data-driven input fields (`SetupField` schema) that autosave on blur to a new `setup_data` table via `GET`/`PUT /api/setup/data`.
+- New `useSetupData` hook (optimistic update, debounced persist, single source of truth); pure `debounce` helper. Content ecosystem fields defined (domain, email, channel, newsletter, blog, social handles, first post, agent niche/sources).
+- Step completion tracking unchanged. Tests: server 132 passed / 1 skipped; client build clean + debounce/reducer suites green. Branch `worktree-mc-walkthrough-feedback`.
+
+---
+
+## 2026-06-25 — Mission Control — niche-agnostic copy sweep
+
+- Removed hardcoded VFX/pipeline-engineering copy from the setup wizard, ecosystems, entity, taxonomy data and the operator manual; replaced with niche-agnostic, monetization-themed placeholder copy.
+- Renamed Content vertical id `vfx-pipeline` → `primary` ("Your Niche"); example domain → `yourbrand.com`; "render pipeline" → "content production pipeline" in the manual.
+- Rationale: Polymath/Abundenz is a multi-ecosystem monetization platform; VFX becomes a vertical later, not the platform identity.
+
+---
+
 ## 2026-06-24 — Mission Control — sidebar reorg, interactive walkthrough, feedback capture
 
 - **Sidebar reorg:** Regrouped sidebar nav into labeled workflow sections — Overview / Build (Setup, Launch, Intake) / Operate (Campaigns, Agents, Sessions, Approvals, Board) / Money (Earnings, Transactions, Tax Center) / Admin (Tools, Entity). Section labels visually distinguish workflow stages.
