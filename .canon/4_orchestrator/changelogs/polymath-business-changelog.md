@@ -2,6 +2,15 @@
 
 ---
 
+## 2026-06-30 — Mission Control — Setup wizard auto-expand + tab-through
+
+- Setup steps now render expanded by default (no manual uncollapsing); added an Expand/Collapse-all toggle and a per-step chevron.
+- All fields render so the operator can fill the wizard by keyboard Tab, field-to-field, with no mouse.
+- Expansion state lifted out of SetupStep's local state into SetupStepper via a pure, unit-tested `expansionReducer`; SetupStep is now controlled (`expanded`/`onToggleExpand`).
+- Tests: client 52 passed (47 prior + 5 expansion); build clean. Branch `worktree-setup-autoexpand`.
+
+---
+
 ## 2026-06-25 — Mission Control — persistent setup fields
 
 - Setup steps now have data-driven input fields (`SetupField` schema) that autosave on blur to a new `setup_data` table via `GET`/`PUT /api/setup/data`.
