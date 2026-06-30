@@ -6,7 +6,7 @@ export interface Brand {
   ecosystemId: string;
   email: string;
 }
-export type NewBrand = Omit<Brand, "id"> & { id?: string };
+export type NewBrand = Omit<Brand, "id" | "email"> & { id?: string; email?: string };
 
 interface Row {
   id: string;
