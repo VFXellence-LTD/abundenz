@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ChevronDown, ChevronRight, Check, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "@/components/CopyButton";
@@ -9,15 +8,15 @@ interface SetupStepProps {
   isComplete: boolean;
   onToggleComplete: () => void;
   index: number;
+  expanded: boolean;
+  onToggleExpand: () => void;
   getFieldValue?: (stepId: string, fieldKey: string) => string;
   saveFieldValue?: (stepId: string, fieldKey: string, value: string) => void;
   setLocal?: (stepId: string, fieldKey: string, value: string) => void;
   isSaved?: (stepId: string, fieldKey: string) => boolean;
 }
 
-export function SetupStep({ step, isComplete, onToggleComplete, index, getFieldValue, saveFieldValue, setLocal, isSaved }: SetupStepProps) {
-  const [expanded, setExpanded] = useState(false);
-
+export function SetupStep({ step, isComplete, onToggleComplete, index, expanded, onToggleExpand, getFieldValue, saveFieldValue, setLocal, isSaved }: SetupStepProps) {
   return (
     <div
       className={cn(
@@ -56,7 +55,7 @@ export function SetupStep({ step, isComplete, onToggleComplete, index, getFieldV
 
         {/* Expand toggle */}
         <button
-          onClick={() => setExpanded(!expanded)}
+          onClick={onToggleExpand}
           className="flex-shrink-0 text-zinc-500 hover:text-zinc-300 transition-colors"
         >
           {expanded ? (

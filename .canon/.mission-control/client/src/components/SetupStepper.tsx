@@ -1,4 +1,7 @@
+import { useReducer } from "react";
+import { ChevronsDownUp, ChevronsUpDown } from "lucide-react";
 import { SetupStep } from "@/components/SetupStep";
+import { initExpansion, expansionReducer } from "@/components/setupExpansion";
 import type { SetupStep as SetupStepType } from "@/types";
 
 interface SetupStepperProps {
@@ -24,6 +27,10 @@ export function SetupStepper({
   setLocal,
   isSaved,
 }: SetupStepperProps) {
+  // Hooks must run unconditionally, before the locked early-return.
+  const stepIds = steps.map((s) => s.id);
+  const [expansion, dispatch] = useReducer(expansionReducer, stepIds, initExpansion);
+
   if (locked) {
     return (
       <div className="relative">
@@ -53,8 +60,31 @@ export function SetupStepper({
     );
   }
 
+  const anyCollapsed = stepIds.some((id) => !(expansion[id] ?? true));
+
   return (
     <div className="space-y-3">
+      <div className="flex justify-end">
+        <button
+          onClick={() =>
+            dispatch({ type: anyCollapsed ? "EXPAND_ALL" : "COLLAPSE_ALL", stepIds })
+          }
+          className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium text-zinc-500 hover:text-zinc-200 hover:bg-zinc-900 transition-colors"
+        >
+          {anyCollapsed ? (
+            <>
+              <ChevronsUpDown className="w-3.5 h-3.5" />
+              Expand all
+            </>
+          ) : (
+            <>
+              <ChevronsDownUp className="w-3.5 h-3.5" />
+              Collapse all
+            </>
+          )}
+        </button>
+      </div>
+
       {steps
         .sort((a, b) => a.order - b.order)
         .map((step, i) => (
@@ -64,6 +94,8 @@ export function SetupStepper({
             isComplete={isComplete(step.id)}
             onToggleComplete={() => onToggleStep(step.id)}
             index={i}
+            expanded={expansion[step.id] ?? true}
+            onToggleExpand={() => dispatch({ type: "TOGGLE", stepId: step.id })}
             getFieldValue={getFieldValue}
             saveFieldValue={saveFieldValue}
             setLocal={setLocal}
