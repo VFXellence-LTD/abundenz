@@ -2,6 +2,16 @@
 
 ---
 
+## 2026-06-30 — Mission Control — Brand & account data/API foundation (issue #16, epic #15)
+
+- **Slice 1 of 3** for the brand-centric multi-account Setup feature. Data and API layer only — brand-centric wizard UI (slice 2) and Entity-page DB rewire (slice 3) are deferred.
+- Added server `BrandsService` and `PlatformAccountsService` (full CRUD) over the existing `brands` and `platform_accounts` tables, exposed as REST routes `/api/brands` and `/api/platform-accounts`. The platform accounts endpoint supports `?brandId=<id>` for brand-scoped accounts and `?brandId=none` for shared/LLC-level accounts. camelCase API ↔ snake_case DB mapping, `active` boolean coercion, and FK to brands are all enforced.
+- Extended the client `PlatformAccount` type with optional DB routing fields (non-breaking; the hardcoded Entity page is untouched) and added `useBrands` and `usePlatformAccounts` hooks.
+- 17 new server tests (full server suite 149 pass / 1 skip); client 52 pass; both builds clean.
+- Spec: `.canon/.mission-control/docs/specs/2026-06-30-brand-account-api-design.md`; plan: `.canon/.mission-control/docs/plans/2026-06-30-brand-account-api.md`. Branch `feat/16-brand-account-api`.
+
+---
+
 ## 2026-06-30 — Mission Control — Setup wizard auto-expand + tab-through
 
 - Setup steps now render expanded by default (no manual uncollapsing); added an Expand/Collapse-all toggle and a per-step chevron.
