@@ -64,19 +64,6 @@ function rowToAccount(r: Row): PlatformAccount {
 export class PlatformAccountsService {
   constructor(private db: Db) {}
 
-  /**
-   * Ensure a brand stub exists so the FK on platform_accounts.brand_id is satisfied.
-   * Called before insert/update when brandId is non-null.
-   */
-  private ensureBrand(brandId: string): void {
-    const exists = this.db.raw.prepare("SELECT 1 FROM brands WHERE id=?").get(brandId);
-    if (!exists) {
-      this.db.raw
-        .prepare("INSERT INTO brands (id, name, ecosystem_id, email) VALUES (?, ?, ?, ?)")
-        .run(brandId, brandId, "content", "");
-    }
-  }
-
   list(filter?: AccountFilter): PlatformAccount[] {
     let sql = "SELECT * FROM platform_accounts";
     const params: unknown[] = [];
@@ -99,9 +86,6 @@ export class PlatformAccountsService {
   }
 
   create(data: NewPlatformAccount): PlatformAccount {
-    if (data.brandId) {
-      this.ensureBrand(data.brandId);
-    }
     const info = this.db.raw
       .prepare(
         `INSERT INTO platform_accounts
@@ -134,9 +118,6 @@ export class PlatformAccountsService {
     const existing = this.get(id);
     if (!existing) return undefined;
     const merged = { ...existing, ...patch };
-    if (merged.brandId) {
-      this.ensureBrand(merged.brandId);
-    }
     this.db.raw
       .prepare(
         `UPDATE platform_accounts SET

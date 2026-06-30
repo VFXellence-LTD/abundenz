@@ -9,6 +9,8 @@ let app: express.Express;
 
 beforeEach(() => {
   db = createDb(":memory:");
+  db.raw.prepare("INSERT INTO brands (id, name, ecosystem_id, email) VALUES (?, ?, ?, ?)").run("zrodinger", "Zrodinger", "content", "");
+  db.raw.prepare("INSERT INTO brands (id, name, ecosystem_id, email) VALUES (?, ?, ?, ?)").run("zenith", "Zenith", "content", "");
   app = express();
   app.use(express.json());
   app.use("/api/platform-accounts", createPlatformAccountsRouter(db));
