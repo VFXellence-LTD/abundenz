@@ -17,7 +17,22 @@ export interface PlatformAccount {
   staggerHours: number;
   credentialRef: string | null;
 }
-export type NewPlatformAccount = Omit<PlatformAccount, "id">;
+export type NewPlatformAccount = {
+  platform: string;
+  brandId?: string | null;
+  handle?: string;
+  email?: string;
+  trackingId?: string | null;
+  status?: string;
+  notes?: string | null;
+  url?: string | null;
+  maxAccounts?: string | null;
+  active?: boolean;
+  rotationOrder?: number;
+  lastPostedAt?: string | null;
+  staggerHours?: number;
+  credentialRef?: string | null;
+};
 
 export interface AccountFilter {
   brandId?: string | null;

@@ -21,7 +21,7 @@ export function createPlatformAccountsRouter(db: Db): Router {
       }
       res.json(svc.list(filter));
     } catch (err) {
-      res.status(500).json({ error: (err as Error).message });
+      res.status(500).json({ error: err instanceof Error ? err.message : "Unknown error" });
     }
   });
 
@@ -35,7 +35,7 @@ export function createPlatformAccountsRouter(db: Db): Router {
     try {
       res.status(201).json(svc.create(body as NewPlatformAccount));
     } catch (err) {
-      res.status(500).json({ error: (err as Error).message });
+      res.status(500).json({ error: err instanceof Error ? err.message : "Unknown error" });
     }
   });
 

@@ -12,7 +12,7 @@ export function createBrandsRouter(db: Db): Router {
     try {
       res.json(svc.list());
     } catch (err) {
-      res.status(500).json({ error: (err as Error).message });
+      res.status(500).json({ error: err instanceof Error ? err.message : "Unknown error" });
     }
   });
 
@@ -26,7 +26,7 @@ export function createBrandsRouter(db: Db): Router {
     try {
       res.status(201).json(svc.create(body as NewBrand));
     } catch (err) {
-      res.status(500).json({ error: (err as Error).message });
+      res.status(500).json({ error: err instanceof Error ? err.message : "Unknown error" });
     }
   });
 
