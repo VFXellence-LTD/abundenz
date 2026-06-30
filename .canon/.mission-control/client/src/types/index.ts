@@ -181,7 +181,7 @@ export interface PlatformAccount {
   platform: string;
   handle: string;
   email: string;
-  trackingId?: string;
+  trackingId?: string | null;
   status: "active" | "pending" | "not-started";
   notes?: string;
   url?: string;

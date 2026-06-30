@@ -7,18 +7,24 @@ export interface NewPlatformAccount {
   platform: string;
   handle?: string;
   email?: string;
-  trackingId?: string;
+  trackingId?: string | null;
   status?: "active" | "pending" | "not-started";
   notes?: string;
   url?: string;
   maxAccounts?: string;
   active?: boolean;
   rotationOrder?: number;
-  lastPostedAt?: string;
+  lastPostedAt?: string | null;
   staggerHours?: number;
-  credentialRef?: string;
+  credentialRef?: string | null;
 }
 
+/**
+ * Fetches platform accounts, optionally filtered by brand.
+ * @param brandId - A brand id filters to that brand's accounts. The literal
+ *   string `"none"` filters to shared / LLC-level accounts (brand_id IS NULL).
+ *   Omit to fetch all accounts.
+ */
 export function usePlatformAccounts(brandId?: string) {
   const [accounts, setAccounts] = useState<PlatformAccount[]>([]);
 
