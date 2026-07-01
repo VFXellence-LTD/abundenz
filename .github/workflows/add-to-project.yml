@@ -27,10 +27,26 @@ jobs:
     name: Add issue to VFXellence Dev project
     runs-on: ubuntu-latest
     steps:
+      # Step 0: Gate — the whole workflow is inert until PROJECT_PAT is set.
+      # An empty token makes both the add-to-project action and gh calls fail
+      # hard, so short-circuit cleanly instead of erroring on every issue event.
+      - name: Check PROJECT_PAT present
+        id: gate
+        env:
+          PROJECT_PAT: ${{ secrets.PROJECT_PAT }}
+        run: |
+          if [ -n "${PROJECT_PAT:-}" ]; then
+            echo "has_pat=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_pat=false" >> "$GITHUB_OUTPUT"
+            echo "PROJECT_PAT not set — workflow inert, skipping."
+          fi
+
       # Step 1: Add the issue to the project using the official action.
       # This registers the item but does NOT set custom field values.
       - name: Add issue to project
         id: add-issue
+        if: steps.gate.outputs.has_pat == 'true'
         uses: actions/add-to-project@v1
         with:
           project-url: https://github.com/orgs/VFXellence-LTD/projects/2
@@ -44,6 +60,7 @@ jobs:
       #   c) Call updateProjectV2ItemFieldValue to set Status = Backlog on the item
       #      returned by add-to-project in step 1.
       - name: Set Status to Backlog
+        if: steps.gate.outputs.has_pat == 'true'
         env:
           GH_TOKEN: ${{ secrets.PROJECT_PAT }}
           ITEM_ID: ${{ steps.add-issue.outputs.itemId }}

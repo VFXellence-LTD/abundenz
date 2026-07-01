@@ -52,6 +52,11 @@ jobs:
         run: |
           set -euo pipefail
 
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "PROJECT_PAT not set — workflow inert, skipping."
+            exit 0
+          fi
+
           # --- Resolve project node ID ---
           PROJECT_ID=$(gh api graphql -f query='
             query($org: String!, $number: Int!) {
@@ -180,6 +185,11 @@ jobs:
           GH_TOKEN: ${{ secrets.PROJECT_PAT }}
         run: |
           set -euo pipefail
+
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "PROJECT_PAT not set — workflow inert, skipping."
+            exit 0
+          fi
 
           PR_NODE_ID="${{ github.event.pull_request.node_id }}"
 
@@ -313,6 +323,11 @@ jobs:
           GH_TOKEN: ${{ secrets.PROJECT_PAT }}
         run: |
           set -euo pipefail
+
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "PROJECT_PAT not set — workflow inert, skipping."
+            exit 0
+          fi
 
           ISSUE_NUM="${{ github.event.issue.number }}"
 
