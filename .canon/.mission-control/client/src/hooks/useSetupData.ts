@@ -5,7 +5,7 @@ import type { EcosystemId } from "@/types";
 
 type DataMap = Record<string, Record<string, string>>;
 
-export function useSetupData(ecosystemId: EcosystemId) {
+export function useSetupData(ecosystemId: EcosystemId, brandId?: string) {
   const [data, setData] = useState<DataMap>({});
   const [saved, setSaved] = useState<Record<string, boolean>>({});
   const persistersRef = useRef<Record<string, (value: string) => void>>({});
@@ -13,12 +13,13 @@ export function useSetupData(ecosystemId: EcosystemId) {
   useEffect(() => {
     let alive = true;
     persistersRef.current = {};
+    const q = brandId ? `?brandId=${encodeURIComponent(brandId)}` : "";
     api
-      .get<DataMap>(`/setup/data/${ecosystemId}`)
+      .get<DataMap>(`/setup/data/${ecosystemId}${q}`)
       .then((d) => { if (alive) setData(d); })
       .catch(console.error);
     return () => { alive = false; };
-  }, [ecosystemId]);
+  }, [ecosystemId, brandId]);
 
   const getPersister = useCallback(
     (stepId: string, fieldKey: string) => {
@@ -26,14 +27,14 @@ export function useSetupData(ecosystemId: EcosystemId) {
       if (!persistersRef.current[k]) {
         persistersRef.current[k] = debounce((value: string) => {
           api
-            .put(`/setup/data`, { ecosystemId, stepId, fieldKey, value })
+            .put(`/setup/data`, { ecosystemId, stepId, fieldKey, value, brandId })
             .then(() => setSaved((s) => ({ ...s, [k]: true })))
             .catch(console.error);
         }, 500);
       }
       return persistersRef.current[k];
     },
-    [ecosystemId],
+    [ecosystemId, brandId],
   );
 
   const getFieldValue = useCallback(
