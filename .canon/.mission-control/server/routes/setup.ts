@@ -6,22 +6,23 @@ export function createSetupRouter(db: Db): Router {
   const router = Router();
   const svc = new SetupService(db);
 
-  router.get("/", (_req: Request, res: Response) => {
+  router.get("/", (req: Request, res: Response) => {
     try {
-      res.json(svc.getProgress());
+      const brandId = typeof req.query.brandId === "string" ? req.query.brandId : undefined;
+      res.json(svc.getProgress(brandId));
     } catch (err) {
       res.status(500).json({ error: err instanceof Error ? err.message : "Unknown error" });
     }
   });
 
   router.post("/toggle", (req: Request, res: Response) => {
-    const stepId = (req.body as { stepId?: string }).stepId;
+    const { stepId, brandId } = req.body as { stepId?: string; brandId?: string };
     if (!stepId || typeof stepId !== "string") {
       res.status(400).json({ error: "Missing required field: stepId" });
       return;
     }
     try {
-      res.json(svc.toggle(stepId));
+      res.json(svc.toggle(stepId, typeof brandId === "string" ? brandId : undefined));
     } catch (err) {
       res.status(500).json({ error: err instanceof Error ? err.message : "Unknown error" });
     }
@@ -29,15 +30,16 @@ export function createSetupRouter(db: Db): Router {
 
   router.get("/data/:ecosystemId", (req: Request, res: Response) => {
     try {
-      res.json(svc.getData(req.params.ecosystemId));
+      const brandId = typeof req.query.brandId === "string" ? req.query.brandId : undefined;
+      res.json(svc.getData(req.params.ecosystemId, brandId));
     } catch (err) {
       res.status(500).json({ error: err instanceof Error ? err.message : "Unknown error" });
     }
   });
 
   router.put("/data", (req: Request, res: Response) => {
-    const { ecosystemId, stepId, fieldKey, value } = req.body as {
-      ecosystemId?: string; stepId?: string; fieldKey?: string; value?: string;
+    const { ecosystemId, stepId, fieldKey, value, brandId } = req.body as {
+      ecosystemId?: string; stepId?: string; fieldKey?: string; value?: string; brandId?: string;
     };
     if (
       typeof ecosystemId !== "string" || !ecosystemId ||
@@ -49,7 +51,7 @@ export function createSetupRouter(db: Db): Router {
       return;
     }
     try {
-      svc.setField(ecosystemId, stepId, fieldKey, value);
+      svc.setField(ecosystemId, stepId, fieldKey, value, typeof brandId === "string" ? brandId : undefined);
       res.json({ ok: true });
     } catch (err) {
       res.status(500).json({ error: err instanceof Error ? err.message : "Unknown error" });
