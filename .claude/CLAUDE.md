@@ -20,8 +20,8 @@ Robin Dutta — **Boss** in this domain. Final authority all decisions, approval
 |-----------|--------|-----------|-----------------|
 | `D:\VFXellence-LTD\.canon\` | Governance vault (.canon) | `D:\VFXellence-LTD\.canon\CLAUDE.md` | Boss |
 | `D:\VFXellence-LTD\polymath\` | AI-driven business monorepo | `D:\VFXellence-LTD\polymath\CLAUDE.md` | Boss |
-| `D:\VFXellence-LTD\polymath\vault\` | Business governance vault | `D:\VFXellence-LTD\polymath\vault\CLAUDE.md` | Boss |
-| `D:\VFXellence-LTD\polymath\apps\dashboard\` | Polymath dashboard app | `D:\VFXellence-LTD\polymath\apps\dashboard\CLAUDE.md` | Boss |
+| `D:\VFXellence-LTD\.canon\1_controller\profiles\polymath\` | Business governance vault | `D:\VFXellence-LTD\.canon\CLAUDE.md` | Boss |
+| `D:\VFXellence-LTD\.canon\.mission-control\client\` | Polymath dashboard (control-plane client) | `D:\VFXellence-LTD\.canon\.mission-control\client\CLAUDE.md` | Boss |
 | `D:\VFXellence-LTD\abundenz-site\` | Abundenz brand site (Astro) | `.canon/CLAUDE.md` + this file | Boss |
 | `D:\VFXellence-LTD\archive\_passive_income\` | Archived — read-only reference (moved from root) | — | Boss |
 | Everything else under `D:\VFXellence-LTD\` | Default | `.canon/CLAUDE.md` + this file | Boss |
@@ -49,29 +49,24 @@ Robin Dutta — **Boss** in this domain. Final authority all decisions, approval
 **Git remote:** `github.com/VFXellence-LTD/polymath`
 **Node:** `>=20` | **Package manager:** pnpm
 **Workspace packages:**
-- `apps/dashboard` (`polymath-dashboard`) — Vite 8 + React 19 + TypeScript + Tailwind CSS 4 + Recharts + SQLite. Dev server: `localhost:5173`.
 - `packages/types` (`@polymath/types`) — Shared TypeScript types (ecosystems, transactions, tools).
 - `packages/agents` — Agent implementations (future).
+- `apps/` — Dev stream workspaces (currently empty; dashboard was relocated).
 
-**Root scripts:**
-```
-pnpm dev      → pnpm --filter dashboard dev   (dashboard at localhost:5173)
-pnpm build    → pnpm --filter dashboard build
-pnpm lint     → pnpm --filter dashboard lint
-```
+**Control-plane client (dashboard) — lives outside this repo:**
+`D:\VFXellence-LTD\.canon\.mission-control\client` — Vite + React dashboard. Dev server: `localhost:5174`.
 
-**Dashboard scripts (run from apps/dashboard or via filter):**
+**Dashboard scripts (run from `.canon\.mission-control\client`):**
 ```
-npm run dev      → vite dev server
-npm run build    → tsc -b && vite build
-npm run lint     → eslint .
-npm run preview  → preview production build
+pnpm -C "D:\VFXellence-LTD\.canon\.mission-control\client" install   # install deps
+pnpm -C "D:\VFXellence-LTD\.canon\.mission-control\client" dev       # localhost:5174
+pnpm -C "D:\VFXellence-LTD\.canon\.mission-control\client" build     # build
 ```
 
 **Key governance files:**
 - Monorepo rules: `polymath/CLAUDE.md`
-- Business vault rules: `polymath/vault/CLAUDE.md`
-- Dashboard rules: `polymath/apps/dashboard/CLAUDE.md`
+- Business governance vault: `D:\VFXellence-LTD\.canon\1_controller\profiles\polymath\`
+- Dashboard rules: `D:\VFXellence-LTD\.canon\.mission-control\client\CLAUDE.md`
 - Task tracking: Asana (not Jira)
 
 **5 Ecosystems:** Content/Signal (active), Viral/Surge (active), Products/Atelier (parked), Affiliate/Conduit (parked), Lullaby (design phase).
@@ -116,12 +111,12 @@ pnpm install
 pnpm dev
 ```
 
-### Polymath Dashboard (direct, in apps/dashboard)
+### Polymath Dashboard (control-plane client)
 
 ```bash
-cd D:\VFXellence-LTD\polymath\apps\dashboard
-npm install
-npm run dev
+cd D:\VFXellence-LTD\.canon\.mission-control\client
+pnpm install
+pnpm dev
 ```
 
 ### Abundenz Site
