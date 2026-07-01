@@ -1,8 +1,14 @@
-import { useParams, NavLink } from "react-router-dom";
+import { useParams, NavLink, useSearchParams } from "react-router-dom";
+import { useState } from "react";
 import { SetupStepper } from "@/components/SetupStepper";
+import { BrandSelector } from "@/components/BrandSelector";
+import { BrandCreateForm } from "@/components/BrandCreateForm";
 import { useSetupProgress } from "@/hooks/useSetupProgress";
 import { useSetupData } from "@/hooks/useSetupData";
+import { useBrands } from "@/hooks/useBrands";
+import { usePlatformAccounts } from "@/hooks/usePlatformAccounts";
 import { SETUP_STEPS } from "@/data/setup-steps";
+import { CONTENT_SEED_PLATFORMS } from "@/data/brand-channels";
 import { cn } from "@/lib/utils";
 import type { EcosystemId } from "@/types";
 
@@ -36,8 +42,30 @@ const AFFILIATE_PLACEHOLDER = [
 
 export function SetupPage() {
   const { ecosystem = "content" } = useParams<{ ecosystem: string }>();
-  const { isComplete, toggleStep, getEcosystemProgress } = useSetupProgress();
-  const { getFieldValue, saveFieldValue, setLocal, isSaved } = useSetupData(ecosystem as EcosystemId);
+  const ecoId = ecosystem as EcosystemId;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeBrandId = searchParams.get("brand");
+  const [showCreate, setShowCreate] = useState(false);
+
+  const { brands, addBrand } = useBrands();
+  const { addAccount } = usePlatformAccounts(activeBrandId ?? undefined);
+  const ecoBrands = brands.filter((b) => b.ecosystemId === ecoId);
+
+  const { isComplete, toggleStep, getEcosystemProgress } = useSetupProgress(activeBrandId ?? undefined);
+  const { getFieldValue, saveFieldValue, setLocal, isSaved } = useSetupData(ecoId, activeBrandId ?? undefined);
+
+  const selectBrand = (id: string) => {
+    const next = new URLSearchParams(searchParams);
+    next.set("brand", id);
+    setSearchParams(next);
+    setShowCreate(false);
+  };
+
+  const seedChannels = (brandId: string) => {
+    for (const platform of CONTENT_SEED_PLATFORMS) {
+      addAccount({ brandId, platform, status: "not-started" });
+    }
+  };
 
   const contentSteps = SETUP_STEPS.filter((s) => s.ecosystemId === "content");
   const contentProgress = getEcosystemProgress(
@@ -80,8 +108,33 @@ export function SetupPage() {
         ))}
       </div>
 
+      {/* Brand selector + create */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <BrandSelector
+            brands={ecoBrands}
+            activeBrandId={activeBrandId}
+            onSelect={selectBrand}
+            onNew={() => setShowCreate(true)}
+          />
+        </div>
+        {showCreate && (
+          <BrandCreateForm
+            ecosystemId={ecoId}
+            onCreate={addBrand}
+            onSeedChannels={seedChannels}
+            onCreated={selectBrand}
+          />
+        )}
+        {!activeBrandId && !showCreate && (
+          <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 text-center text-sm text-zinc-400">
+            Select a brand or create one to begin setup.
+          </div>
+        )}
+      </div>
+
       {/* Content ecosystem */}
-      {ecosystem === "content" && (
+      {ecosystem === "content" && activeBrandId && (
         <div className="space-y-4">
           {/* Progress */}
           <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
@@ -113,7 +166,7 @@ export function SetupPage() {
       )}
 
       {/* Viral ecosystem (active) */}
-      {ecosystem === "viral" && (
+      {ecosystem === "viral" && activeBrandId && (
         <div className="space-y-4">
           <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
@@ -137,7 +190,7 @@ export function SetupPage() {
       )}
 
       {/* Products ecosystem (locked) */}
-      {ecosystem === "products" && (
+      {ecosystem === "products" && activeBrandId && (
         <div className="space-y-4">
           <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
@@ -162,7 +215,7 @@ export function SetupPage() {
       )}
 
       {/* Affiliate ecosystem (locked) */}
-      {ecosystem === "affiliate" && (
+      {ecosystem === "affiliate" && activeBrandId && (
         <div className="space-y-4">
           <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
