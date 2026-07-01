@@ -41,3 +41,24 @@ describe("setup progress API", () => {
     expect(res.status).toBe(400);
   });
 });
+
+describe("setup API brand scoping", () => {
+  it("toggle + GET isolate by brandId query", async () => {
+    await request(app).post("/api/setup/toggle").send({ stepId: "s1", brandId: "brnA" });
+    const a = await request(app).get("/api/setup?brandId=brnA");
+    expect(a.body).toEqual({ s1: true });
+    const b = await request(app).get("/api/setup?brandId=brnB");
+    expect(b.body).toEqual({});
+    const legacy = await request(app).get("/api/setup");
+    expect(legacy.body).toEqual({});
+  });
+
+  it("PUT/GET data isolate by brandId", async () => {
+    await request(app).put("/api/setup/data")
+      .send({ ecosystemId: "content", stepId: "domain", fieldKey: "domain", value: "z.com", brandId: "brnA" });
+    const a = await request(app).get("/api/setup/data/content?brandId=brnA");
+    expect(a.body).toEqual({ domain: { domain: "z.com" } });
+    const none = await request(app).get("/api/setup/data/content?brandId=brnB");
+    expect(none.body).toEqual({});
+  });
+});

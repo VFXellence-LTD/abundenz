@@ -2,17 +2,18 @@ import { useState, useCallback, useEffect } from "react";
 import type { SetupProgress, EcosystemId } from "@/types";
 import { api } from "@/lib/api";
 
-export function useSetupProgress() {
+export function useSetupProgress(brandId?: string) {
   const [progress, setProgress] = useState<SetupProgress>({});
 
   useEffect(() => {
-    api.get<SetupProgress>("/setup").then(setProgress).catch(console.error);
-  }, []);
+    const q = brandId ? `?brandId=${encodeURIComponent(brandId)}` : "";
+    api.get<SetupProgress>(`/setup${q}`).then(setProgress).catch(console.error);
+  }, [brandId]);
 
   const toggleStep = useCallback((stepId: string) => {
-    setProgress((prev) => ({ ...prev, [stepId]: !prev[stepId] })); // optimistic
-    api.post<SetupProgress>("/setup/toggle", { stepId }).then(setProgress).catch(console.error);
-  }, []);
+    setProgress((prev) => ({ ...prev, [stepId]: !prev[stepId] }));
+    api.post<SetupProgress>("/setup/toggle", { stepId, brandId }).then(setProgress).catch(console.error);
+  }, [brandId]);
 
   const isComplete = useCallback((stepId: string) => !!progress[stepId], [progress]);
 

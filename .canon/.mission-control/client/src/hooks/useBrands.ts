@@ -18,11 +18,13 @@ export function useBrands() {
     api.get<BrandRecord[]>("/brands").then(setBrands).catch(console.error);
   }, []);
 
-  const addBrand = useCallback((data: NewBrand) => {
-    api
+  const addBrand = useCallback((data: NewBrand): Promise<BrandRecord> => {
+    return api
       .post<BrandRecord>("/brands", data)
-      .then((created) => setBrands((prev) => [created, ...prev]))
-      .catch(console.error);
+      .then((created) => {
+        setBrands((prev) => [created, ...prev]);
+        return created;
+      });
   }, []);
 
   const updateBrand = useCallback((id: string, data: Partial<NewBrand>) => {

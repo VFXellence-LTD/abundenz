@@ -138,16 +138,19 @@ class MissionControlDb implements Db {
       );
 
       CREATE TABLE IF NOT EXISTS setup_progress (
-        step_id TEXT PRIMARY KEY,
-        done INTEGER NOT NULL DEFAULT 0
+        brand_id TEXT NOT NULL DEFAULT '',
+        step_id TEXT NOT NULL,
+        done INTEGER NOT NULL DEFAULT 0,
+        PRIMARY KEY (brand_id, step_id)
       );
 
       CREATE TABLE IF NOT EXISTS setup_data (
+        brand_id TEXT NOT NULL DEFAULT '',
         ecosystem_id TEXT NOT NULL,
         step_id TEXT NOT NULL,
         field_key TEXT NOT NULL,
         value TEXT NOT NULL DEFAULT '',
-        PRIMARY KEY (ecosystem_id, step_id, field_key)
+        PRIMARY KEY (brand_id, ecosystem_id, step_id, field_key)
       );
 
       CREATE TABLE IF NOT EXISTS launch_state (
@@ -235,11 +238,56 @@ class MissionControlDb implements Db {
       }
     }
 
+    migrateSetupBrandScope(this.raw);
+
     createScopedViews(this.raw);
   }
 
   close(): void {
     this.raw.close();
+  }
+}
+
+/**
+ * One-time rebuild for DBs created before setup_data / setup_progress gained
+ * brand_id. SQLite can't ALTER a PRIMARY KEY, so we rebuild the table and
+ * backfill legacy rows with brand_id='' (the global/legacy scope). Idempotent:
+ * skips when brand_id already exists.
+ */
+function migrateSetupBrandScope(raw: Database.Database): void {
+  const hasCol = (table: string, col: string): boolean =>
+    (raw.prepare(`PRAGMA table_info(${table})`).all() as { name: string }[]).some((r) => r.name === col);
+
+  if (!hasCol("setup_data", "brand_id")) {
+    raw.exec(`
+      ALTER TABLE setup_data RENAME TO setup_data_old;
+      CREATE TABLE setup_data (
+        brand_id TEXT NOT NULL DEFAULT '',
+        ecosystem_id TEXT NOT NULL,
+        step_id TEXT NOT NULL,
+        field_key TEXT NOT NULL,
+        value TEXT NOT NULL DEFAULT '',
+        PRIMARY KEY (brand_id, ecosystem_id, step_id, field_key)
+      );
+      INSERT INTO setup_data (brand_id, ecosystem_id, step_id, field_key, value)
+        SELECT '', ecosystem_id, step_id, field_key, value FROM setup_data_old;
+      DROP TABLE setup_data_old;
+    `);
+  }
+
+  if (!hasCol("setup_progress", "brand_id")) {
+    raw.exec(`
+      ALTER TABLE setup_progress RENAME TO setup_progress_old;
+      CREATE TABLE setup_progress (
+        brand_id TEXT NOT NULL DEFAULT '',
+        step_id TEXT NOT NULL,
+        done INTEGER NOT NULL DEFAULT 0,
+        PRIMARY KEY (brand_id, step_id)
+      );
+      INSERT INTO setup_progress (brand_id, step_id, done)
+        SELECT '', step_id, done FROM setup_progress_old;
+      DROP TABLE setup_progress_old;
+    `);
   }
 }
 

@@ -2,6 +2,16 @@
 
 ---
 
+## 2026-07-01 — Mission Control — Brand-centric Setup wizard PR 2a foundation (issue #18, epic #15)
+
+- **Slice 2 of 3** for the brand-centric multi-account Setup feature (PR 2a — foundation). Channel-step rewiring, per-brand completion derivation, and non-content "Add channel" are deferred to PR 2b. Slice 3 (Entity page, domain-step copy) is unchanged.
+- **Server:** `setup_data` and `setup_progress` tables gained a `brand_id` column via an idempotent table-rebuild migration (`brand_id=''` preserves legacy/global scope). `SetupService` and all four `/api/setup` routes now thread an optional `brandId`, enabling brand-scoped reads and writes.
+- **Client:** `useSetupData` and `useSetupProgress` accept an optional `brandId`; `useBrands.addBrand` now returns the created record. New `BrandSelector` and `BrandCreateForm` components added — `BrandCreateForm` enforces the brand-name "z" validation convention and seeds content-only channels. `SetupPage` wires a per-ecosystem brand selector, create form, empty state, and `?brand=` URL scoping, gating step panels on an active brand.
+- **Tests:** Server 156 pass / 1 skip (including new migration and brand-isolation tests); client 59 pass; build clean.
+- **Spec/plan:** `.canon/.mission-control/docs/specs/2026-07-01-brand-centric-wizard-design.md`, `.canon/.mission-control/docs/plans/2026-07-01-brand-wizard-2a.md`. Branch `feat/18-brand-wizard-2a`.
+
+---
+
 ## 2026-06-30 — Mission Control — Brand & account data/API foundation (issue #16, epic #15)
 
 - **Slice 1 of 3** for the brand-centric multi-account Setup feature. Data and API layer only — brand-centric wizard UI (slice 2) and Entity-page DB rewire (slice 3) are deferred.
