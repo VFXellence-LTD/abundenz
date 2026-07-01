@@ -34,6 +34,28 @@ describe("SetupService — field data", () => {
     svc.setField("viral", "v1", "handle", "@x");
     expect(svc.getData("content")).toEqual({ domain: { domain: "c.com" } });
   });
+
+  it("setField/getData isolate by brand; '' is the default/legacy scope", async () => {
+    const { SetupService } = await import("../services/setup.service.js");
+    db = createDb(":memory:");
+    const svc = new SetupService(db);
+    svc.setField("content", "domain", "domain", "z-one.com", "brnA");
+    svc.setField("content", "domain", "domain", "z-two.com", "brnB");
+    svc.setField("content", "domain", "domain", "legacy.com"); // no brandId => ''
+    expect(svc.getData("content", "brnA")).toEqual({ domain: { domain: "z-one.com" } });
+    expect(svc.getData("content", "brnB")).toEqual({ domain: { domain: "z-two.com" } });
+    expect(svc.getData("content")).toEqual({ domain: { domain: "legacy.com" } });
+  });
+
+  it("getProgress/toggle isolate by brand", async () => {
+    const { SetupService } = await import("../services/setup.service.js");
+    db = createDb(":memory:");
+    const svc = new SetupService(db);
+    svc.toggle("s1", "brnA");
+    expect(svc.getProgress("brnA")).toEqual({ s1: true });
+    expect(svc.getProgress("brnB")).toEqual({});
+    expect(svc.getProgress()).toEqual({}); // legacy scope untouched
+  });
 });
 
 import request from "supertest";
