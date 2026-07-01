@@ -181,11 +181,19 @@ export interface PlatformAccount {
   platform: string;
   handle: string;
   email: string;
-  trackingId?: string;
+  trackingId?: string | null;
   status: "active" | "pending" | "not-started";
   notes?: string;
   url?: string;
   maxAccounts?: string;
+  // DB-sourced routing fields (slice 1) — optional so hardcoded entity.ts still compiles
+  id?: number;
+  brandId?: string | null;
+  active?: boolean;
+  rotationOrder?: number;
+  lastPostedAt?: string | null;
+  staggerHours?: number;
+  credentialRef?: string | null;
 }
 
 export interface Brand {

@@ -16,6 +16,8 @@ import { createVaultRouter } from "./routes/vault.js";
 import { createPublishRouter } from "./routes/publish.js";
 import { createBugReportRouter } from "./routes/bug-report.js";
 import { createFeedbackRouter } from "./routes/feedback.js";
+import { createBrandsRouter } from "./routes/brands.js";
+import { createPlatformAccountsRouter } from "./routes/platform-accounts.js";
 import { VaultService } from "./services/vault.service.js";
 import { PtyService } from "./services/pty.service.js";
 import { SessionService } from "./services/session.service.js";
@@ -54,6 +56,8 @@ export function createApp(deps: AppDeps): Express {
   app.use("/api/publish", createPublishRouter(deps.db));
   app.use("/api/bug-report", createBugReportRouter());
   app.use("/api/feedback", createFeedbackRouter());
+  app.use("/api/brands", createBrandsRouter(deps.db));
+  app.use("/api/platform-accounts", createPlatformAccountsRouter(deps.db));
 
   return app;
 }
