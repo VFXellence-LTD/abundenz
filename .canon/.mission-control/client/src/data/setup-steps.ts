@@ -1,4 +1,4 @@
-﻿import type { SetupStep } from "@/types";
+import type { SetupStep } from "@/types";
 
 export const SETUP_STEPS: SetupStep[] = [
   {
@@ -15,6 +15,7 @@ export const SETUP_STEPS: SetupStep[] = [
       { label: "Namecheap", url: "https://www.namecheap.com" },
     ],
     fields: [{ key: "domain", label: "Registered domain", type: "url", placeholder: "yourbrand.com" }],
+    kind: "freetext",
   },
   {
     id: "email",
@@ -30,6 +31,8 @@ export const SETUP_STEPS: SetupStep[] = [
       { label: "Google Workspace", url: "https://workspace.google.com" },
     ],
     fields: [{ key: "address", label: "Brand email address", type: "email", placeholder: "you@yourbrand.com" }],
+    kind: "freetext",
+    writesToBrand: "email",
   },
   {
     id: "youtube",
@@ -54,6 +57,13 @@ export const SETUP_STEPS: SetupStep[] = [
       { key: "channelUrl", label: "Channel URL", type: "url", placeholder: "https://youtube.com/@yourchannel" },
       { key: "channelName", label: "Channel name", type: "text" },
     ],
+    kind: "channel",
+    channelSpec: [
+      { platform: "youtube", fields: [
+        { fieldKey: "channelUrl", accountField: "url" },
+        { fieldKey: "channelName", accountField: "handle" },
+      ] },
+    ],
   },
   {
     id: "beehiiv",
@@ -74,6 +84,8 @@ export const SETUP_STEPS: SetupStep[] = [
       { label: "beehiiv", url: "https://www.beehiiv.com" },
     ],
     fields: [{ key: "newsletterUrl", label: "Newsletter URL", type: "url", placeholder: "https://yourbrand.beehiiv.com" }],
+    kind: "channel",
+    channelSpec: [{ platform: "beehiiv", fields: [{ fieldKey: "newsletterUrl", accountField: "url" }] }],
   },
   {
     id: "ghost",
@@ -89,6 +101,8 @@ export const SETUP_STEPS: SetupStep[] = [
       { label: "Ghost on Railway", url: "https://railway.app/template/ghost" },
     ],
     fields: [{ key: "blogUrl", label: "Blog URL", type: "url", placeholder: "https://blog.yourbrand.com" }],
+    kind: "channel",
+    channelSpec: [{ platform: "ghost", fields: [{ fieldKey: "blogUrl", accountField: "url" }] }],
   },
   {
     id: "socials",
@@ -132,6 +146,13 @@ export const SETUP_STEPS: SetupStep[] = [
       { key: "tiktok", label: "TikTok handle", type: "text", placeholder: "@yourbrand" },
       { key: "instagram", label: "Instagram handle", type: "text", placeholder: "@yourbrand" },
     ],
+    kind: "channel",
+    channelSpec: [
+      { platform: "x", fields: [{ fieldKey: "x", accountField: "handle" }] },
+      { platform: "linkedin", fields: [{ fieldKey: "linkedin", accountField: "handle" }] },
+      { platform: "tiktok", fields: [{ fieldKey: "tiktok", accountField: "handle" }] },
+      { platform: "instagram", fields: [{ fieldKey: "instagram", accountField: "handle" }] },
+    ],
   },
   {
     id: "first_episode",
@@ -156,6 +177,7 @@ export const SETUP_STEPS: SetupStep[] = [
       { key: "url", label: "First post/episode URL", type: "url" },
       { key: "title", label: "Title", type: "text" },
     ],
+    kind: "freetext",
   },
   {
     id: "agent_01",
@@ -180,5 +202,6 @@ export const SETUP_STEPS: SetupStep[] = [
       { key: "niche", label: "Niche / topic", type: "text" },
       { key: "sources", label: "Sources to monitor (comma-separated)", type: "textarea", placeholder: "r/yourniche, a news site, a forum…" },
     ],
+    kind: "freetext",
   },
 ];
