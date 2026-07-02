@@ -1,8 +1,9 @@
 import { useReducer } from "react";
 import { ChevronsDownUp, ChevronsUpDown } from "lucide-react";
 import { SetupStep } from "@/components/SetupStep";
+import { ChannelStep } from "@/components/ChannelStep";
 import { initExpansion, expansionReducer } from "@/components/setupExpansion";
-import type { SetupStep as SetupStepType } from "@/types";
+import type { SetupStep as SetupStepType, PlatformAccount } from "@/types";
 
 interface SetupStepperProps {
   steps: SetupStepType[];
@@ -14,6 +15,13 @@ interface SetupStepperProps {
   saveFieldValue?: (stepId: string, fieldKey: string, value: string) => void;
   setLocal?: (stepId: string, fieldKey: string, value: string) => void;
   isSaved?: (stepId: string, fieldKey: string) => boolean;
+  accounts?: PlatformAccount[];
+  updateAccount?: (
+    id: number,
+    data: Partial<{ url: string; handle: string; email: string; status: PlatformAccount["status"] }>,
+  ) => void;
+  isStepDone?: (step: SetupStepType) => boolean; // derived completion (overrides isComplete when provided)
+  onToggleChannel?: (step: SetupStepType) => void; // channel step completion toggle
 }
 
 export function SetupStepper({
@@ -26,6 +34,10 @@ export function SetupStepper({
   saveFieldValue,
   setLocal,
   isSaved,
+  accounts,
+  updateAccount,
+  isStepDone,
+  onToggleChannel,
 }: SetupStepperProps) {
   // Hooks must run unconditionally, before the locked early-return.
   const stepIds = steps.map((s) => s.id);
@@ -87,21 +99,42 @@ export function SetupStepper({
 
       {steps
         .sort((a, b) => a.order - b.order)
-        .map((step, i) => (
-          <SetupStep
-            key={step.id}
-            step={step}
-            isComplete={isComplete(step.id)}
-            onToggleComplete={() => onToggleStep(step.id)}
-            index={i}
-            expanded={expansion[step.id] ?? true}
-            onToggleExpand={() => dispatch({ type: "TOGGLE", stepId: step.id })}
-            getFieldValue={getFieldValue}
-            saveFieldValue={saveFieldValue}
-            setLocal={setLocal}
-            isSaved={isSaved}
-          />
-        ))}
+        .map((step, i) => {
+          const expanded = expansion[step.id] ?? true;
+          const onToggleExpand = () => dispatch({ type: "TOGGLE", stepId: step.id });
+
+          if (step.kind === "channel" && accounts && updateAccount) {
+            return (
+              <ChannelStep
+                key={step.id}
+                step={step}
+                accounts={accounts}
+                updateAccount={updateAccount}
+                isComplete={isStepDone ? isStepDone(step) : isComplete(step.id)}
+                onToggleComplete={() => onToggleChannel?.(step)}
+                index={i}
+                expanded={expanded}
+                onToggleExpand={onToggleExpand}
+              />
+            );
+          }
+
+          return (
+            <SetupStep
+              key={step.id}
+              step={step}
+              isComplete={isStepDone ? isStepDone(step) : isComplete(step.id)}
+              onToggleComplete={() => onToggleStep(step.id)}
+              index={i}
+              expanded={expanded}
+              onToggleExpand={onToggleExpand}
+              getFieldValue={getFieldValue}
+              saveFieldValue={saveFieldValue}
+              setLocal={setLocal}
+              isSaved={isSaved}
+            />
+          );
+        })}
     </div>
   );
 }

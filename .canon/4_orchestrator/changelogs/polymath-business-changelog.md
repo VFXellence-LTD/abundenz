@@ -2,6 +2,18 @@
 
 ---
 
+## 2026-07-01 — Mission Control — Brand-centric Setup wizard PR 2b rewiring (issue #18, epic #15)
+
+- **Slice 2 completes** with this PR (2b — wizard rewiring). Slice 1 (brand/account API, #16) and PR 2a (brand selector + URL scoping) are prerequisites. Slice 3 (Entity page, domain-step copy) remains deferred.
+- **Channel steps bound to real `platform_accounts`:** `youtube`, `beehiiv`, `ghost`, and `socials` are now account-bound channel steps — `socials` expands to four separate account rows (Instagram, TikTok, Twitter/X, LinkedIn). Each field maps directly to an account field and flips the account's `status` to `"active"` on save. The `email` step writes to `Brand.email`. Steps `domain`, `first_episode`, and `agent_01` remain brand-scoped free-text as before.
+- **Component extraction:** Shared `StepShell` card extracted to eliminate duplicated card chrome. New `ChannelStep` component handles account-bound steps with live field-to-account binding. New `AddChannel` component provides a generic channel-add form for non-content ecosystems (viral/products/affiliate).
+- **Non-content ecosystem support:** Viral, Products, and Affiliate ecosystem views now render the brand's existing platform accounts plus the `AddChannel` form, giving operators a consistent channel-management surface across all ecosystems.
+- **Pure completion helper:** `isStepComplete` is a pure function — channel steps = all associated accounts active; email step = brand email set; toggle-only steps = the toggle value. No side effects, fully unit-tested.
+- **Tests:** Client 73 pass (4 new suites covering `ChannelStep`, `AddChannel`, `isStepComplete`, and integration); server 156 untouched; build clean. No scope creep — Entity page and domain-step copy remain slice 3.
+- **Plan:** `.canon/.mission-control/docs/plans/2026-07-01-brand-wizard-2b.md`. Branch `feat/18-brand-wizard-2b`.
+
+---
+
 ## 2026-07-01 — Mission Control — Brand-centric Setup wizard PR 2a foundation (issue #18, epic #15)
 
 - **Slice 2 of 3** for the brand-centric multi-account Setup feature (PR 2a — foundation). Channel-step rewiring, per-brand completion derivation, and non-content "Add channel" are deferred to PR 2b. Slice 3 (Entity page, domain-step copy) is unchanged.

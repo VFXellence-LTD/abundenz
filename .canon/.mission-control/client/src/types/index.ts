@@ -141,6 +141,13 @@ export interface SetupField {
   placeholder?: string;
 }
 
+export type AccountFieldTarget = "url" | "handle" | "email";
+
+export interface ChannelAccountSpec {
+  platform: string;
+  fields: { fieldKey: string; accountField: AccountFieldTarget }[];
+}
+
 export interface SetupStep {
   id: string;
   ecosystemId: EcosystemId;
@@ -151,6 +158,9 @@ export interface SetupStep {
   copyBlocks?: CopyBlock[];
   externalLinks?: ExternalLink[];
   fields?: SetupField[];
+  kind?: "channel" | "freetext";      // default "freetext" when absent
+  channelSpec?: ChannelAccountSpec[]; // present iff kind === "channel"; one entry per platform account
+  writesToBrand?: "email";            // freetext step whose value maps to Brand.email
 }
 
 // --- Tools --------------------------------------------------------
