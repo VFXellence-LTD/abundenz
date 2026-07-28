@@ -16,6 +16,8 @@
 # Dependencies / build / data
 node_modules/
 **/node_modules/
+# pnpm workspaces — reject stray npm lockfiles
+package-lock.json
 dist/
 build/
 **/.data/
