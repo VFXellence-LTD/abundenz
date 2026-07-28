@@ -1,0 +1,58 @@
+# Dependabot configuration.
+#
+# Replaces an earlier config that pointed at removed manifest paths
+# (a root pnpm-lock.yaml and apps/dashboard/package-lock.json), which
+# left the live dependency trees unwatched. The entries below target the
+# real, currently-tracked lockfiles/manifests in this repo.
+#
+# pnpm note: Dependabot's "npm" ecosystem reads pnpm-lock.yaml and
+# auto-detects pnpm workspaces from the root lockfile, so pointing at each
+# workspace root is sufficient — no per-member entries are needed.
+#
+# abundenz-site/ is intentionally omitted: it is git-ignored here and lives
+# in its own repository with its own remote.
+version: 2
+updates:
+  # Mission Control — pnpm workspace (root lockfile covers client + server)
+  - package-ecosystem: "npm"
+    directory: "/.canon/.mission-control"
+    schedule:
+      interval: "weekly"
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Polymath monorepo — pnpm workspace (root lockfile covers packages/*)
+  - package-ecosystem: "npm"
+    directory: "/polymath"
+    schedule:
+      interval: "weekly"
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions used by repo-root workflows (add-to-project, auto-status)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions used by the Mission Control client CI workflow
+  - package-ecosystem: "github-actions"
+    directory: "/.canon/.mission-control/client"
+    schedule:
+      interval: "weekly"
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
