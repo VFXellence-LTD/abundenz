@@ -14,6 +14,10 @@
     "concurrently": "^9.1.0"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["better-sqlite3", "node-pty"]
+    "onlyBuiltDependencies": ["better-sqlite3", "node-pty"],
+    "overrides": {
+      "react-router@>=7.11.0 <7.18.0": "7.18.0",
+      "brace-expansion@>=3.0.0 <5.0.7": "5.0.7"
+    }
   }
 }
