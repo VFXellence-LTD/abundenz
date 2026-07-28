@@ -27,8 +27,11 @@ export function BrandCreateForm({ ecosystemId, onCreate, onSeedChannels, onCreat
       onCreated(created.id);
       setName("");
       setEmail("");
-    } catch {
-      setError("Could not create the brand. Try again.");
+    } catch (err) {
+      // Surface the real failure (server {error} message or network error) —
+      // a fixed string hides root causes like a dead API server.
+      const detail = err instanceof Error && err.message ? `: ${err.message}` : ". Try again.";
+      setError(`Could not create the brand${detail}`);
     } finally {
       setBusy(false);
     }

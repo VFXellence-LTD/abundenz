@@ -16,8 +16,13 @@ const CODENAME: Record<EcosystemId, string> = {
   affiliate: "affiliate",
 };
 
-/** Tables that carry ecosystem_id and therefore get per-ecosystem views. */
-const SCOPED_TABLES = ["tasks", "approval_queue", "transactions", "agent_runs"] as const;
+/**
+ * Tables that carry ecosystem_id and therefore get per-ecosystem views.
+ * agent_runs is deliberately absent: it lost ecosystem_id when it became
+ * campaign-linked (scope derives via campaigns.ecosystem_id), and a view
+ * selecting a missing column breaks every subsequent ALTER TABLE in the DB.
+ */
+const SCOPED_TABLES = ["tasks", "approval_queue", "transactions"] as const;
 type ScopedTable = (typeof SCOPED_TABLES)[number];
 
 const VALID_ECOSYSTEMS = Object.keys(CODENAME) as EcosystemId[];
@@ -28,27 +33,31 @@ export function ECOSYSTEM_VIEW(eco: EcosystemId, table: ScopedTable): string {
 }
 
 /**
- * Old codename-based view names, dropped on every init so live DBs shed orphans
- * after the rename to literal ecosystem ids (SQLite has no wildcard DROP VIEW).
+ * Drop every v_-prefixed view in the DB. All scoped views are derived state,
+ * so wholesale drop-and-recreate is always safe — and it self-heals orphans
+ * from renamed codenames (forge/surge/signal/atelier/conduit) or schema
+ * drift. A stale view selecting a since-dropped column poisons the whole DB:
+ * SQLite re-validates every view on ANY ALTER TABLE, so one broken orphan
+ * makes every migration throw (this took the server down at boot).
+ * Static drop-lists rot; enumerate sqlite_master instead.
  */
-const LEGACY_VIEWS = [
-  "v_surge_tasks", "v_surge_approval_queue", "v_surge_transactions", "v_surge_agent_runs",
-  "v_signal_tasks", "v_signal_approval_queue", "v_signal_transactions", "v_signal_agent_runs",
-  "v_atelier_tasks", "v_atelier_approval_queue", "v_atelier_transactions", "v_atelier_agent_runs",
-  "v_conduit_tasks", "v_conduit_approval_queue", "v_conduit_transactions", "v_conduit_agent_runs",
-] as const;
-
-/** Create one read-only view per (ecosystem, scoped table). Idempotent. */
-export function createScopedViews(raw: Database.Database): void {
-  // Shed the pre-rename codename views before (re)creating the literal-id views.
-  for (const view of LEGACY_VIEWS) {
-    raw.exec(`DROP VIEW IF EXISTS ${view}`);
+export function dropScopedViews(raw: Database.Database): void {
+  const views = raw
+    .prepare("SELECT name FROM sqlite_master WHERE type = 'view' AND name LIKE 'v\\_%' ESCAPE '\\'")
+    .all() as { name: string }[];
+  for (const { name } of views) {
+    raw.exec(`DROP VIEW IF EXISTS "${name.replace(/"/g, '""')}"`);
   }
+}
+
+/** Recreate one read-only view per (ecosystem, scoped table) from scratch. */
+export function createScopedViews(raw: Database.Database): void {
+  dropScopedViews(raw);
   for (const eco of VALID_ECOSYSTEMS) {
     for (const table of SCOPED_TABLES) {
       const view = ECOSYSTEM_VIEW(eco, table);
       raw.exec(
-        `CREATE VIEW IF NOT EXISTS ${view} AS SELECT * FROM ${table} WHERE ecosystem_id = '${eco}'`,
+        `CREATE VIEW ${view} AS SELECT * FROM ${table} WHERE ecosystem_id = '${eco}'`,
       );
     }
   }

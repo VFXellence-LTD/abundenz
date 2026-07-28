@@ -1,7 +1,7 @@
 import Database from "better-sqlite3";
 import fs from "node:fs";
 import path from "node:path";
-import { createScopedViews } from "./scoping.js";
+import { createScopedViews, dropScopedViews } from "./scoping.js";
 
 export interface Db {
   raw: Database.Database;
@@ -218,6 +218,13 @@ class MissionControlDb implements Db {
       CREATE INDEX IF NOT EXISTS idx_publish_log_approval ON publish_log(approval_id);
     `);
 
+    // Drop all derived views BEFORE any ALTER TABLE: SQLite re-validates every
+    // view during ALTER, so a single stale view referencing a dropped column
+    // (e.g. orphaned v_forge_agent_runs after the codename rename) makes every
+    // migration below throw and kills the server at boot. Views are recreated
+    // fresh by createScopedViews at the end.
+    dropScopedViews(this.raw);
+
     // Additive migrations for already-existing DBs (no IF NOT EXISTS on ADD COLUMN).
     const additive: Array<[string, string, string]> = [
       // [table, column, type] — append future columns here, never reorder.
@@ -233,8 +240,11 @@ class MissionControlDb implements Db {
     for (const [table, col, type] of additive) {
       try {
         this.raw.exec(`ALTER TABLE ${table} ADD COLUMN ${col} ${type}`);
-      } catch {
-        /* column already exists — safe to ignore */
+      } catch (err) {
+        // Only "duplicate column" is expected; anything else (broken view,
+        // locked DB, missing table) must surface — a blanket catch here
+        // silently masked the orphan-view corruption for weeks.
+        if (!/duplicate column name/i.test(String(err))) throw err;
       }
     }
 
