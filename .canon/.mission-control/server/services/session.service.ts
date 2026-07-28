@@ -144,11 +144,38 @@ export class SessionService extends EventEmitter {
     if (!hasActive) this.stopIdleDetection();
   }
 
-  stopSession(id: string): void {
-    const session = this.sessions.get(id);
-    if (!session) throw new Error(`Session not found: ${id}`);
+  /**
+   * Stop a session and return whether anything was actually stopped.
+   *
+   * The in-memory Map + PtyService are process-lifetime only: a server restart
+   * (or `tsx watch` reload in dev) wipes them, but the durable `agent_runs` row
+   * survives — often stuck at `waiting`. So this is DB-authoritative:
+   *   - Map hit  -> kill the PTY (best-effort) and finish the live session.
+   *   - Map miss -> if a non-terminal `agent_runs` row exists, still best-effort
+   *                 kill any PTY and mark the DB row `done` so the UI can clear it.
+   *   - Neither  -> return false so the route can 404.
+   */
+  stopSession(id: string): boolean {
+    // Best-effort PTY kill regardless of Map state (kill() is a no-op if absent).
     if (this.ptyService) this.ptyService.kill(id);
-    this.finish(id, "done");
+
+    const session = this.sessions.get(id);
+    if (session) {
+      this.finish(id, "done");
+      return true;
+    }
+
+    // No live session in this process — fall back to the durable run row.
+    const run = this.runs.get(id);
+    if (!run) return false;
+    if (run.status === "done" || run.status === "error" || run.status === "killed") {
+      // Already terminal; nothing to do, but treat as a successful stop.
+      return true;
+    }
+    this.runs.setStatus(id, "done");
+    this.emit("status", { sessionId: id, status: "done" });
+    logger.info("session", `Stopped orphaned run (no live session)`, { id, priorStatus: run.status });
+    return true;
   }
 
   markError(id: string, error: string): void {

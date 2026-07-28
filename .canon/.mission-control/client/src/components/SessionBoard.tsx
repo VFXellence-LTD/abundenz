@@ -13,6 +13,7 @@ const STATUS_DOT: Record<SessionInfo["status"], string> = {
 export function SessionBoard() {
   const [list, setList] = useState<SessionInfo[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
+  const [stopError, setStopError] = useState<string | null>(null);
   const { subscribe } = useWebSocket();
 
   const refresh = useCallback(() => {
@@ -22,11 +23,26 @@ export function SessionBoard() {
   useEffect(() => { refresh(); }, [refresh]);
   useEffect(() => subscribe((msg) => { if (msg.type === "status") refresh(); }), [subscribe, refresh]);
 
-  const stop = (id: string) => sessionsApi.stop(id).then(refresh).catch(() => { /* noop */ });
+  // Always reconcile against the server (finally), and surface stop failures
+  // instead of swallowing them — a silent 404 was hiding stuck sessions.
+  const stop = (id: string) => {
+    setStopError(null);
+    return sessionsApi
+      .stop(id)
+      .catch((err: unknown) =>
+        setStopError(err instanceof Error ? err.message : "Failed to stop session"),
+      )
+      .finally(refresh);
+  };
 
   return (
     <div className="flex h-full gap-4">
       <div className="w-72 shrink-0 space-y-1 overflow-auto">
+        {stopError && (
+          <p className="rounded border border-red-500/40 bg-red-500/10 px-2 py-1 text-[10px] text-red-300">
+            {stopError}
+          </p>
+        )}
         {list.length === 0 && <p className="text-xs text-zinc-500">No sessions yet.</p>}
         {list.map((s) => (
           <button
