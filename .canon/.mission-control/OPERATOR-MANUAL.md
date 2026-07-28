@@ -415,7 +415,7 @@ Submitting calls POST /api/bug-report.
 
 **Dry-run default:** If `MC_BUG_REPORT_ENABLED` is absent or not set to `true`, the server logs "WOULD CREATE ISSUE" and returns a synthetic issue URL. The client shows an amber banner confirming dry-run mode. No real GitHub issue is created.
 
-**When enabled:** The server shells `gh issue create --repo VFXellence-LTD/vfxellence --label type/bug --label area/<area>`. The `area` value is mapped to a label; unknown areas fall back to `area/mission-control`. The `gh` CLI must be authenticated and accessible on the server's PATH.
+**When enabled:** The server shells `gh issue create --repo VFXellence-LTD/abundenz --label type/bug --label area/<area>`. The `area` value is mapped to a label; unknown areas fall back to `area/mission-control`. The `gh` CLI must be authenticated and accessible on the server's PATH.
 
 ---
 

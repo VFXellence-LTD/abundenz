@@ -30,7 +30,7 @@ interface ChoreTask {
 
 const CHORE_TASKS: ChoreTask[] = [
   // ── INFRA-001, INFRA-002, INFRA-003 removed 2026-06-17 ───────────────────
-  // Migrated to GitHub issues #12, #13, #14 (VFXellence-LTD/vfxellence).
+  // Migrated to GitHub issues #12, #13, #14 (VFXellence-LTD/abundenz).
   // SQLite is business-only from this point forward.
 
   // ── GO-LIVE setup (viral) ─────────────────────────────────────────────────

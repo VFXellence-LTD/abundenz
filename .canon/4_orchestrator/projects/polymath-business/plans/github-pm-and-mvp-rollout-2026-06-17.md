@@ -3,7 +3,7 @@
 **Date:** 2026-06-17
 **Status:** Draft — awaiting Boss review
 **Domain:** Polymath (VFXellence) — Boss: Robin Dutta
-**Repo:** monorepo `D:\VFXellence-LTD` — git remote `git@github.com:VFXellence-LTD/vfxellence.git` (PRIVATE, Issues enabled)
+**Repo:** monorepo `D:\VFXellence-LTD` — git remote `git@github.com:VFXellence-LTD/abundenz.git` (PRIVATE, Issues enabled)
 **Relates to / partially supersedes:** `canon-integration-plan-v2-2026-06-13.md` (the file-based VFX-NNN tracker scheme it locks in is *retired for dev work* by this plan) and the `2026-06-13-MASTER-implementation-roadmap.md` (this plan re-expresses Plans 5–6 remaining work + naming drift as GitHub Epics).
 
 ---
@@ -12,7 +12,7 @@
 
 Two coupled decisions, both approved by Boss:
 
-1. **Split tracking by domain.** Software development of the monorepo moves to **GitHub Issues + Projects v2** on `VFXellence-LTD/vfxellence`. Business operations (products, campaigns, content, streams, workflows) **stay in the Mission Control SQLite database**. The two trackers do **not** sync; a one-directional bridge lets Mission Control file a GitHub bug.
+1. **Split tracking by domain.** Software development of the monorepo moves to **GitHub Issues + Projects v2** on `VFXellence-LTD/abundenz`. Business operations (products, campaigns, content, streams, workflows) **stay in the Mission Control SQLite database**. The two trackers do **not** sync; a one-directional bridge lets Mission Control file a GitHub bug.
 2. **Sequence the next moves as coordinated GitHub Epics** that converge on a working MVP of "MC Polymath" — intake → draft → approve → render (real MP4 via HyperFrames) → approve → publish (human-gated).
 
 This document is the authoritative spec for both. Decisions below are approved; the implementation detail (exact `gh` invocations, workflow YAML, server/client code) is for the executing subagents to write against this spec.
@@ -26,7 +26,7 @@ Three planes, distinct jobs. The first defines *intent*; the other two track *ex
 | Concern | Tracker | Identity scheme | Sync |
 |---------|---------|-----------------|------|
 | **Intent & governance (the "why/what")** — standards, ecosystem/brand specs, architecture, plans, knowledge, changelogs | **`.canon` vault** — Obsidian markdown, git-tracked in `vfxellence` | file paths + plan/doc names | **Source of truth.** Hand-authored; flows *downward* into both trackers. Only upward flow is deliberate knowledge capture (changelogs/gotchas), never automatic. |
-| **Dev execution (the "how/when" of code)** — MC app, polymath engine/packages, governance tooling, infra chores, bugs | **GitHub** `VFXellence-LTD/vfxellence` — Issues + Projects v2 | native issue numbers `#NNN` | **Instantiated from `.canon` dev plans** (plan → Epic → sub-issues). Owns dev state. Shares git audit trail with vault (`Closes #NNN`). |
+| **Dev execution (the "how/when" of code)** — MC app, polymath engine/packages, governance tooling, infra chores, bugs | **GitHub** `VFXellence-LTD/abundenz` — Issues + Projects v2 | native issue numbers `#NNN` | **Instantiated from `.canon` dev plans** (plan → Epic → sub-issues). Owns dev state. Shares git audit trail with vault (`Closes #NNN`). |
 | **Business execution (the "how/when" of ops)** — products, campaigns, content, streams, workflows, go-live setup | **SQLite** — Mission Control, `server/db.ts` `tasks` table | in-DB ids (e.g. `GOLIVE-001`) | **Configured from `.canon` ecosystem/brand specs** (spec → operational rows). Owns business state. No write-back to vault. |
 | **Bridge** — MC "Report bug" → GitHub issue | SQLite → GitHub only | creates a native `#NNN` | **One-directional, fire-and-forget. No state sync** (see Hard rule). |
 
@@ -119,7 +119,7 @@ A button in the MC shell lets Boss file a dev bug straight into GitHub without l
 ### 3.2 Server
 
 - `POST /api/bug-report` → shells out to:
-  `gh issue create --repo VFXellence-LTD/vfxellence ...` with labels `type/bug` + `area/*` (mapped from the modal's area field), title and body from the payload.
+  `gh issue create --repo VFXellence-LTD/abundenz ...` with labels `type/bug` + `area/*` (mapped from the modal's area field), title and body from the payload.
 - Returns the created issue URL to the client.
 
 ### 3.3 Gating + tests
@@ -149,7 +149,7 @@ The governance file `D:\VFXellence-LTD\.canon\CLAUDE.md` currently states (lines
 
 This must be rewritten to:
 
-- **Dev work** → GitHub `VFXellence-LTD/vfxellence` Issues + Projects v2 (native `#NNN`).
+- **Dev work** → GitHub `VFXellence-LTD/abundenz` Issues + Projects v2 (native `#NNN`).
 - **Business ops** → SQLite Mission Control (`tasks` table).
 - **`VFX-NNN` retired for dev.** Business *long-form planning docs* may remain as documents under `4_orchestrator/projects/` (this plan is one), but they are **not an issue tracker**.
 - The branch-naming convention `TYPE/VFX-NNN/DESCRIPTION` (lines ~107, ~122) updates to reference GitHub issue numbers for dev branches (e.g. `feat/123-add-hyperframes`).
@@ -212,7 +212,7 @@ The MC seed script `server/scripts/seed-chores.ts` currently seeds 7 chores. Mig
 These steps require interactive auth / credential creation and are **Boss-only**. Phase A code work proceeds in parallel, but the Actions automations (§2) and any `gh project` field mutations are inert until these land.
 
 1. `gh auth refresh -s project` — the current `gh` token (user `rhdutta`) has scopes `admin:public_key, gist, read:org, repo` but **lacks `project`**, required for Projects v2 reads/writes.
-2. Create a **fine-grained PAT** with project write permission → add it as repo secret **`PROJECT_PAT`** on `VFXellence-LTD/vfxellence`.
+2. Create a **fine-grained PAT** with project write permission → add it as repo secret **`PROJECT_PAT`** on `VFXellence-LTD/abundenz`.
 
 ---
 

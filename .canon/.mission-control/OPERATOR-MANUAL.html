@@ -679,7 +679,7 @@ v_content_agent_runs       v_viral_agent_runs       v_products_agent_runs      v
 
 <div class="table-wrap"><table>
 <tr><th>Env Var</th><th>Default (absent)</th><th>What it unlocks</th></tr>
-<tr><td><code>MC_BUG_REPORT_ENABLED</code></td><td>Dry-run log only</td><td>Real <code>gh issue create</code> to <code>VFXellence-LTD/vfxellence</code></td></tr>
+<tr><td><code>MC_BUG_REPORT_ENABLED</code></td><td>Dry-run log only</td><td>Real <code>gh issue create</code> to <code>VFXellence-LTD/abundenz</code></td></tr>
 <tr><td><code>BUFFER_TOKEN</code></td><td><code>DryRunDistributor</code></td><td>Shared Buffer bearer token for multi-account publish</td></tr>
 <tr><td><code>&lt;credential_ref value&gt;</code></td><td><code>dryRun: true</code>, synthetic profileId</td><td>Per-account Buffer profileId (e.g. <code>BUFFER_PROFILE_ZRODINGER_TIKTOK</code>)</td></tr>
 <tr><td><code>BUFFER_TOKEN__&lt;ECOSYSTEM&gt;</code></td><td><code>DryRunDistributor</code></td><td>Legacy single-account Buffer token per ecosystem</td></tr>
@@ -701,7 +701,7 @@ v_content_agent_runs       v_viral_agent_runs       v_products_agent_runs      v
 
 <h3>Layer 1 — Bug Report</h3>
 <pre>MC_BUG_REPORT_ENABLED absent  →  log "[bug-report] WOULD CREATE ISSUE", return { dryRun: true }
-MC_BUG_REPORT_ENABLED=true    →  gh issue create --repo VFXellence-LTD/vfxellence ...</pre>
+MC_BUG_REPORT_ENABLED=true    →  gh issue create --repo VFXellence-LTD/abundenz ...</pre>
 <p>Client shows amber banner on modal when <code>dryRun: true</code>.</p>
 
 <h3>Layer 2 — Publish</h3>
@@ -751,7 +751,7 @@ Any one dry  →  RenderReport.dryRun = true  →  "DRY RUN" badge in Approvals 
      ├─ MC_BUG_REPORT_ENABLED absent: log + return { url: ".../issues/DRY-RUN", dryRun: true }
      └─ MC_BUG_REPORT_ENABLED=true:
           gh issue create
-            --repo VFXellence-LTD/vfxellence
+            --repo VFXellence-LTD/abundenz
             --title "..."
             --body "..."
             --label type/bug
@@ -777,7 +777,7 @@ Client: renders URL as link; amber banner when dryRun: true</pre>
 <h3>Domain split (designed)</h3>
 <div class="table-wrap"><table>
 <tr><th>Domain</th><th>Tracking location</th></tr>
-<tr><td>Dev work (code, infra, bugs)</td><td>GitHub Issues + Projects v2 on <code>VFXellence-LTD/vfxellence</code></td></tr>
+<tr><td>Dev work (code, infra, bugs)</td><td>GitHub Issues + Projects v2 on <code>VFXellence-LTD/abundenz</code></td></tr>
 <tr><td>Business ops (campaigns, tasks, revenue)</td><td>SQLite Mission Control — no sync</td></tr>
 </table></div>
 

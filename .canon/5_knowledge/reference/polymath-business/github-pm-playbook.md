@@ -1,7 +1,7 @@
 # GitHub PM Playbook — Claude Code Reference
 
 **Layer:** vfxellence
-**Repo:** `VFXellence-LTD/vfxellence` (PRIVATE)
+**Repo:** `VFXellence-LTD/abundenz` (PRIVATE)
 **Project:** "VFXellence Dev" — org Project v2, number 2, owner `VFXellence-LTD`
 **Board:** https://github.com/orgs/VFXellence-LTD/projects/2
 **Authority:** `D:\VFXellence-LTD\.canon\4_orchestrator\projects\polymath-business\plans\github-pm-and-mvp-rollout-2026-06-17.md` §4.2
@@ -58,7 +58,7 @@ For local `gh` CLI: run `gh auth refresh -s project` to add the `project` scope 
 
 ```bash
 gh issue create \
-  --repo VFXellence-LTD/vfxellence \
+  --repo VFXellence-LTD/abundenz \
   --title "Epic: <title>" \
   --label "type/epic,area/<area>,priority/<priority>" \
   --body "$(cat <<'EOF'
@@ -94,8 +94,8 @@ Each sub-issue is atomic — one independently mergeable unit of work. Create wi
 
 ```bash
 # Step 1: get node IDs
-PARENT_ID=$(gh issue view <PARENT_NUM> --repo VFXellence-LTD/vfxellence --json id -q .id)
-CHILD_ID=$(gh issue view <CHILD_NUM> --repo VFXellence-LTD/vfxellence --json id -q .id)
+PARENT_ID=$(gh issue view <PARENT_NUM> --repo VFXellence-LTD/abundenz --json id -q .id)
+CHILD_ID=$(gh issue view <CHILD_NUM> --repo VFXellence-LTD/abundenz --json id -q .id)
 
 # Step 2: link as native sub-issue
 gh api graphql \
@@ -114,7 +114,7 @@ gh api graphql \
 ```bash
 ITEM_ID=$(gh project item-add 2 \
   --owner VFXellence-LTD \
-  --url "https://github.com/VFXellence-LTD/vfxellence/issues/<NNN>" \
+  --url "https://github.com/VFXellence-LTD/abundenz/issues/<NNN>" \
   --format json | jq -r '.id')
 ```
 
