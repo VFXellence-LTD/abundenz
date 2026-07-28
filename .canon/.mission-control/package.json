@@ -11,7 +11,7 @@
     "build": "pnpm --dir server build && pnpm --dir client build"
   },
   "devDependencies": {
-    "concurrently": "^9.1.0"
+    "concurrently": "^10.0.4"
   },
   "pnpm": {
     "onlyBuiltDependencies": ["better-sqlite3", "node-pty"],
