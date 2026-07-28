@@ -72,7 +72,7 @@ Full explanation: [[5_knowledge/learning/canon-naming-model]]
 
 We are NOT adopting Atlassian. We replaced the home-grown file-based dev tracker with **GitHub-native PM** — the global toolchain already supports it (`gh` authed, `git -C`, PR workflow). Business ops stay in SQLite.
 
-**Dev work** → **GitHub** `VFXellence-LTD/vfxellence` — Issues + Projects v2. Project board: https://github.com/orgs/VFXellence-LTD/projects/2 ("VFXellence Dev"). Identity scheme: native issue numbers `#NNN`.
+**Dev work** → **GitHub** `VFXellence-LTD/abundenz` — Issues + Projects v2. Project board: https://github.com/orgs/VFXellence-LTD/projects/2 ("VFXellence Dev"). Identity scheme: native issue numbers `#NNN`.
 
 **Business ops** → **SQLite Mission Control** (`tasks` table in `server/db.ts`). Identity scheme: in-DB ids (e.g. `GOLIVE-001`).
 
@@ -116,7 +116,7 @@ Key rules:
 
 **Lifecycle:**
 - `=== ALL DEVELOPMENT FOLLOWS development-lifecycle.md ===`
-- `=== ALL DEV ISSUES TRACKED IN GITHUB (VFXellence-LTD/vfxellence) ===`
+- `=== ALL DEV ISSUES TRACKED IN GITHUB (VFXellence-LTD/abundenz) ===`
 
 **Git** ([[1_controller/workflows/git-conventions]]):
 - `=== ALL DEV BRANCHES FOLLOW FORMAT: type/NNN-description (e.g. feat/123-add-hyperframes) ===`
