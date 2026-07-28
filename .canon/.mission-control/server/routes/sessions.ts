@@ -73,8 +73,11 @@ export function createSessionsRouter(deps: SessionsRouterDeps): Router {
 
   router.post("/:id/stop", (req: Request, res: Response) => {
     const id = String(req.params["id"]);
-    if (!deps.sessions.getSession(id)) { res.status(404).json({ error: "Session not found" }); return; }
-    deps.sessions.stopSession(id);
+    // DB-authoritative: stopSession handles both live (Map) sessions and orphaned
+    // agent_runs rows left behind by a server restart. It returns false only when
+    // the id exists in neither the live Map nor the durable agent_runs table.
+    const stopped = deps.sessions.stopSession(id);
+    if (!stopped) { res.status(404).json({ error: "Session not found" }); return; }
     const run = runs.get(id);
     res.json(run ?? { id, status: "done" });
   });
