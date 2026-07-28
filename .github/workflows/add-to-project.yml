@@ -47,7 +47,7 @@ jobs:
       - name: Add issue to project
         id: add-issue
         if: steps.gate.outputs.has_pat == 'true'
-        uses: actions/add-to-project@v1
+        uses: actions/add-to-project@v2
         with:
           project-url: https://github.com/orgs/VFXellence-LTD/projects/2
           github-token: ${{ secrets.PROJECT_PAT }}
