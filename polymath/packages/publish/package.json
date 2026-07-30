@@ -10,5 +10,5 @@
   "scripts": { "test": "vitest run", "test:watch": "vitest", "typecheck": "tsc --noEmit" },
   "engines": { "node": ">=22" },
   "dependencies": {},
-  "devDependencies": { "@types/node": "^24.12.3", "tsx": "^4.22.3", "typescript": "~6.0.2", "vitest": "^4.1.7" }
+  "devDependencies": { "@types/node": "^24.12.3", "tsx": "^4.22.3", "typescript": "~7.0.2", "vitest": "^4.1.7" }
 }
