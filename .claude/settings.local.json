@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm:*)",
+      "Bash(pnpm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(git:*)",
+      "Bash(astro:*)"
+    ]
+  },
+  "env": {
+    "VFXELLENCE_ROOT": "D:\\VFXellence-LTD"
+  }
+}

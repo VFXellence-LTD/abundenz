@@ -1,39 +1,5 @@
-# Privacy / dead content - NEVER track or push
+﻿# Live credential - keep local only.
+/.canon/.mission-control/client/.env.local
+
+# Personal financial and medical documents - local backup only, never published.
 /_personal/
-/archive/
-/_backup_canon_*/
-/_backup_*_2026-06-13/
-/_backup_polymath_repo_2026-06-13.git/
-
-# Independent repo with its own remote (github.com/zrodinger/abundenz-site)
-/abundenz-site/
-
-# Machine-local Claude config (keep CLAUDE.md + settings.json, drop the rest)
-.claude/*
-!.claude/CLAUDE.md
-!.claude/settings.json
-
-# Dependencies / build / data
-node_modules/
-**/node_modules/
-# pnpm workspaces — reject stray npm lockfiles
-package-lock.json
-dist/
-build/
-**/.data/
-*.db
-*.db-shm
-*.db-wal
-*.log
-
-# Obsidian local state
-**/.obsidian/workspace*
-**/.obsidian/cache
-**/.obsidian/graph.json
-
-# Env / secrets
-.env
-.env.*
-*.local
-**/.vite/
-.DS_Store

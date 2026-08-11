@@ -1,0 +1,213 @@
+{
+  "main": {
+    "id": "846d75834915a292",
+    "type": "split",
+    "children": [
+      {
+        "id": "102bdbe87c202fd5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1a28b7a388e8fc63",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "4_orchestrator/projects/polymath-business/plans/growth-operator-design-2026-06-21.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "growth-operator-design-2026-06-21"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "e611843565a36ef8",
+    "type": "split",
+    "children": [
+      {
+        "id": "07f83ff167aaf031",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f3cc0fba6f63074c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "87da60cae0e0f234",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "3aa1dd3b8bd6d8d1",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 420.5
+  },
+  "right": {
+    "id": "75f219fbce68f447",
+    "type": "split",
+    "children": [
+      {
+        "id": "2bcea9c4f580c9f9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a396a72b14874532",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "4_orchestrator/projects/polymath-business/plans/2026-06-14-plan2-mission-control-client.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for 2026-06-14-plan2-mission-control-client"
+            }
+          },
+          {
+            "id": "06fc175a566c84ba",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "4_orchestrator/projects/polymath-business/plans/2026-06-14-plan2-mission-control-client.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from 2026-06-14-plan2-mission-control-client"
+            }
+          },
+          {
+            "id": "5fde1a34f8d579c3",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "b60f62267ffa2259",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "67cb225264406601",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "4_orchestrator/projects/polymath-business/plans/2026-06-14-plan2-mission-control-client.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of 2026-06-14-plan2-mission-control-client"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "1a28b7a388e8fc63",
+  "lastOpenFiles": [
+    "4_orchestrator/changelogs/polymath-business-changelog.md.tmp.32000.a734b2f1e471",
+    "4_orchestrator/projects/polymath-business/plans/growth-operator-design-2026-06-21.md.tmp.32000.77e3c6a3b17e",
+    "4_orchestrator/changelogs/polymath-business-changelog.md.tmp.32000.47e996cfdeea",
+    "4_orchestrator/projects/polymath-business/plans/growth-operator-routing-plan-2026-06-21.md.tmp.32000.7d40a1bcd8e0",
+    "4_orchestrator/projects/polymath-business/plans/growth-operator-routing-plan-2026-06-21.md.tmp.32000.b536184d4c70",
+    "4_orchestrator/projects/polymath-business/plans/growth-operator-routing-plan-2026-06-21.md.tmp.32000.9cf4f85b7d93",
+    "4_orchestrator/projects/polymath-business/plans/growth-operator-routing-plan-2026-06-21.md.tmp.32000.671f52512fdb",
+    "4_orchestrator/projects/polymath-business/plans/growth-operator-routing-plan-2026-06-21.md.tmp.32000.1c1ad49b1df3",
+    "4_orchestrator/projects/polymath-business/plans/growth-operator-routing-plan-2026-06-21.md",
+    "4_orchestrator/projects/polymath-business/plans/growth-operator-routing-plan-2026-06-21.md.tmp.32000.62f5b81039ae",
+    "4_orchestrator/projects/polymath-business/plans/growth-operator-design-2026-06-21.md.tmp.32000.9c4b3ce2549c",
+    "4_orchestrator/projects/polymath-business/plans/growth-operator-design-2026-06-21.md.tmp.32000.589b50320bc5",
+    "4_orchestrator/projects/polymath-business/plans/github-pm-and-mvp-rollout-2026-06-17.md",
+    "4_orchestrator/projects/polymath-business/plans/growth-operator-design-2026-06-21.md",
+    "5_knowledge/reference/polymath-business/github-pm-playbook.original.md",
+    "5_knowledge/reference/polymath-business/github-pm-playbook.md",
+    "4_orchestrator/changelogs/polymath-business-changelog.md",
+    "4_orchestrator/projects/polymath-business/plans/2026-06-14-plan2-mission-control-client.md",
+    "5_knowledge/reference/polymath-business/tools/leifabel-ig-research.md",
+    "5_knowledge/reference/polymath-business/GO-LIVE-HANDOFF.md",
+    "4_orchestrator/projects/polymath-business/plans/2026-06-14-plan5-render-pipeline.md",
+    "4_orchestrator/projects/polymath-business/plans/2026-06-14-plan6-publish-layer.md",
+    "5_knowledge/reference/polymath-business/node-pty-win32-notes.md",
+    "4_orchestrator/changelogs/2026-06-14.md"
+  ]
+}

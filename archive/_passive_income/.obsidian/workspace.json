@@ -1,0 +1,221 @@
+{
+  "main": {
+    "id": "f1eb149478367ef0",
+    "type": "split",
+    "children": [
+      {
+        "id": "648121c1ce70f964",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "33ae87f706433055",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "b25de5601fe9d2ae",
+    "type": "split",
+    "children": [
+      {
+        "id": "cd41ff0546c1b785",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "06a5c83a29bb5f22",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "63512e29a83b368c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "428ab64f14b0672c",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "7d595f85e9a9ff76",
+    "type": "split",
+    "children": [
+      {
+        "id": "2106733bdccbecb4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8b9f163bc17d97e3",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "ecosystems/products/shared/agents/02-design-generator.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for 02-design-generator"
+            }
+          },
+          {
+            "id": "48d8264138f4000b",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "ecosystems/products/shared/agents/02-design-generator.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from 02-design-generator"
+            }
+          },
+          {
+            "id": "06aaae98b2d0bc5f",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "5d9edf4ab32549b5",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "511ac78cfeec2fbe",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "ecosystems/products/shared/agents/02-design-generator.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of 02-design-generator"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "06a5c83a29bb5f22",
+  "lastOpenFiles": [
+    "CLAUDE.md.tmp.76236.1778704683297",
+    "CLAUDE.md.tmp.76236.1778703571585",
+    "controller/dashboard.md.tmp.76236.1778703534889",
+    "SETUP.md",
+    "SETUP.md.tmp.76236.1778702190422",
+    "controller/README.md.tmp.76236.1778702161177",
+    "controller/kill-switch-criteria.md.tmp.76236.1778702155842",
+    "controller/dashboard.md",
+    "controller/dashboard.md.tmp.76236.1778702153064",
+    "ecosystems/affiliate/PITCH.md.tmp.76236.1778702152246",
+    "ecosystems/affiliate/README.md.tmp.76236.1778702151301",
+    "ecosystems/affiliate/README.md.tmp.76236.1778702149909",
+    "ecosystems/affiliate/README.md.tmp.76236.1778702147524",
+    "ecosystems/shared/agents/research-analyst.md",
+    "ecosystems/viral/safeguards/POLICY.md",
+    "ecosystems/viral/PITCH.md",
+    "ecosystems/viral/README.md",
+    "shared/brand-isolation/POLICY.md",
+    "ecosystems/shared/compliance/ai-content-disclosure.md",
+    "ecosystems/shared/agents/trend-scanner.md",
+    "ecosystems/viral/accounts/README.md",
+    "ecosystems/viral/verticals/_template/README.md",
+    "ecosystems/viral/shared/playbooks/platform-rpm.md",
+    "ecosystems/viral/shared/playbooks/hook-library.md",
+    "ecosystems/viral/shared/workflows/trend-surf.md",
+    "ecosystems/viral/shared/workflows/story-factory.md",
+    "ecosystems/viral/shared/workflows/clip-factory.md",
+    "ecosystems/viral/shared/playbooks/surge-formula.md",
+    "ecosystems/viral/shared/agents/README.md",
+    "shared/automation/tool-stack.md",
+    "ecosystems/content/README.md",
+    "ecosystems/content/PITCH.md",
+    "ecosystems/shared/compliance/business-entity.md",
+    "shared/prompts/boss-voice-sample.md",
+    "dev/4_orchestrator/projects/_template.md",
+    "dev/4_orchestrator/changelogs/_template.md"
+  ]
+}

@@ -1,0 +1,6 @@
+# pack-refs with: peeled fully-peeled sorted 
+8bf53404bbdc79ae8673f3e4e3111833b6028c07 refs/heads/develop
+a83f0e7b2345a5ee66a2ac6401334572dce1bd89 refs/heads/main
+09c2edb337ece50b446e1797668d07c460ffdae7 refs/remotes/origin/develop
+a83f0e7b2345a5ee66a2ac6401334572dce1bd89 refs/remotes/origin/main
+8bf53404bbdc79ae8673f3e4e3111833b6028c07 refs/tags/pre-monorepo-restructure
